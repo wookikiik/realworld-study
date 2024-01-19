@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Table</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .table-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        overflow-x: auto;
+      }
+
+      .search-bar {
+        margin-bottom: 20px;
+      }
+
+      .search-bar input[type="text"] {
+        padding: 8px;
+        margin-right: 10px;
+        margin-bottom: 2px;
+        border: 1px solid #ddd;
+        width: calc(
+          100% - 40px
+        ); /* Adjusting width to account for padding and border */
+      }
+
+      .search-bar label {
+        color: #333;
+        font-size: 14px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      thead {
+        background-color: #f4f4f4;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+
+      .product-category-row {
+        background-color: #e2e2e2;
+        font-weight: bold;
+      }
+
+      .product-row {
+        background-color: #ffffff;
+      }
+
+      .product-row.out-of-stock {
+        color: #d9534f;
+      }
+
+      .product-row:nth-of-type(even) {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table-container">
+      <form class="search-bar">
+        <input type="text" placeholder="Search..." />
+        <label> <input type="checkbox" /> Only show products in stock </label>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="product-category-row">
+            <td colspan="3">Fruits</td>
+          </tr>
+          <tr class="product-row">
+            <td colspan="2">Apple</td>
+            <td>$1</td>
+          </tr>
+          <tr class="product-row out-of-stock">
+            <td colspan="2">Dragonfruit</td>
+            <td>$1</td>
+          </tr>
+          <tr class="product-row">
+            <td colspan="2">Passionfruit</td>
+            <td>$2</td>
+          </tr>
+          <tr class="product-category-row">
+            <td colspan="3">Vegetables</td>
+          </tr>
+          <tr class="product-row">
+            <td colspan="2">Spinach</td>
+            <td>$2</td>
+          </tr>
+          <tr class="product-row out-of-stock">
+            <td colspan="2">Pumpkin</td>
+            <td>$4</td>
+          </tr>
+          <tr class="product-row">
+            <td colspan="2">Peas</td>
+            <td>$1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
