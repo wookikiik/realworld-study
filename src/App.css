@@ -46,7 +46,7 @@ thead {
   box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
 }
 thead th {
-  padding: 8px;
+  padding: 4px 8px 4px 8px;
   border-top: 2px solid #000;
   border-bottom: 2px solid #000;
   color: #000;
@@ -54,17 +54,13 @@ thead th {
 }
 
 /* tbody */
+tbody th, td {
+  padding: 4px 8px 4px 8px;
+}
 tbody tr:hover {
   background-color: #d3d3d3;
   opacity: 0.9;
   cursor: pointer;
-}
-tbody th {
-  padding: 8px;
-  border-top: 2px solid #000;
-  border-bottom: 1px solid #000;
-  color: #000;
-  background-color: lightgreen;
 }
 tbody tr.product:nth-child(odd) {
   background-color: lightgray;
@@ -72,18 +68,25 @@ tbody tr.product:nth-child(odd) {
 tbody tr.product:nth-child(even) {
   background-color: white;
 }
+tbody th {
+  font-size: small;
+  border-top: 2px solid #000;
+  border-bottom: 1px solid #000;
+  color: #000;
+  background-color: lightgreen;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+}
 tbody td {
-  padding: 8px;
-  text-align: left;
+  font-size: smaller;
   border-bottom: 1px solid #ddd;
 }
 .nostock {
   color: red;
 }
-.product-name {
+/* .product-name {
   text-align: left;
 }
 .product-price {
   text-align: right;
-}
+} */
 /* Table end */
