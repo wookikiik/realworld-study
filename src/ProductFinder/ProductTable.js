@@ -27,7 +27,10 @@ function ProductTable({ products, inStockOnly }) {
         {Object.keys(categories).map((category, index) => {
           const rederer = []
 
-          const categoryVisible = !inStockOnly || (inStockOnly && categories[category].filter(product => product.stocked).length > 0)
+          const products = categories[category]
+          const inStockProducts = products.filter(product => product.stocked)
+
+          const categoryVisible = !inStockOnly || (inStockOnly && inStockProducts.length > 0)
           if (categoryVisible) {
             rederer.push(
               <ProductCategoryRow
@@ -37,14 +40,16 @@ function ProductTable({ products, inStockOnly }) {
             )
           }
 
-          categories[category] && categories[category].map(product => {
+          products && products.map(product => {
             const productVisible = !inStockOnly || (inStockOnly && product.stocked)
             if (productVisible) {
-              rederer.push(<ProductRow
-                key={product.name}
-                product={product}
-                inStockOnly={inStockOnly}
-              />)
+              rederer.push(
+                <ProductRow
+                  key={product.name}
+                  product={product}
+                  inStockOnly={inStockOnly}
+                />
+              )
             }
           })
 
