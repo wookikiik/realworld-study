@@ -1,27 +1,25 @@
-import product from '../data/product.json'
-import { useState } from "react"
-import ProductTable from "./ProductTable"
-import SearchBar from "./SearchBar"
+import products from '../data/product.json';
+import { useState } from 'react';
+import ProductTable from './ProductTable';
+import SearchBar from './SearchBar';
 
-function FilterableProductTable() {
-  const [originProducts] = useState(product)
-  const [filteredProducts, setFilteredProducts] = useState(originProducts)
-  const [inStockOnly, setInStockOnly] = useState(false)
+export default function FilterableProductTable() {
+  const [filterText, setFilterText] = useState('');
+  const [inStockOnly, setInStockOnly] = useState(false);
 
   return (
     <div>
       <SearchBar
-        originProducts={originProducts}
+        filterText={filterText}
         inStockOnly={inStockOnly}
-        applyFilter={setFilteredProducts}
-        applyInStockOnly={setInStockOnly}
+        onSearchTextChange={setFilterText}
+        onInStockChange={setInStockOnly}
       />
       <ProductTable
-        products={filteredProducts}
+        originProducts={products}
+        filterText={filterText}
         inStockOnly={inStockOnly}
       />
     </div>
-  )
+  );
 }
-
-export default FilterableProductTable
