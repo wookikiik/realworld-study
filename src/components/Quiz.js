@@ -2,7 +2,7 @@ import "./Quiz.css";
 
 export default function Quiz() {
   return (
-    <div class="quiz-container">
+    <>
       <h2>City quiz</h2>
       <p>
         In which city is there a billboard that turns air into drinkable water?
@@ -12,6 +12,6 @@ export default function Quiz() {
         <br />
         <button>Submit</button>
       </form>
-    </div>
+    </>
   );
 }
