@@ -1,3 +1,4 @@
+import useTask from "../hooks/useTask.js";
 import AddTask from "./AddTask.js";
 import TaskList from "./TaskList.js";
 
@@ -7,11 +8,16 @@ const initialTasks = [
 ];
 
 export default function Task({ title }) {
+  const { tasks, addTask, deleteTask, updateTask } = useTask(initialTasks);
   return (
     <>
       <h1>{title}</h1>
-      <AddTask text="레논 벽 사진" />
-      <TaskList tasks={initialTasks} />
+      <AddTask onAddTask={addTask} />
+      <TaskList
+        tasks={tasks}
+        onDeleteTask={deleteTask}
+        onUpdateTask={updateTask}
+      />
     </>
   );
 }
