@@ -13,25 +13,6 @@ export default function useTask(initialTasks) {
     return maxId + 1;
   }
 
-  function tasksReducer(tasks, action) {
-    switch (action.type) {
-      case ADD_TASK:
-        return [...tasks, action.task];
-      case UPDATE_TASK:
-        return tasks.map((t) => {
-          if (t.id === action.task.id) {
-            return action.task;
-          } else {
-            return t;
-          }
-        });
-      case DELETE_TASK:
-        return tasks.filter((t) => t.id !== action.id);
-      default:
-        throw Error("Unknown action: " + action.type);
-    }
-  }
-
   function addTask(text) {
     dispatch({
       type: ADD_TASK,
@@ -63,4 +44,23 @@ export default function useTask(initialTasks) {
     updateTask,
     deleteTask,
   };
+}
+
+function tasksReducer(tasks, action) {
+  switch (action.type) {
+    case ADD_TASK:
+      return [...tasks, action.task];
+    case UPDATE_TASK:
+      return tasks.map((t) => {
+        if (t.id === action.task.id) {
+          return action.task;
+        } else {
+          return t;
+        }
+      });
+    case DELETE_TASK:
+      return tasks.filter((t) => t.id !== action.id);
+    default:
+      throw Error("Unknown action: " + action.type);
+  }
 }
