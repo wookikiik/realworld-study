@@ -30,7 +30,12 @@ export function Task({ task, onDeleteTask, onUpdateTask }) {
 
   return (
     <>
-      <input type="checkbox" checked={task.done} onChange={handleDoneTask} />
+      <input
+        type="checkbox"
+        checked={task.done}
+        onChange={handleDoneTask}
+        id={"check_" + task.id}
+      />
       {editMode ? (
         <input
           type="text"
@@ -39,7 +44,9 @@ export function Task({ task, onDeleteTask, onUpdateTask }) {
           onChange={handleUpdateTask}
         />
       ) : (
-        <span>{task.text}</span>
+        <label htmlFor={"check_" + task.id}>
+          <span htmlFor={"check_" + task.id}>{task.text}</span>
+        </label>
       )}
       <div className="action-box">
         {editMode ? (
