@@ -1,27 +1,39 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AddTask from "./AddTask";
 
-test("renders AddTask component", () => {
-  render(<AddTask />);
+const mockAddTask = jest.fn();
+jest.mock("../contexts/task.js", () => ({
+  useActions: () => ({
+    addTask: mockAddTask,
+  }),
+}));
 
-  const inputElement = screen.getByPlaceholderText(/Add task/i);
-  const addButtonElement = screen.getByText(/Add/i);
+describe("AddTask", () => {
+  describe("Render AddTask component", () => {
+    it("should render", () => {
+      render(<AddTask />);
 
-  expect(inputElement).toBeInTheDocument();
-  expect(addButtonElement).toBeInTheDocument();
-});
+      const inputElement = screen.getByPlaceholderText(/Add task/i);
+      const addButtonElement = screen.getByText(/Add/i);
 
-test("calls onAddTask function with correct text when form is submitted", () => {
-  const mockOnAddTask = jest.fn();
-  render(<AddTask onAddTask={mockOnAddTask} />);
+      expect(inputElement).toBeInTheDocument();
+      expect(addButtonElement).toBeInTheDocument();
+    });
+  });
 
-  const inputElement = screen.getByPlaceholderText(/Add task/i);
-  const addButtonElement = screen.getByText(/Add/i);
+  describe("Actions AddTask component", () => {
+    test("should call addTask with the correct task text", () => {
+      render(<AddTask />);
 
-  const taskText = "Sample Task";
-  fireEvent.change(inputElement, { target: { value: taskText } });
-  fireEvent.click(addButtonElement);
+      const inputElement = screen.getByPlaceholderText(/Add task/i);
+      const addButtonElement = screen.getByText(/Add/i);
 
-  expect(mockOnAddTask).toHaveBeenCalledTimes(1);
-  expect(mockOnAddTask).toHaveBeenCalledWith(taskText);
+      const taskText = "Sample Task";
+      fireEvent.change(inputElement, { target: { value: taskText } });
+      fireEvent.click(addButtonElement);
+
+      expect(mockAddTask).toHaveBeenCalledTimes(1);
+      expect(mockAddTask).toHaveBeenCalledWith(taskText);
+    });
+  });
 });

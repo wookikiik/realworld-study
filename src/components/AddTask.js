@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
-import { TasksActionsContext } from "../contexts/task.js";
+import { useState } from "react";
+import { useActions } from "../contexts/task.js";
 
 export default function AddTask() {
   const [text, setText] = useState("");
-  const addTask = useContext(TasksActionsContext).addTask;
+  const { addTask } = useActions();
 
   function handleSubmit(e) {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import useTask from "../hooks/useTask.js";
 export const TasksContext = createContext([]);
 export const TasksActionsContext = createContext({
@@ -21,4 +21,20 @@ export function TasksProvider({ children }) {
       </TasksActionsContext.Provider>
     </TasksContext.Provider>
   );
+}
+
+export function useActions() {
+  const actions = useContext(TasksActionsContext);
+  if (!actions) {
+    throw new Error("Cannot find TasksProvider");
+  }
+  return actions;
+}
+
+export function useTasks() {
+  const tasks = useContext(TasksContext);
+  if (!tasks) {
+    throw new Error("Cannot find TasksProvider");
+  }
+  return tasks;
 }

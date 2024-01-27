@@ -6,7 +6,7 @@ describe("useTask", () => {
     const { result } = renderHook(() => useTask([]));
 
     act(() => {
-      result.current.addTask("Sample Task");
+      result.current.actions.addTask("Sample Task");
     });
 
     expect(result.current.tasks).toHaveLength(1);
@@ -22,7 +22,7 @@ describe("useTask", () => {
     const { result } = renderHook(() => useTask(initialTasks));
 
     act(() => {
-      result.current.deleteTask(1);
+      result.current.actions.deleteTask(1);
     });
 
     expect(result.current.tasks).toHaveLength(1);
@@ -41,7 +41,7 @@ describe("useTask", () => {
     const updatedTask = { id: 1, text: "Updated Task", done: true };
 
     act(() => {
-      result.current.updateTask(updatedTask);
+      result.current.actions.updateTask(updatedTask);
     });
 
     expect(result.current.tasks).toHaveLength(2);
