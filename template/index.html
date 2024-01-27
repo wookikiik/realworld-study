@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prague Itinerary</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>프라하에서 해야 할 일</h1>
+      <form id="task-form" class="task-form">
+        <input
+          type="text"
+          id="new-task"
+          class="new-task"
+          placeholder="Add task"
+        />
+        <button type="submit" class="btn add-btn">Add</button>
+      </form>
+      <ul id="task-list" class="task-list">
+        <li>
+          <input type="checkbox" /><span>카프카 박물관 방문하기</span>
+          <div class="action-box">
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
