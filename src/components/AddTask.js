@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TasksActionsContext } from "../contexts/task.js";
 
-export default function AddTask({ onAddTask }) {
+export default function AddTask() {
   const [text, setText] = useState("");
+  const addTask = useContext(TasksActionsContext).addTask;
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddTask(text);
+    addTask(text);
     setText("");
   }
+
   return (
     <form id="task-form" className="task-form" onSubmit={handleSubmit}>
       <input

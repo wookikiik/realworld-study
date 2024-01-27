@@ -40,9 +40,11 @@ export default function useTask(initialTasks) {
 
   return {
     tasks,
-    addTask,
-    updateTask,
-    deleteTask,
+    actions: {
+      addTask,
+      updateTask,
+      deleteTask,
+    },
   };
 }
 

@@ -1,31 +1,29 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TasksContext, TasksActionsContext } from "../contexts/task.js";
 
-export default function TaskList({ tasks, onDeleteTask, onUpdateTask }) {
+export default function TaskList() {
+  const tasks = useContext(TasksContext);
   return (
     <ul id="task-list" className="task-list">
       {tasks.map((task) => (
         <li key={task.id}>
-          <Task
-            task={task}
-            onDeleteTask={onDeleteTask}
-            onUpdateTask={onUpdateTask}
-          />
+          <Task task={task} />
         </li>
       ))}
     </ul>
   );
 }
 
-export function Task({ task, onDeleteTask, onUpdateTask }) {
+export function Task({ task }) {
   const [editMode, setEditMode] = useState(false);
-
+  const { deleteTask, updateTask } = useContext(TasksActionsContext);
   function handleUpdateTask(e) {
     const text = e.target.value;
-    onUpdateTask({ ...task, text });
+    updateTask({ ...task, text });
   }
 
   function handleDoneTask(e) {
-    onUpdateTask({ ...task, done: e.target.checked });
+    updateTask({ ...task, done: e.target.checked });
   }
 
   return (
@@ -69,7 +67,7 @@ export function Task({ task, onDeleteTask, onUpdateTask }) {
         <button
           className="btn delete-btn"
           data-testid="delete-button"
-          onClick={() => onDeleteTask(task.id)}
+          onClick={() => deleteTask(task.id)}
         >
           delete
         </button>
