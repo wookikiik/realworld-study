@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
-export default function AddTask({ onAddTask }) {
+export default function AddTask({ dispatch }) {
   const [text, setText] = useState('');
 
   function handleAddTask(e) {
     e.preventDefault();
 
-    onAddTask(text);
+    dispatch({
+      type: 'add_task',
+      text,
+    });
   }
 
   return (

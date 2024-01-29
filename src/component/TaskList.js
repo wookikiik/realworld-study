@@ -1,45 +1,44 @@
 import { useState } from 'react';
 
-export default function TaskList({
-  tasks,
-  onChangeTask,
-  onDeleteTask,
-  onDoneTask,
-}) {
+export default function TaskList({ tasks, dispatch }) {
   return (
     <ul id='task-list' className='task-list'>
       {tasks.map((task) => (
-        <Task
-          key={task.id}
-          task={task}
-          onChangeTask={onChangeTask}
-          onDeleteTask={onDeleteTask}
-          onDoneTask={onDoneTask}
-        />
+        <Task key={task.id} task={task} dispatch={dispatch} />
       ))}
     </ul>
   );
 }
 
-export function Task({ task, onChangeTask, onDeleteTask, onDoneTask }) {
+export function Task({ task, dispatch }) {
   const [mode, setMode] = useState('view');
   const isEditMode = mode === 'edit';
 
   function handleDoneTask(e) {
-    onDoneTask({
-      ...task,
-      done: e.target.checked,
+    dispatch({
+      type: 'done_task',
+      task: {
+        ...task,
+        done: e.target.checked,
+      },
     });
   }
 
   function handleChangeTask(e) {
-    onChangeTask({
-      ...task,
-      text: e.target.value,
+    dispatch({
+      type: 'update_task',
+      task: {
+        ...task,
+        text: e.target.value,
+      },
     });
   }
+
   function handleDeleteTask() {
-    onDeleteTask(task.id);
+    dispatch({
+      type: 'delete_task',
+      id: task.id,
+    });
   }
 
   return (

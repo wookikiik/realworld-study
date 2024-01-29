@@ -1,43 +1,16 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import AddTask from './AddTask';
 import TaskList from './TaskList';
+import { useTaskReducer } from '../hooks/useTaskReducer';
 
 export default function TaskManager() {
-  const [tasks, setTasks] = useState(initialTasks);
-
-  function handleAddTask(text) {
-    setTasks([
-      ...tasks,
-      {
-        id: tasks.length,
-        text,
-        done: false,
-      },
-    ]);
-  }
-
-  function handleChangeTask(task) {
-    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-  }
-
-  function handleDeleteTask(id) {
-    setTasks(tasks.filter((task) => task.id !== id));
-  }
-
-  function handleDoneTask(task) {
-    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-  }
+  const [tasks, dispatch] = useReducer(useTaskReducer, initialTasks);
 
   return (
     <div className='container'>
       <h1>프라하에서 해야 할 일</h1>
-      <AddTask onAddTask={handleAddTask} />
-      <TaskList
-        tasks={tasks}
-        onChangeTask={handleChangeTask}
-        onDeleteTask={handleDeleteTask}
-        onDoneTask={handleDoneTask}
-      />
+      <AddTask dispatch={dispatch} />
+      <TaskList tasks={tasks} dispatch={dispatch} />
     </div>
   );
 }
