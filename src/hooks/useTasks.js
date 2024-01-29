@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useImmerReducer } from 'use-immer';
 
 export const TASKS_ACTIONS = {
   ADD_TASK: 'add_task',
@@ -9,26 +9,30 @@ export const TASKS_ACTIONS = {
 Object.freeze(TASKS_ACTIONS);
 
 export function useTasks() {
-  return useReducer(tasksReducer, initialTasks);
+  return useImmerReducer(tasksReducer, initialTasks);
 }
 
-function tasksReducer(tasks, action) {
+function tasksReducer(draft, action) {
   switch (action.type) {
-    case TASKS_ACTIONS.ADD_TASK:
-      return [
-        ...tasks,
-        {
-          id: tasks.length,
-          text: action.text,
-          done: false,
-        },
-      ];
-    case TASKS_ACTIONS.UPDATE_TASK:
-      return tasks.map((t) => (t.id === action.task.id ? action.task : t));
+    case TASKS_ACTIONS.ADD_TASK: {
+      draft.push({
+        id: draft.length,
+        text: action.text,
+        done: false,
+      });
+      break;
+    }
+    case TASKS_ACTIONS.UPDATE_TASK: {
+      const index = draft.findIndex((t) => t.id === action.task.id);
+      draft[index] = action.task;
+      break;
+    }
     case TASKS_ACTIONS.DELETE_TASK:
-      return tasks.filter((t) => t.id !== action.id);
+      return draft.filter((t) => t.id !== action.id);
     case TASKS_ACTIONS.DONE_TASK:
-      return tasks.map((t) => (t.id === action.task.id ? action.task : t));
+      const index = draft.findIndex((t) => t.id === action.task.id);
+      draft[index] = action.task;
+      break;
     default:
       throw Error('Action Not Found!');
   }
