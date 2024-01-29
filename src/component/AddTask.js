@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TASKS_ACTIONS } from '../hooks/useTasks';
 
 export default function AddTask({ dispatch }) {
   const [text, setText] = useState('');
@@ -7,7 +8,7 @@ export default function AddTask({ dispatch }) {
     e.preventDefault();
 
     dispatch({
-      type: 'add_task',
+      type: TASKS_ACTIONS.ADD_TASK,
       text,
     });
   }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TASKS_ACTIONS } from '../hooks/useTasks';
 
 export default function TaskList({ tasks, dispatch }) {
   return (
@@ -16,7 +17,7 @@ export function Task({ task, dispatch }) {
 
   function handleDoneTask(e) {
     dispatch({
-      type: 'done_task',
+      type: TASKS_ACTIONS.DONE_TASK,
       task: {
         ...task,
         done: e.target.checked,
@@ -26,7 +27,7 @@ export function Task({ task, dispatch }) {
 
   function handleChangeTask(e) {
     dispatch({
-      type: 'update_task',
+      type: TASKS_ACTIONS.UPDATE_TASK,
       task: {
         ...task,
         text: e.target.value,
@@ -36,7 +37,7 @@ export function Task({ task, dispatch }) {
 
   function handleDeleteTask() {
     dispatch({
-      type: 'delete_task',
+      type: TASKS_ACTIONS.DELETE_TASK,
       id: task.id,
     });
   }

@@ -1,10 +1,9 @@
-import { useReducer } from 'react';
 import AddTask from './AddTask';
 import TaskList from './TaskList';
-import { tasksReducer } from '../hooks/tasksReducer';
+import { useTasks } from '../hooks/useTasks';
 
 export default function TaskManager() {
-  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+  const [tasks, dispatch] = useTasks();
 
   return (
     <div className='container'>
@@ -14,8 +13,3 @@ export default function TaskManager() {
     </div>
   );
 }
-
-const initialTasks = [
-  { id: 0, text: '카프카 박물관 방문하기', done: true },
-  { id: 1, text: '인형극 보기', done: false },
-];
