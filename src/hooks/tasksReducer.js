@@ -1,4 +1,4 @@
-export function useTaskReducer(tasks, action) {
+export function tasksReducer(tasks, action) {
   switch (action.type) {
     case 'add_task':
       return [
