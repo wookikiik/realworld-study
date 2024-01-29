@@ -1,10 +1,10 @@
 import { useReducer } from 'react';
 import AddTask from './AddTask';
 import TaskList from './TaskList';
-import { useTaskReducer } from '../hooks/useTaskReducer';
+import { tasksReducer } from '../hooks/tasksReducer';
 
 export default function TaskManager() {
-  const [tasks, dispatch] = useReducer(useTaskReducer, initialTasks);
+  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
 
   return (
     <div className='container'>
