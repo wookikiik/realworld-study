@@ -1,3 +1,4 @@
+import { createContext } from 'react';
 import { useImmerReducer } from 'use-immer';
 
 export const TASKS_ACTIONS = {
@@ -7,6 +8,11 @@ export const TASKS_ACTIONS = {
   DONE_TASK: 'done_task',
 };
 Object.freeze(TASKS_ACTIONS);
+
+const initialTasks = [
+  { id: 0, text: '카프카 박물관 방문하기', done: true },
+  { id: 1, text: '인형극 보기', done: false },
+];
 
 export function useTasks() {
   return useImmerReducer(tasksReducer, initialTasks);
@@ -38,7 +44,17 @@ function tasksReducer(draft, action) {
   }
 }
 
-const initialTasks = [
-  { id: 0, text: '카프카 박물관 방문하기', done: true },
-  { id: 1, text: '인형극 보기', done: false },
-];
+export const TasksContext = createContext([]);
+export const TasksDispatchContext = createContext(null);
+
+export function TasksProvider({ children }) {
+  const [tasks, dispatch] = useTasks();
+
+  return (
+    <TasksContext.Provider value={tasks}>
+      <TasksDispatchContext.Provider value={dispatch}>
+        {children}
+      </TasksDispatchContext.Provider>
+    </TasksContext.Provider>
+  );
+}

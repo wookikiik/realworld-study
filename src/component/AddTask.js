@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { TASKS_ACTIONS } from '../hooks/useTasks';
+import { useContext, useState } from 'react';
+import { TASKS_ACTIONS, TasksDispatchContext } from '../hooks/useTasks';
 
-export default function AddTask({ dispatch }) {
+export default function AddTask() {
+  const tasksDispatch = useContext(TasksDispatchContext);
   const [text, setText] = useState('');
 
   function handleAddTask(e) {
     e.preventDefault();
 
-    dispatch({
+    tasksDispatch({
       type: TASKS_ACTIONS.ADD_TASK,
       text,
     });

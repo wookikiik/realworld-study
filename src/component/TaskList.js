@@ -1,22 +1,29 @@
-import { useState } from 'react';
-import { TASKS_ACTIONS } from '../hooks/useTasks';
+import { useContext, useState } from 'react';
+import {
+  TASKS_ACTIONS,
+  TasksContext,
+  TasksDispatchContext,
+} from '../hooks/useTasks';
 
-export default function TaskList({ tasks, dispatch }) {
+export default function TaskList() {
+  const tasks = useContext(TasksContext);
   return (
     <ul id='task-list' className='task-list'>
       {tasks.map((task) => (
-        <Task key={task.id} task={task} dispatch={dispatch} />
+        <Task key={task.id} task={task} />
       ))}
     </ul>
   );
 }
 
-export function Task({ task, dispatch }) {
+export function Task({ task }) {
+  const tasksDispatch = useContext(TasksDispatchContext);
+
   const [mode, setMode] = useState('view');
   const isEditMode = mode === 'edit';
 
   function handleDoneTask(e) {
-    dispatch({
+    tasksDispatch({
       type: TASKS_ACTIONS.DONE_TASK,
       task: {
         ...task,
@@ -26,7 +33,7 @@ export function Task({ task, dispatch }) {
   }
 
   function handleChangeTask(e) {
-    dispatch({
+    tasksDispatch({
       type: TASKS_ACTIONS.UPDATE_TASK,
       task: {
         ...task,
@@ -36,7 +43,7 @@ export function Task({ task, dispatch }) {
   }
 
   function handleDeleteTask() {
-    dispatch({
+    tasksDispatch({
       type: TASKS_ACTIONS.DELETE_TASK,
       id: task.id,
     });
