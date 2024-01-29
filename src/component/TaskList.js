@@ -1,35 +1,73 @@
-export default function TaskList({ tasks }) {
+import { useState } from 'react';
+
+export default function TaskList({
+  tasks,
+  onChangeTask,
+  onDeleteTask,
+  onDoneTask,
+}) {
   return (
     <ul id='task-list' className='task-list'>
       {tasks.map((task) => (
         <Task
           key={task.id}
-          mode={task.is % 2 === 0 ? 'edit' : 'view'} // TODO : to be deleted
           task={task}
+          onChangeTask={onChangeTask}
+          onDeleteTask={onDeleteTask}
+          onDoneTask={onDoneTask}
         />
       ))}
     </ul>
   );
 }
 
-export function Task({ mode, task }) {
+export function Task({ task, onChangeTask, onDeleteTask, onDoneTask }) {
+  const [mode, setMode] = useState('view');
   const isEditMode = mode === 'edit';
+
+  function handleDoneTask(e) {
+    onDoneTask({
+      ...task,
+      done: e.target.checked,
+    });
+  }
+
+  function handleChangeTask(e) {
+    onChangeTask({
+      ...task,
+      text: e.target.value,
+    });
+  }
+  function handleDeleteTask() {
+    onDeleteTask(task.id);
+  }
 
   return (
     <li>
-      <input type='checkbox' checked={task.done} />
+      <input type='checkbox' checked={task.done} onChange={handleDoneTask} />
       {isEditMode ? (
-        <input type='text' className='edit-input' value={task.name} />
+        <input
+          type='text'
+          className='edit-input'
+          value={task.text}
+          onChange={handleChangeTask}
+        />
       ) : (
-        <span>{task.name}</span>
+        <span>{task.text}</span>
       )}
       <div className='action-box'>
         {isEditMode ? (
-          <button className='btn save-btn'>save</button>
+          <button className='btn save-btn' onClick={() => setMode('view')}>
+            save
+          </button>
         ) : (
-          <button className='btn edit-btn'>edit</button>
+          <button className='btn edit-btn' onClick={() => setMode('edit')}>
+            edit
+          </button>
         )}
-        <button className='btn delete-btn'>delete</button>
+        <button className='btn delete-btn' onClick={handleDeleteTask}>
+          delete
+        </button>
       </div>
     </li>
   );
