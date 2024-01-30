@@ -1,30 +1,37 @@
-import { useState } from "react";
+import { useReducer } from 'react';
 import TaskForm from './taskForm'
 import TaskList from './taskList'
+import { taskReducer } from '../reducers';
 
 export default function Body() {
-    const [taskList, setTaskList] = useState(['1', '2']);
-    
-    function handleChangeTask (task) {
-        setTaskList([...taskList, task]);
+    const [taskList, dispatch] = useReducer(taskReducer, ['1', '2']);
+
+    function handleAddTask (task) {        
+        dispatch({
+            type: 'add',
+            task: task,
+        })
     }
 
-    function handleEditTask(value, index) {        
-        const newTaskList = [...taskList];
-        newTaskList[index] = value;
-        setTaskList(newTaskList);
+    function handleEditTask(value, index) {                
+        dispatch({
+            type: 'edit',
+            task: value,
+            index: index,
+        })
     }
 
-    function handleDeleteTask(index) {        
-        setTaskList(taskList.filter((_, i) => {        
-            return index !== i;
-        }));
+    function handleDeleteTask(index) {                
+        dispatch({
+            type: 'delete',
+            index: index,
+        })
     }
 
     return (        
         <div className="container">
             <h1>프라하에서 해야 할 일</h1>
-            <TaskForm onTaskChange={handleChangeTask} />
+            <TaskForm onTaskChange={handleAddTask} />
             <TaskList taskList={taskList} editTask={handleEditTask} deleteTask={handleDeleteTask}/>
         </div>        
     )

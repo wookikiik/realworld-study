@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useReducer } from 'react';
+import { isEditReducer } from '../reducers';
 
 export default function TaskList({taskList, editTask, deleteTask}) {    
-    const [isEditList, setIsEditList] = useState(new Array(taskList.length).fill(false));        
+    const [isEditList, dispatch] = useReducer(isEditReducer, new Array(taskList.length).fill(false));
 
-    function handleEdit(index) {   
-        const newEdit = [...isEditList];
-        newEdit[index] = !newEdit[index];
-        setIsEditList(newEdit);
-        editTask(index);
+
+    function handleEdit(index) {       
+        dispatch({
+            type: 'edit',
+            index: index,
+        })
     }
     
-    function handleDelete(index) {
-        setIsEditList(isEditList.filter((_, i) => {
-            return index !== i;
-        }));
+    function handleDelete(index) {        
         deleteTask(index);
+        dispatch({
+            type: 'delete',
+            index: index,
+        })
     }
 
     return (
