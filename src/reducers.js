@@ -1,18 +1,15 @@
-function taskReducer(tasks, action) {
+function taskReducer(draft, action) {
     switch (action.type) {
-        case 'add': {
-            return [
-                ...tasks,
-                action.task
-            ];
+        case 'add': {            
+            draft.push(action.task)
+            break;
         }
-        case 'edit': {
-            const newTaskList = [...tasks];
-            newTaskList[action.index] = action.task;
-            return newTaskList;
+        case 'edit': {            
+            draft[action.index] = action.task;            
+            break;
         }        
         case 'delete': {
-            return tasks.filter((_, i) => {
+            return draft.filter((_, i) => {
                 return action.index !== i;
             });
         }
@@ -22,15 +19,14 @@ function taskReducer(tasks, action) {
     }
 }
 
-function isEditReducer(isEditList, action) {
+function isEditReducer(draft, action) {
     switch (action.type) {        
-        case 'edit': {
-            const newEditList = [...isEditList];
-            newEditList[action.index] = !newEditList[action.index];
-            return newEditList;
+        case 'edit': {            
+            draft[action.index] = !draft[action.index];
+            break;
         }        
         case 'delete': {
-            return isEditList.filter((_, i) => {
+            return draft.filter((_, i) => {
                 return action.index !== i;
             });
         }
@@ -40,4 +36,18 @@ function isEditReducer(isEditList, action) {
     }
 }
 
-export {taskReducer, isEditReducer};
+function newTaskReducer(draft, action) {
+    switch (action.type) {
+        case 'reset': {
+            return '';
+        }
+        case 'change': {
+            return action.value;
+        }
+        default: {
+            throw Error('Unknown action: ' + action.type);
+        }
+    }
+}
+
+export {taskReducer, isEditReducer, newTaskReducer};

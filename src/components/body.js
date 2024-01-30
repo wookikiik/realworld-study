@@ -1,11 +1,11 @@
-import { useReducer } from 'react';
+import { useImmerReducer } from 'use-immer';
 import TaskForm from './taskForm'
 import TaskList from './taskList'
 import { taskReducer } from '../reducers';
 
-export default function Body() {
-    const [taskList, dispatch] = useReducer(taskReducer, ['1', '2']);
-
+export default function Body() {    
+    const [taskList, dispatch] = useImmerReducer(taskReducer, ['1', '2']);
+    
     function handleAddTask (task) {        
         dispatch({
             type: 'add',

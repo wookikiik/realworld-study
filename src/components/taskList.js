@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
+import { useImmerReducer } from 'use-immer';
 import { isEditReducer } from '../reducers';
 
 export default function TaskList({taskList, editTask, deleteTask}) {    
-    const [isEditList, dispatch] = useReducer(isEditReducer, new Array(taskList.length).fill(false));
+    const [isEditList, dispatch] = useImmerReducer(isEditReducer, new Array(taskList.length).fill(false));
 
 
     function handleEdit(index) {       

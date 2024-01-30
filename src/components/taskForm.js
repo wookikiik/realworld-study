@@ -1,23 +1,31 @@
-import { useState } from "react";
+import { useImmerReducer } from 'use-immer';
+import { newTaskReducer } from '../reducers';
 
 export default function TaskForm({onTaskChange}) {    
     
-const [task, setTask] = useState('');
+const [newTask, dispatch] = useImmerReducer(newTaskReducer, '');
     
     return (
         <form id="task-form" className="task-form" 
             onSubmit={(e) => {
                 e.preventDefault();                
-                onTaskChange(task);
-                setTask('');
+                onTaskChange(newTask);
+                dispatch({
+                    type: 'reset',
+                });
           }}>
             <input
                 type="text"
                 id="new-task"
                 className="new-task"
                 placeholder="Add task"  
-                value={task}                              
-                onChange={e => setTask(e.target.value)}
+                value={newTask}                              
+                onChange={e => {
+                    dispatch({
+                        type: 'change',
+                        value: e.target.value,
+                    });
+                }}
             />
             <button type="submit" className="btn add-btn">Add</button>
         </form>
