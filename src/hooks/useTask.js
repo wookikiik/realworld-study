@@ -1,8 +1,10 @@
 import { useImmerReducer } from "use-immer";
-
-const ADD_TASK = "ADD_TASK";
-const UPDATE_TASK = "UPDATE_TASK";
-const DELETE_TASK = "DELETE_TASK";
+import {
+  tasksReducer,
+  ADD_TASK,
+  UPDATE_TASK,
+  DELETE_TASK,
+} from "../reducers/task";
 
 export default function useTask(initialTasks) {
   const [tasks, dispatch] = useImmerReducer(tasksReducer, initialTasks);
@@ -46,20 +48,4 @@ export default function useTask(initialTasks) {
       deleteTask,
     },
   };
-}
-
-function tasksReducer(draft, action) {
-  switch (action.type) {
-    case ADD_TASK:
-      draft.push(action.task);
-      break;
-    case UPDATE_TASK:
-      const index = draft.findIndex((t) => t.id === action.task.id);
-      draft[index] = action.task;
-      break;
-    case DELETE_TASK:
-      return draft.filter((t) => t.id !== action.id);
-    default:
-      throw Error("Unknown action: " + action.type);
-  }
 }
