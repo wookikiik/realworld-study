@@ -1,9 +1,15 @@
 import { useImmerReducer } from 'use-immer';
 import { isEditReducer } from '../reducers';
+import { useContext } from 'react';
+import { TasksContext, TasksDispatchContext } from '../context';
 
-export default function TaskList({taskList, editTask, deleteTask}) {    
-    const [isEditList, dispatch] = useImmerReducer(isEditReducer, new Array(taskList.length).fill(false));
 
+export default function TaskList() {    
+    const taskList = useContext(TasksContext);
+    const taskDispatch = useContext(TasksDispatchContext);    
+    const initIsEditList = taskList.length ? new Array(taskList.length).fill(false) : [];
+
+    const [isEditList, dispatch] = useImmerReducer(isEditReducer, initIsEditList);
 
     function handleEdit(index) {       
         dispatch({
@@ -12,8 +18,11 @@ export default function TaskList({taskList, editTask, deleteTask}) {
         })
     }
     
-    function handleDelete(index) {        
-        deleteTask(index);
+    function handleDelete(index) {                
+        taskDispatch({
+            type: 'delete',
+            index: index,
+        })
         dispatch({
             type: 'delete',
             index: index,
@@ -30,7 +39,13 @@ export default function TaskList({taskList, editTask, deleteTask}) {
                             type="text"
                             className="edit-input"
                             value={task}
-                            onChange={(e) => editTask(e.target.value, index)}
+                            onChange={(e) => {                                    
+                                dispatch({
+                                    type: 'edit',
+                                    task: e.target.value,
+                                    index: index,
+                                })
+                            }}
                         /> : <span>{task}</span>    
                     }                    
                     <div className="action-box">                        
