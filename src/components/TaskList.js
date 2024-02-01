@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useTasks, useActions } from "../contexts/task.js";
+import { useTasks } from "../hooks/useTasks";
 
 export default function TaskList() {
-  const tasks = useTasks();
+  const { tasks } = useTasks();
   return (
     <ul id="task-list" className="task-list">
       {tasks.map((task) => (
@@ -16,7 +16,7 @@ export default function TaskList() {
 
 export function Task({ task }) {
   const [editMode, setEditMode] = useState(false);
-  const { deleteTask, updateTask } = useActions();
+  const { deleteTask, updateTask } = useTasks();
   function handleUpdateTask(e) {
     const text = e.target.value;
     updateTask({ ...task, text });

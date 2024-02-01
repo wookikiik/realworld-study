@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useActions } from "../contexts/task.js";
+import { useTasks } from "../hooks/useTasks";
 
 export default function AddTask() {
   const [text, setText] = useState("");
-  const { addTask } = useActions();
+  const { addTask } = useTasks();
 
   function handleSubmit(e) {
     e.preventDefault();

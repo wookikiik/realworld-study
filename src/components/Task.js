@@ -1,6 +1,6 @@
-import { TasksProvider } from "../contexts/task.js";
-import AddTask from "./AddTask.js";
-import TaskList from "./TaskList.js";
+import { TasksProvider } from "../hooks/useTasks";
+import AddTask from "./AddTask";
+import TaskList from "./TaskList";
 
 export default function Task({ title }) {
   return (
