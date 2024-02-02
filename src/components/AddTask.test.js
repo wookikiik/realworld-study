@@ -2,11 +2,14 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import AddTask from "./AddTask";
 
 const mockAddTask = jest.fn();
-jest.mock("../contexts/task.js", () => ({
-  useActions: () => ({
-    addTask: mockAddTask,
-  }),
-}));
+
+jest.mock("../hooks/useTasks", () => {
+  return {
+    useTasks: () => ({
+      addTask: mockAddTask,
+    }),
+  };
+});
 
 describe("AddTask", () => {
   describe("Render AddTask component", () => {

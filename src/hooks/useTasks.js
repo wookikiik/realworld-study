@@ -5,13 +5,13 @@ export const ADD_TASK = "ADD_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 
-const TasksContext = createContext([]);
+const TasksContext = createContext();
 const initialTasks = [
   { id: 0, text: "카프카 박물관 방문하기", done: true },
   { id: 1, text: "인형극 보기", done: false },
 ];
 
-function tasksReducer(draft, action) {
+export function tasksReducer(draft, action) {
   switch (action.type) {
     case ADD_TASK:
       draft.push(action.task);
