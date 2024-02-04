@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>프라하에서 해야 할 일</h1>
+      <form id="task-form" className="task-form">
+        <input
+          type="text"
+          id="new-task"
+          className="new-task"
+          placeholder="Add task"
+        />
+        <button type="submit" className="btn add-btn">
+          Add
+        </button>
+      </form>
+      <ul id="task-list" className="task-list">
+        <li>
+          <input type="checkbox" defaultChecked={true} />
+          <span>카프카 박물관 방문하기</span>
+          <div className="action-box">
+            <button className="btn edit-btn">edit</button>
+            <button className="btn delete-btn">delete</button>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" />
+          <input
+            type="text"
+            className="edit-input"
+            defaultValue="인형극 보기"
+          />
+          <div className="action-box">
+            <button className="btn save-btn">save</button>
+            <button className="btn delete-btn">delete</button>
+          </div>
+        </li>
+      </ul>
     </div>
   );
 }
