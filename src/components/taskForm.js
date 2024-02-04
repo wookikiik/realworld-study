@@ -1,7 +1,9 @@
 import { useState, useContext } from 'react';
 import { TasksDispatchContext } from '../context';
+import { ADD } from '../constants';
 
-export default function TaskForm() {         
+export default function TaskForm() {       
+    let nextId = 3;  
     const [newTask, setNewTask] = useState('');
     const dispatch = useContext(TasksDispatchContext);
     
@@ -10,14 +12,14 @@ export default function TaskForm() {
             onSubmit={(e) => {
                 e.preventDefault();                                
                 dispatch({
-                    type: 'add',
-                    task: newTask,
+                    type: ADD,
+                    id: nextId++,
+                    title: newTask,
                 })
                 setNewTask('');
           }}>
             <input
                 type="text"
-                id="new-task"
                 className="new-task"
                 placeholder="Add task"  
                 value={newTask}                              

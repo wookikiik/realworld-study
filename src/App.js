@@ -1,8 +1,8 @@
-import Body from './components/body';
+import TaskApp from './components/TaskApp';
 
 function App() {
   return (          
-      <Body />      
+      <TaskApp />      
   );
 }
 

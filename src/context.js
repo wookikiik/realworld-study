@@ -1,11 +1,21 @@
 import { createContext, useReducer } from 'react';
-import produce from 'immer';
+import { taskReducer } from './reducers';
 
 export const TasksContext = createContext(null);
 export const TasksDispatchContext = createContext(null);
 
 export function TasksProvider({ children }) {
-    const [tasks, dispatch] = useReducer(taskReducer, ["1", "3"]);
+    const initialTasks = [
+      {
+        id: 1,
+        title: 'Explore Prague Castle',
+      },
+      {
+        id: 2,
+        title: 'Stroll Across Charles Bridge',
+      }
+    ];
+    const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   
     return (
       <TasksContext.Provider value={tasks}>
@@ -16,22 +26,3 @@ export function TasksProvider({ children }) {
     );
   }
 
-function taskReducer(draft, action) {
-    switch (action.type) {
-        case 'add': 
-          return produce(draft, draftState => {
-            draftState.push(action.task)
-        });
-        case 'edit': 
-          return produce(draft, draftState => {
-              draftState[action.index] = action.task;         
-            });
-        case 'delete': 
-          return produce(draft, draftState => {
-            draftState.splice(action.index, 1);
-          });                   
-        default: {
-            throw Error('Unknown action: ' + action.type);
-        }
-    }
-}
