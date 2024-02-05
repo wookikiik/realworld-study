@@ -4,10 +4,10 @@ function App() {
   return (
     <div className="container">
       <h1>프라하에서 해야 할 일</h1>
-      <form id="task-form" className="task-form">
+      <form data-testid="task-add-form" className="task-form">
         <input
           type="text"
-          id="new-task"
+          data-testid="new-task"
           className="new-task"
           placeholder="Add task"
         />
@@ -15,7 +15,7 @@ function App() {
           Add
         </button>
       </form>
-      <ul id="task-list" className="task-list">
+      <ul data-testid="task-list" className="task-list">
         <li>
           <input type="checkbox" defaultChecked={true} />
           <span>카프카 박물관 방문하기</span>
