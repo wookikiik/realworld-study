@@ -1,15 +1,20 @@
 import AddTask from './AddTask';
 import TaskList from './TaskList';
-import { TasksProvider } from '../hooks/useTasks';
+import { TasksManagerProvider } from './hooks/useTasksContext';
 
+/**
+ * Tasks 관리 컴포넌트
+ * @returns
+ */
 export default function TaskManager() {
   return (
     <div className='container'>
       <h1>프라하에서 해야 할 일</h1>
-      <TasksProvider>
+
+      <TasksManagerProvider>
         <AddTask />
         <TaskList />
-      </TasksProvider>
+      </TasksManagerProvider>
     </div>
   );
 }
