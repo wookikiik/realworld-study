@@ -1,37 +1,17 @@
-import { useState } from "react";
 import AddTask from "./AddTask";
 import TaskList from "./TaskList";
-import { v4 as uuidv4 } from "uuid";
+import { useTasks } from "../hooks/useTasks";
 
 export default function TodoApp({ title }) {
-  const [tasks, setTasks] = useState(initialTasks);
-  function handleAdd(newTitle) {
-    setTasks([
-      ...tasks,
-      {
-        id: uuidv4(),
-        title: newTitle,
-        completed: false,
-      },
-    ]);
-  }
-
-  function handleUpdate(editTask) {
-    setTasks(tasks.map((task) => (task.id === editTask.id ? editTask : task)));
-  }
-
-  function handleDelete(deleteId) {
-    setTasks(tasks.filter(({ id }) => id !== deleteId));
-  }
-
+  const { tasks, addTask, updateTask, deleteTask } = useTasks(initialTasks);
   return (
     <div className="container">
       <h1>{title}</h1>
-      <AddTask onAdd={handleAdd} />
+      <AddTask onAdd={addTask} />
       <TaskList
         tasks={tasks} //
-        onUpdate={handleUpdate}
-        onDelete={handleDelete}
+        onUpdate={updateTask}
+        onDelete={deleteTask}
       />
     </div>
   );
