@@ -1,22 +1,24 @@
 import { useState } from "react";
+import { useTasks } from "../hooks/useTasks";
 
-export default function TaskItem({ task, onUpdate, onDelete }) {
+export default function TaskItem({ task }) {
   // isEditMode
   const [isEdit, setIsEdit] = useState(false);
 
+  const { updateTask, deleteTask } = useTasks();
   function handleEditMode(isEditMode) {
     setIsEdit(isEditMode);
   }
 
   function handleUpdateTitle(e) {
-    onUpdate({
+    updateTask({
       ...task,
       title: e.target.value,
     });
   }
 
   function handleToggleCompleted() {
-    onUpdate({
+    updateTask({
       ...task,
       completed: !task.completed,
     });
@@ -55,7 +57,7 @@ export default function TaskItem({ task, onUpdate, onDelete }) {
           </button>
         )}
 
-        <button className="btn delete-btn" onClick={() => onDelete(task.id)}>
+        <button className="btn delete-btn" onClick={() => deleteTask(task.id)}>
           delete
         </button>
       </div>

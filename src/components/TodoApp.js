@@ -1,18 +1,15 @@
 import AddTask from "./AddTask";
 import TaskList from "./TaskList";
-import { useTasks } from "../hooks/useTasks";
+import { TaskProvider } from "../hooks/useTasks";
 
 export default function TodoApp({ title }) {
-  const { tasks, addTask, updateTask, deleteTask } = useTasks(initialTasks);
   return (
     <div className="container">
       <h1>{title}</h1>
-      <AddTask onAdd={addTask} />
-      <TaskList
-        tasks={tasks} //
-        onUpdate={updateTask}
-        onDelete={deleteTask}
-      />
+      <TaskProvider initialTasks={initialTasks}>
+        <AddTask />
+        <TaskList />
+      </TaskProvider>
     </div>
   );
 }

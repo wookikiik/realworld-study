@@ -1,6 +1,10 @@
 import { useState } from "react";
-export default function AddTask({ onAdd }) {
-  const [newTask, setNewTask] = useState("");
+import { useTasks } from "../hooks/useTasks";
+
+export default function AddTask() {
+  const { addTask } = useTasks();
+  const [title, setTitle] = useState("");
+
   return (
     <form data-testid="task-add-form" className="task-form">
       <input
@@ -8,14 +12,14 @@ export default function AddTask({ onAdd }) {
         data-testid="new-task"
         className="new-task"
         placeholder="Add task"
-        onChange={(e) => setNewTask(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <button
         type="submit"
         className="btn add-btn"
         onClick={(e) => {
           e.preventDefault();
-          onAdd(newTask);
+          addTask(title);
         }}
       >
         Add

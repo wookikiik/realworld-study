@@ -1,24 +1,34 @@
 import { v4 as uuidv4 } from "uuid";
-import { useReducer } from "react";
-// TODO action 타입 네이밍..
+import { useReducer, useContext, createContext } from "react";
 
-export const ACTION_TYPE_ADD = "add";
-export const ACTION_TYPE_UPDATE = "update";
-export const ACTION_TYPE_DELETE = "delete";
+const ACTION_TYPE_ADD = "add";
+const ACTION_TYPE_UPDATE = "update";
+const ACTION_TYPE_DELETE = "delete";
 
-export function useTasks(initialTasks) {
+const TasksContext = createContext({
+  tasks: [],
+  addTask: () => {},
+  updateTask: () => {},
+  deleteTask: () => {},
+});
+
+function useTasksReducer(initialTasks) {
   const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
 
+  /**
+   * Add Task
+   * @param {string} newTitle
+   */
   function addTask(newTitle) {
     dispatch({
       type: ACTION_TYPE_ADD,
-      newTitle,
+      title: newTitle,
     });
   }
 
   /**
    * Update Task
-   * @param {{id: string}} editTask
+   * @param {{id: string, title: string, completed: boolean}} editTask
    */
   function updateTask(editTask) {
     dispatch({
@@ -27,6 +37,10 @@ export function useTasks(initialTasks) {
     });
   }
 
+  /**
+   * Delete Task
+   * @param {string} deleteId
+   */
   function deleteTask(deleteId) {
     dispatch({
       type: ACTION_TYPE_DELETE,
@@ -42,6 +56,24 @@ export function useTasks(initialTasks) {
   };
 }
 
+export function TaskProvider({ children, initialTasks }) {
+  return (
+    <TasksContext.Provider value={useTasksReducer(initialTasks)}>
+      {children}
+    </TasksContext.Provider>
+  );
+}
+
+export function useTasks() {
+  const { tasks, addTask, updateTask, deleteTask } = useContext(TasksContext);
+  return {
+    tasks,
+    addTask,
+    updateTask,
+    deleteTask,
+  };
+}
+
 function tasksReducer(state, action) {
   switch (action.type) {
     case ACTION_TYPE_ADD:
@@ -49,7 +81,7 @@ function tasksReducer(state, action) {
         ...state,
         {
           id: uuidv4(),
-          title: action.newTitle,
+          title: action.title,
           completed: false,
         },
       ];
