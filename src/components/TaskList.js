@@ -1,10 +1,15 @@
 import TaskItem from "./TaskItem";
 
-export default function TaskList({ tasks }) {
+export default function TaskList({ tasks, onUpdate, onDelete }) {
   return (
     <ul data-testid="task-list" className="task-list">
-      {tasks.map((task, index) => (
-        <TaskItem key={task.id} task={task} />
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          task={task}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );
