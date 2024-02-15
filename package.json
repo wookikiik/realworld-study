@@ -15,7 +15,11 @@
     "todomvc-app-css": "^2.4.3",
     "todomvc-common": "^1.0.5",
     "typescript": "^5.3.3",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
+  },
+  "overrides": {
+    "typescript": "^5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
