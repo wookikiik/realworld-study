@@ -1,11 +1,12 @@
 import React from "react";
 import { Task } from "@/types";
 
-const TaskList: React.FC = () => {
+const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
   return (
     <ul className="todo-list">
-      <TaskItem task={{ title: "Taste JavaScript", complete: false }} />
-      <TaskItem task={{ title: "Buy a unicorn", complete: true }} />
+      {tasks.map((task) => (
+        <TaskItem key={task.id} task={task} />
+      ))}
     </ul>
   );
 };
@@ -29,6 +30,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 };
 
 export default TaskList;
+
+type TaskListProps = {
+  tasks: Task[];
+};
 
 type TaskItemProps = {
   task: Task;

@@ -1,11 +1,16 @@
 import React, { useRef } from "react";
 
-const AddTask: React.FC = () => {
+const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
   const titleRef = useRef<HTMLInputElement>(null);
 
   function handleAddTask(event: React.FormEvent) {
     event.preventDefault();
-    console.log("addTask", titleRef.current?.value);
+    if (!titleRef.current) {
+      // TODO: show notification
+      return;
+    }
+
+    onAdd(titleRef.current.value);
   }
 
   return (
@@ -17,6 +22,10 @@ const AddTask: React.FC = () => {
       />
     </form>
   );
+};
+
+type AddTaskProps = {
+  onAdd: (title: string) => void;
 };
 
 export default AddTask;

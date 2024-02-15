@@ -45,5 +45,8 @@
       "last 1 safari version"
     ]
   },
-  "types": "./types/index.d.ts"
+  "types": "./types/index.d.ts",
+  "devDependencies": {
+    "@types/uuid": "^9.0.8"
+  }
 }
