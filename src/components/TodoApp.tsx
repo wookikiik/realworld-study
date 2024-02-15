@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
+import AddTask from "./AddTask";
+import ToggleComplete from "./ToggleComplete";
 import TaskList from "./TaskList";
-import AppFooter from "./TodoAppFooter";
+import AppFooter from "./TodoFooter";
 import Footer from "./Footer";
 
 const TodoApp: React.FC = () => {
+  // TODO: isEmptyTasks is computed value
+  const [isEmptyTasks] = useState(false);
+
   return (
     <>
       <section className="todoapp">
-        <Header />
+        <Header>
+          <AddTask />
+        </Header>
         <section className="main">
-          <input id="toggle-all" className="toggle-all" type="checkbox" />
-          <label htmlFor="toggle-all">Mark all as complete</label>
+          <ToggleComplete />
           <TaskList />
         </section>
-        <AppFooter />
+        {isEmptyTasks || <AppFooter />}
       </section>
       <Footer />
     </>

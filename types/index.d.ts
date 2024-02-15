@@ -1,4 +1,4 @@
 export type Task = {
-  done: boolean;
+  complete: boolean;
   title: string;
 };

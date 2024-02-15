@@ -1,10 +1,14 @@
 import React from "react";
 
-const Header: React.FC = () => (
+const Header: React.FC<HeaderProps> = ({ children }) => (
   <header className="header">
     <h1>todos</h1>
-    <input className="new-todo" placeholder="What needs to be done?" />
+    {children}
   </header>
 );
+
+type HeaderProps = {
+  children: React.ReactNode;
+};
 
 export default Header;

@@ -1,11 +1,14 @@
 import React from "react";
+import TaskCount from "./TaskCount";
 
 const Footer: React.FC = () => {
+  function handleClearCompleted() {
+    console.log("Clear completed tasks");
+  }
+
   return (
     <footer className="footer">
-      <span className="todo-count">
-        <strong>0</strong> item left
-      </span>
+      <TaskCount taskList={[]} />
       <ul className="filters">
         <li>
           <a className="selected" href="#/">
@@ -19,7 +22,9 @@ const Footer: React.FC = () => {
           <a href="#/completed">Completed</a>
         </li>
       </ul>
-      <button className="clear-completed">Clear completed</button>
+      <button className="clear-completed" onClick={handleClearCompleted}>
+        Clear completed
+      </button>
     </footer>
   );
 };

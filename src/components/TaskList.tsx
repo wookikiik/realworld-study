@@ -1,20 +1,25 @@
 import React from "react";
+import { Task } from "@/types";
 
 const TaskList: React.FC = () => {
   return (
     <ul className="todo-list">
-      <TaskItem task={{ title: "Taste JavaScript", done: false }} />
-      <TaskItem task={{ title: "Buy a unicorn", done: true }} />
+      <TaskItem task={{ title: "Taste JavaScript", complete: false }} />
+      <TaskItem task={{ title: "Buy a unicorn", complete: true }} />
     </ul>
   );
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const statusStyle = task.done ? "completed" : "";
+  const statusStyle = task.complete ? "completed" : "";
   return (
     <li className={statusStyle}>
       <div className="view">
-        <input className="toggle" type="checkbox" defaultChecked={task.done} />
+        <input
+          className="toggle"
+          type="checkbox"
+          defaultChecked={task.complete}
+        />
         <label>{task.title}</label>
         <button className="destroy"></button>
       </div>
@@ -24,11 +29,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 };
 
 export default TaskList;
-
-type Task = {
-  done: boolean;
-  title: string;
-};
 
 type TaskItemProps = {
   task: Task;
