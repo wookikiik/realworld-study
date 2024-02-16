@@ -12,6 +12,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.4",
     "todomvc-app-css": "^2.4.3",
     "todomvc-common": "^1.0.5",
     "typescript": "^5.3.3",
@@ -31,6 +32,19 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "env": {
+          "jest": true
+        },
+        "files": [
+          "**/*.spec.ts?(x)"
+        ],
+        "rules": {
+          "testing-library/no-debugging-utils": "warn"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -47,6 +61,7 @@
   },
   "types": "./types/index.d.ts",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@types/uuid": "^9.0.8"
   }
 }
