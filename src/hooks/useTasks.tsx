@@ -1,5 +1,5 @@
 import { Task } from "@/types";
-import { createContext, useEffect, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const TasksStateContext = createContext<TaskState>({ tasks: [] });
@@ -10,35 +10,6 @@ const TasksActionContext = createContext({
   toggleComplete: () => {},
   clearCompleted: () => {},
 });
-
-export function useTasks(initial: boolean = false) {
-  const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
-
-  useEffect(() => {
-    if (initial) {
-      // TODO: fetch tasks from Task API Service
-    }
-  }, [initial]);
-
-  return {
-    tasks: state.tasks,
-    addTask: (title: string) => {
-      dispatch({ type: "ADD_TASK", title });
-    },
-    updateTask: (task: Task) => {
-      dispatch({ type: "UPDATE_TASK", task });
-    },
-    deleteTask: (taskId: string) => {
-      dispatch({ type: "DELETE_TASK", taskId });
-    },
-    toggleComplete: () => {
-      dispatch({ type: "TOGGLE_COMPLETE" });
-    },
-    clearCompleted: () => {
-      dispatch({ type: "CLEAR_COMPLETED" });
-    },
-  };
-}
 
 interface TasksProviderProps {
   children: React.ReactNode;

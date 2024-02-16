@@ -1,25 +1,23 @@
 import React, { useRef, useState } from "react";
 import { Task } from "@/types";
 import { flushSync } from "react-dom";
-
-const TaskList: React.FC<TaskListProps> = ({ tasks, onUpdate, onDelete }) => {
+import { useTasksActions, useTasksState, useFilterTasks } from "../hooks";
+const TaskList: React.FC = () => {
+  const { tasks } = useTasksState();
+  const filterTasks = useFilterTasks(tasks);
   return (
     <ul className="todo-list">
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
-        />
+      {filterTasks.map((task) => (
+        <TaskItem key={task.id} task={task} />
       ))}
     </ul>
   );
 };
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { updateTask, deleteTask } = useTasksActions();
 
   const statusStyles = [];
   task.complete && statusStyles.push("completed");
@@ -36,7 +34,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
   }
 
   function handleChangeComplete(e: React.ChangeEvent<HTMLInputElement>) {
-    onUpdate({
+    updateTask({
       ...task,
       complete: e.target.checked,
     });
@@ -46,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
     e.preventDefault();
     const title = inputRef.current?.value.trim();
     if (title) {
-      onUpdate({
+      updateTask({
         ...task,
         title,
       });
@@ -64,7 +62,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
           onChange={handleChangeComplete}
         />
         <label onDoubleClick={toggleEditing}>{task.title}</label>
-        <button className="destroy" onClick={() => onDelete(task.id)}></button>
+        <button
+          className="destroy"
+          onClick={() => deleteTask(task.id)}
+        ></button>
       </div>
       <form onSubmit={handleSubmitTask}>
         <input className="edit" defaultValue={task.title} ref={inputRef} />
@@ -75,14 +76,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
 
 export default TaskList;
 
-type TaskListProps = {
-  tasks: Task[];
-  onUpdate: (task: Task) => void;
-  onDelete: (id: string) => void;
-};
-
 type TaskItemProps = {
   task: Task;
-  onUpdate: (task: Task) => void;
-  onDelete: (id: string) => void;
 };

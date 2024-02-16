@@ -1,10 +1,12 @@
 import React from "react";
 import TaskCount from "./TaskCount";
-import { Task } from "@/types";
-import { useLocation } from "../hooks";
+import { useTasksActions, useTasksState, useLocation } from "../hooks";
 
-const Footer: React.FC<FooterProps> = ({ tasks, onClear }) => {
+const Footer: React.FC = () => {
+  const { clearCompleted } = useTasksActions();
   const hash = useLocation((location) => location.hash.replace("#", ""));
+  const { tasks } = useTasksState();
+  if (tasks.length === 0) return null;
 
   return (
     <footer className="footer">
@@ -20,7 +22,7 @@ const Footer: React.FC<FooterProps> = ({ tasks, onClear }) => {
           Completed
         </Link>
       </ul>
-      <button className="clear-completed" onClick={onClear}>
+      <button className="clear-completed" onClick={clearCompleted}>
         Clear completed
       </button>
     </footer>
@@ -35,11 +37,6 @@ const Link: React.FC<LinkProps> = ({ hash, to, children }) => {
       </a>
     </li>
   );
-};
-
-type FooterProps = {
-  tasks: Task[];
-  onClear: () => void;
 };
 
 type LinkProps = {

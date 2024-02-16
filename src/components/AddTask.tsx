@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
 import { toast } from "react-toastify";
-const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
+import { useTasksActions } from "../hooks";
+
+const AddTask: React.FC = () => {
   const titleRef = useRef<HTMLInputElement>(null);
+  const { addTask } = useTasksActions();
 
   function handleAddTask(event: React.FormEvent) {
     event.preventDefault();
@@ -16,7 +19,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
       return;
     }
 
-    onAdd(titleRef.current.value);
+    addTask(titleRef.current.value);
     titleRef.current.value = "";
   }
 
@@ -29,10 +32,6 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
       />
     </form>
   );
-};
-
-type AddTaskProps = {
-  onAdd: (title: string) => void;
 };
 
 export default AddTask;
