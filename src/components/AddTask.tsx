@@ -11,6 +11,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
     }
 
     onAdd(titleRef.current.value);
+    titleRef.current.value = "";
   }
 
   return (

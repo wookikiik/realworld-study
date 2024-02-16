@@ -1,28 +1,19 @@
 import { useSyncExternalStore } from "react";
-import { Task } from "@/types";
 
-export function useFilterTasks(tasks: Task[] = []): Task[] {
-  const filterAction = useSyncExternalStore(subscribe, getSnapshot);
-  if (filterAction === "") {
-    return tasks;
+export function useLocation<T>(
+  convert: LocationConvert<T> = (location) => location as any
+) {
+  function subscribe(callback: any) {
+    window.addEventListener("popstate", callback);
+    return () => window.removeEventListener("popstate", callback);
   }
 
-  if (filterAction === "active") {
-    return tasks.filter((task) => !task.complete);
+  function getSnapshot() {
+    return convert(window.location);
   }
 
-  if (filterAction === "completed") {
-    return tasks.filter((task) => task.complete);
-  }
-
-  return tasks;
+  const location = useSyncExternalStore(subscribe, getSnapshot);
+  return location;
 }
 
-function subscribe(callback: any) {
-  window.addEventListener("popstate", callback);
-  return () => window.removeEventListener("popstate", callback);
-}
-
-function getSnapshot() {
-  return (window.location.hash || "#/").replace(/^#\//, "");
-}
+type LocationConvert<T> = (source: Location) => T;

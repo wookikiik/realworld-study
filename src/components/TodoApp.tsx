@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import AddTask from "./AddTask";
 import ToggleComplete from "./ToggleComplete";
@@ -8,10 +8,24 @@ import Footer from "./Footer";
 import { useTasks, useFilterTasks } from "../hooks";
 
 const TodoApp: React.FC = () => {
-  const { tasks, addTask } = useTasks();
+  const {
+    tasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    toggleComplete,
+    clearCompleted,
+  } = useTasks();
   const isEmptyTasks = tasks.length === 0;
 
   const filterTasks = useFilterTasks(tasks);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#/", "");
+    if (hash !== "") {
+      window.location.hash = "";
+    }
+  }, []);
 
   return (
     <>
@@ -20,10 +34,14 @@ const TodoApp: React.FC = () => {
           <AddTask onAdd={addTask} />
         </Header>
         <section className="main">
-          <ToggleComplete />
-          <TaskList tasks={filterTasks} />
+          <ToggleComplete tasks={filterTasks} onToggle={toggleComplete} />
+          <TaskList
+            tasks={filterTasks}
+            onUpdate={updateTask}
+            onDelete={deleteTask}
+          />
         </section>
-        {isEmptyTasks || <AppFooter />}
+        {isEmptyTasks || <AppFooter tasks={tasks} onClear={clearCompleted} />}
       </section>
       <Footer />
     </>

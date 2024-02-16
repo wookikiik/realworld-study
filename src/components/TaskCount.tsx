@@ -1,8 +1,8 @@
 import React from "react";
 import { Task } from "@/types";
 
-const TaskCount: React.FC<TaskCountProps> = ({ taskList }) => {
-  const activeTasks = taskList.filter(({ complete }) => !complete).length;
+const TaskCount: React.FC<TaskCountProps> = ({ tasks }) => {
+  const activeTasks = tasks.filter(({ complete }) => !complete).length;
   return (
     <span className="todo-count">
       <strong>{activeTasks}</strong> item left
@@ -13,9 +13,9 @@ const TaskCount: React.FC<TaskCountProps> = ({ taskList }) => {
 export default TaskCount;
 
 type TaskCountProps = {
-  taskList: Task[];
+  tasks: Task[];
 };
 
 TaskCount.defaultProps = {
-  taskList: [],
+  tasks: [],
 };

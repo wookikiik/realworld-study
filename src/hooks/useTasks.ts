@@ -20,6 +20,12 @@ export function useTasks() {
     deleteTask: (taskId: string) => {
       dispatch({ type: "DELETE_TASK", taskId });
     },
+    toggleComplete: () => {
+      dispatch({ type: "TOGGLE_COMPLETE" });
+    },
+    clearCompleted: () => {
+      dispatch({ type: "CLEAR_COMPLETED" });
+    },
   };
 }
 
@@ -44,6 +50,18 @@ function tasksReducer(state: TaskState, action: TaskAction): TaskState {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.taskId),
+      };
+    case "TOGGLE_COMPLETE":
+      const isAllComplated = state.tasks.every((task) => task.complete);
+      const complete = !isAllComplated;
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => ({ ...task, complete })),
+      };
+    case "CLEAR_COMPLETED":
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => !task.complete),
       };
     default:
       return state;
@@ -73,4 +91,17 @@ type DeleteTaskAction = {
   taskId: string;
 };
 
-type TaskAction = AddTaskAction | UpdateTaskAction | DeleteTaskAction;
+type ToggleCompleteAction = {
+  type: "TOGGLE_COMPLETE";
+};
+
+type ClearCompletedAction = {
+  type: "CLEAR_COMPLETED";
+};
+
+type TaskAction =
+  | AddTaskAction
+  | UpdateTaskAction
+  | DeleteTaskAction
+  | ToggleCompleteAction
+  | ClearCompletedAction;
