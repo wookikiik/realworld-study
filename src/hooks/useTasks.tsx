@@ -1,13 +1,24 @@
 import { Task } from "@/types";
-import { useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export function useTasks() {
+const TasksStateContext = createContext<TaskState>({ tasks: [] });
+const TasksActionContext = createContext({
+  addTask: (title: string) => {},
+  updateTask: (task: Task) => {},
+  deleteTask: (taskId: string) => {},
+  toggleComplete: () => {},
+  clearCompleted: () => {},
+});
+
+export function useTasks(initial: boolean = false) {
   const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
 
   useEffect(() => {
-    // TODO: fetch tasks from Task API Service
-  }, []);
+    if (initial) {
+      // TODO: fetch tasks from Task API Service
+    }
+  }, [initial]);
 
   return {
     tasks: state.tasks,
@@ -27,6 +38,56 @@ export function useTasks() {
       dispatch({ type: "CLEAR_COMPLETED" });
     },
   };
+}
+
+interface TasksProviderProps {
+  children: React.ReactNode;
+}
+
+export function TasksProvider({ children }: TasksProviderProps) {
+  const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
+
+  const actions = {
+    addTask: (title: string) => {
+      dispatch({ type: "ADD_TASK", title });
+    },
+    updateTask: (task: Task) => {
+      dispatch({ type: "UPDATE_TASK", task });
+    },
+    deleteTask: (taskId: string) => {
+      dispatch({ type: "DELETE_TASK", taskId });
+    },
+    toggleComplete: () => {
+      dispatch({ type: "TOGGLE_COMPLETE" });
+    },
+    clearCompleted: () => {
+      dispatch({ type: "CLEAR_COMPLETED" });
+    },
+  };
+
+  return (
+    <TasksStateContext.Provider value={state}>
+      <TasksActionContext.Provider value={actions}>
+        {children}
+      </TasksActionContext.Provider>
+    </TasksStateContext.Provider>
+  );
+}
+
+export function useTasksState() {
+  const context = useContext(TasksStateContext);
+  if (context === undefined) {
+    throw new Error("useTasksState must be used within a TasksProvider");
+  }
+  return context;
+}
+
+export function useTasksActions() {
+  const context = useContext(TasksActionContext);
+  if (context === undefined) {
+    throw new Error("useTasksDispatch must be used within a TasksProvider");
+  }
+  return context;
 }
 
 function tasksReducer(state: TaskState, action: TaskAction): TaskState {

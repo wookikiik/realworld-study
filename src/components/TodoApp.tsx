@@ -5,7 +5,7 @@ import ToggleComplete from "./ToggleComplete";
 import TaskList from "./TaskList";
 import AppFooter from "./TodoFooter";
 import Footer from "./Footer";
-import { useTasks, useFilterTasks } from "../hooks";
+import { useTasks, useFilterTasks, TasksProvider } from "../hooks";
 
 const TodoApp: React.FC = () => {
   const {
@@ -28,7 +28,7 @@ const TodoApp: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <TasksProvider>
       <section className="todoapp">
         <Header>
           <AddTask onAdd={addTask} />
@@ -44,7 +44,7 @@ const TodoApp: React.FC = () => {
         {isEmptyTasks || <AppFooter tasks={tasks} onClear={clearCompleted} />}
       </section>
       <Footer />
-    </>
+    </TasksProvider>
   );
 };
 
