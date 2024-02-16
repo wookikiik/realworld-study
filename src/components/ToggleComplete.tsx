@@ -12,11 +12,13 @@ const ToggleComplete: React.FC<ToggleCompleteProps> = ({ tasks, onToggle }) => {
     <>
       <input
         id="toggle-all"
+        data-testid="toggle-all"
         className="toggle-all"
         type="checkbox"
-        defaultChecked={allTasksCompleted}
+        checked={allTasksCompleted}
+        onChange={onToggle}
       />
-      <label htmlFor="toggle-all" onClick={onToggle}>
+      <label htmlFor="toggle-all" data-testid="checkbox-label">
         Mark all as complete
       </label>
     </>
