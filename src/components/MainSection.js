@@ -1,11 +1,11 @@
 import TodoList from "./TodoList";
 import ToggleButton from "./ToggleButton";
 
-export default function MainSection() {
+export default function MainSection({todos}) {
     return (
         <section className="main">
             <ToggleButton />
-            <TodoList />
+            <TodoList todos={todos}/>
         </section>
     )
 }

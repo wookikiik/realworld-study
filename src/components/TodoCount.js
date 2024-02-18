@@ -1,7 +1,7 @@
-export default function TodoCount() {
+export default function TodoCount({count}) {
     return (
         <span className="todo-count">
-                <strong>0</strong> item left
+                <strong>{count}</strong> item left
             </span>
     )
 }
