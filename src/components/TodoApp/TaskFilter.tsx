@@ -1,25 +1,37 @@
-import { TaskFilterProps } from '../../types/task';
+import { useTasksFilter } from './hooks/useTasksContext';
 
-/**
- * 필요 기능
- * - 필터 or routing?
- */
-const TaskFilter: React.FC<TaskFilterProps> = () => {
-  // Remove this if you don't implement routing
+const TaskFilter = () => {
   return (
     <ul className='filters'>
-      <li>
-        <a className='selected' href='#/'>
-          All
-        </a>
-      </li>
-      <li>
-        <a href='#/active'>Active</a>
-      </li>
-      <li>
-        <a href='#/completed'>Completed</a>
-      </li>
+      {['', 'Active', 'Completed'].map((status) => (
+        <li key={status}>
+          <FilterButton status={status} />
+        </li>
+      ))}
     </ul>
+  );
+};
+
+const FilterButton = ({ status = '' }: { status: string }) => {
+  const { statusFilter, setStatusFilter } = useTasksFilter();
+
+  const isActiveFilter = (status: string) => {
+    return statusFilter === status ? 'selected' : '';
+  };
+
+  function handleFilterChange(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    setStatusFilter(status);
+  }
+
+  return (
+    <a
+      className={isActiveFilter(status)}
+      href='#/'
+      onClick={handleFilterChange}
+    >
+      {status || 'All'}
+    </a>
   );
 };
 

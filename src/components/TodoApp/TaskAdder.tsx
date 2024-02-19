@@ -1,30 +1,37 @@
-import { useState } from 'react';
-import { TaskAdderProps } from '../../types/task';
+import { useEffect, useRef, useState } from 'react';
+import { useTask } from './hooks/useTasksContext';
 
 /**
  * 필요 기능
  * - 마운트 시 input focus
  */
-const TaskAdder: React.FC<TaskAdderProps> = ({ onAddTask }) => {
-  const [text, setText] = useState('');
+const TaskAdder = () => {
+  const { addTask } = useTask();
+  const [title, setTitle] = useState('');
+  const titleRef = useRef<HTMLInputElement>(null);
 
-  function handleTextChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setText(e.target.value);
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
+
+  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(e.target.value);
   }
-  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleTitleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
-      onAddTask(text);
-      setText('');
+      addTask(title);
+      setTitle('');
     }
   }
 
   return (
     <input
+      ref={titleRef}
       className='new-todo'
       placeholder='What needs to be done?'
-      value={text}
-      onChange={handleTextChange}
-      onKeyDown={handleKeyPress}
+      value={title}
+      onChange={handleTitleChange}
+      onKeyDown={handleTitleKeyPress}
     />
   );
 };

@@ -1,22 +1,31 @@
-import { TaskListProps } from '../../types/task';
+import { Task } from '../../types/task';
 import TaskItem from './TaskItem';
+import { useTask, useTasksFilter } from './hooks/useTasksContext';
 
-const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  onUpdateTask,
-  onDeleteTask,
-  onToggleTask,
-  onToggleAllTask,
-}) => {
-  if (tasks.length <= 0) {
-    return null;
+function filtering(statusFilter: string, task: Task) {
+  if (statusFilter === 'Active') {
+    return !task.completed;
+  } else if (statusFilter === 'Completed') {
+    return task.completed;
+  } else {
+    return true;
+  }
+}
+
+const TaskList = () => {
+  const { tasks, toggleAllTask } = useTask();
+  const { statusFilter } = useTasksFilter();
+
+  let visibleTasks: Task[] = tasks.filter((task) =>
+    filtering(statusFilter, task)
+  );
+
+  function handleToggleAllTask(e: React.ChangeEvent<HTMLInputElement>) {
+    toggleAllTask(e.target.checked);
   }
 
-  /**
-   * TODO: 개별 체크 확인하여 전체 체크박스 상태 관리
-   */
-  function handleToggleAllTask(e: React.ChangeEvent<HTMLInputElement>) {
-    onToggleAllTask(e.target.checked);
+  if (tasks.length <= 0) {
+    return null;
   }
 
   return (
@@ -34,14 +43,8 @@ const TaskList: React.FC<TaskListProps> = ({
         </label>
       </div>
       <ul className='todo-list'>
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onUpdateTask={onUpdateTask}
-            onDeleteTask={onDeleteTask}
-            onToggleTask={onToggleTask}
-          />
+        {visibleTasks.map((task) => (
+          <TaskItem key={task.id} task={task} />
         ))}
       </ul>
     </section>

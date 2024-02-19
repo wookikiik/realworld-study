@@ -4,37 +4,21 @@ import '../../../node_modules/todomvc-app-css/index.css';
 import TodoAppHeader from './TodoAppHeader';
 import TodoAppFooter from './TodoAppFooter';
 import TaskList from './TaskList';
-import { useTasks } from './hooks/useTasks';
+import { TasksProvider } from './hooks/useTasksContext';
 
-const TodoApp: React.FC = () => {
-  const {
-    tasks,
-    handleAddTask,
-    handleUpdateTask,
-    handleDeleteTask,
-    handleToggleAllTask,
-    handleToggleTask,
-    handleClearTasks,
-  } = useTasks();
-
+const TodoApp = () => {
   return (
-    <>
+    <TasksProvider>
       <section className='todoapp'>
-        <TodoAppHeader onAddTask={handleAddTask} />
-        <TaskList
-          tasks={tasks}
-          onUpdateTask={handleUpdateTask}
-          onDeleteTask={handleDeleteTask}
-          onToggleTask={handleToggleTask}
-          onToggleAllTask={handleToggleAllTask}
-        />
-        <TodoAppFooter tasks={tasks} onClearTasks={handleClearTasks} />
+        <TodoAppHeader />
+        <TaskList />
+        <TodoAppFooter />
       </section>
 
       <footer className='info'>
         <p>Double-click to edit a todo</p>
       </footer>
-    </>
+    </TasksProvider>
   );
 };
 

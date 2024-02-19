@@ -1,21 +1,18 @@
 import { useState } from 'react';
-
 import TaskEditor from './TaskEditor';
 import { TaskItemProps } from '../../types/task';
+import { useTask } from './hooks/useTasksContext';
 
-const TaskItem: React.FC<TaskItemProps> = ({
-  task,
-  onUpdateTask,
-  onDeleteTask,
-  onToggleTask,
-}) => {
+const TaskItem = ({ task }: TaskItemProps) => {
+  const { deleteTask, toggleTask } = useTask();
+
   const [isEditMode, setIsEditMode] = useState(false);
 
   function handleDeleteTask() {
-    onDeleteTask(task.id);
+    deleteTask(task.id);
   }
   function handleToggleTask() {
-    onToggleTask(task.id);
+    toggleTask(task.id);
   }
   function handleToggleEditMode() {
     setIsEditMode((e) => !e);
@@ -28,11 +25,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     >
       <div className='view'>
         {isEditMode ? (
-          <TaskEditor
-            task={task}
-            onUpdateTask={onUpdateTask}
-            onEndEditMode={() => setIsEditMode(false)}
-          />
+          <TaskEditor task={task} onEndEditMode={() => setIsEditMode(false)} />
         ) : (
           <>
             <input

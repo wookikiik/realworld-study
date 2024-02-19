@@ -1,23 +1,29 @@
+import { useEffect, useRef } from 'react';
 import { TaskEditorProps } from '../../types/task';
+import { useTask } from './hooks/useTasksContext';
 
 /**
  * 필요 기능
  * - 마운트 시 input focus
  */
-const TaskEditor: React.FC<TaskEditorProps> = ({
-  task,
-  onUpdateTask,
-  onEndEditMode,
-}) => {
+const TaskEditor = ({ task, onEndEditMode }: TaskEditorProps) => {
+  const { updateTask } = useTask();
+  const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
+
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    const inputElement = e.target as HTMLInputElement;
     if (e.key === 'Escape') {
       onEndEditMode();
       return;
     }
 
     if (e.key === 'Enter') {
-      onUpdateTask({
+      const inputElement = e.target as HTMLInputElement;
+
+      updateTask({
         id: task.id,
         title: inputElement.value,
       });
@@ -28,6 +34,7 @@ const TaskEditor: React.FC<TaskEditorProps> = ({
   return (
     <div className='input-container'>
       <input
+        ref={titleRef}
         type='text'
         className='new-todo'
         defaultValue={task.title}

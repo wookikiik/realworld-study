@@ -1,7 +1,10 @@
-import { FooterProps, Task } from '../../types/task';
+import { Task } from '../../types/task';
 import TaskFilter from './TaskFilter';
+import { useTask } from './hooks/useTasksContext';
 
-const TodoAppFooter: React.FC<FooterProps> = ({ tasks, onClearTasks }) => {
+const TodoAppFooter = () => {
+  const { tasks, clearTasks } = useTask();
+
   if (tasks.length === 0) {
     return null;
   }
@@ -11,8 +14,7 @@ const TodoAppFooter: React.FC<FooterProps> = ({ tasks, onClearTasks }) => {
 
   function handleClearTask() {
     if (completedTasks.length > 0) {
-      console.log('aaa');
-      onClearTasks();
+      clearTasks();
     }
   }
 
