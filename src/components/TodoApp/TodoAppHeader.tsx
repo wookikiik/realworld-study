@@ -1,6 +1,7 @@
-import { TaskAdder } from './TaskManager';
+import { TodoAppHeaderProps } from '../../types/task';
+import TaskAdder from './TaskAdder';
 
-const TodoAppHeader: React.FC = (props) => {
+const TodoAppHeader: React.FC<TodoAppHeaderProps> = (props) => {
   return (
     <header className='header'>
       <h1>todos</h1>

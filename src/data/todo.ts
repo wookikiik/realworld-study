@@ -1,4 +1,4 @@
-import { Task } from '../components/TodoApp';
+import { Task } from '../types/task';
 
 export const DUMMY_TASK_LIST: Task[] = [
   { id: 0, title: '시작하기', completed: true },

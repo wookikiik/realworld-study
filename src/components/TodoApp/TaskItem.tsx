@@ -1,30 +1,50 @@
-import { Task } from '.';
-import { TaskEditor } from './TaskManager';
+import { useState } from 'react';
 
-type TaskItemProps = {
-  task: Task;
-};
+import TaskEditor from './TaskEditor';
+import { TaskItemProps } from '../../types/task';
 
-/**
- * 필요기능
- * - 체크박스로 완료 토글
- * - 더블클릭으로 편집모드 토글
- * - x 버튼 클릭 시 삭제
- */
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+const TaskItem: React.FC<TaskItemProps> = ({
+  task,
+  onUpdateTask,
+  onDeleteTask,
+  onToggleTask,
+}) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  function handleDeleteTask() {
+    onDeleteTask(task.id);
+  }
+  function handleToggleTask() {
+    onToggleTask(task.id);
+  }
+  function handleToggleEditMode() {
+    setIsEditMode((e) => !e);
+  }
+
   return (
-    <li className={task.completed ? 'completed' : ''}>
+    <li
+      className={task.completed ? 'completed' : ''}
+      onDoubleClick={handleToggleEditMode}
+    >
       <div className='view'>
-        {/* View Mode */}
-        <input
-          type='checkbox'
-          className='toggle'
-          defaultChecked={task.completed}
-        />
-        <label>{task.title}</label>
-        <button className='destroy' />
-        {/* Edit Mode */}
-        <TaskEditor task={task} />
+        {isEditMode ? (
+          <TaskEditor
+            task={task}
+            onUpdateTask={onUpdateTask}
+            onEndEditMode={() => setIsEditMode(false)}
+          />
+        ) : (
+          <>
+            <input
+              type='checkbox'
+              className='toggle'
+              checked={task.completed}
+              onChange={handleToggleTask}
+            />
+            <label>{task.title}</label>
+            <button className='destroy' onClick={handleDeleteTask} />
+          </>
+        )}
       </div>
     </li>
   );

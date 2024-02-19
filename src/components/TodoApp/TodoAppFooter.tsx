@@ -1,20 +1,20 @@
-import { Task } from '.';
+import { FooterProps, Task } from '../../types/task';
+import TaskFilter from './TaskFilter';
 
-type FooterProps = {
-  tasks: Task[];
-};
-
-/**
- * 필요 기능
- * - 완료 항목 삭제 버튼 기능
- */
-const TodoAppFooter: React.FC<FooterProps> = ({ tasks }) => {
+const TodoAppFooter: React.FC<FooterProps> = ({ tasks, onClearTasks }) => {
   if (tasks.length === 0) {
     return null;
   }
 
   const activeTasks: Task[] = tasks.filter((task) => !task.completed);
   const completedTasks: Task[] = tasks.filter((task) => task.completed);
+
+  function handleClearTask() {
+    if (completedTasks.length > 0) {
+      console.log('aaa');
+      onClearTasks();
+    }
+  }
 
   return (
     <footer className='footer'>
@@ -25,32 +25,11 @@ const TodoAppFooter: React.FC<FooterProps> = ({ tasks }) => {
       <TaskFilter />
 
       {completedTasks && (
-        <button className='clear-completed'>Clear completed</button>
+        <button className='clear-completed' onClick={handleClearTask}>
+          Clear completed
+        </button>
       )}
     </footer>
-  );
-};
-
-/**
- * 필요 기능
- * - 필터 or routing?
- */
-const TaskFilter: React.FC = () => {
-  // Remove this if you don't implement routing
-  return (
-    <ul className='filters'>
-      <li>
-        <a className='selected' href='#/'>
-          All
-        </a>
-      </li>
-      <li>
-        <a href='#/active'>Active</a>
-      </li>
-      <li>
-        <a href='#/completed'>Completed</a>
-      </li>
-    </ul>
   );
 };
 
