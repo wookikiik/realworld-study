@@ -1,27 +1,34 @@
 import '../../../node_modules/todomvc-common/base.css';
 import '../../../node_modules/todomvc-app-css/index.css';
 
-import DUMMY_TASK_LIST from '../../data/todo';
-
 import TodoAppHeader from './TodoAppHeader';
 import TodoAppFooter from './TodoAppFooter';
 import TaskList from './TaskList';
-
-export type Task = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
-
-const initialTaskList: Task[] = DUMMY_TASK_LIST;
+import { useTasks } from './hooks/useTasks';
 
 const TodoApp: React.FC = () => {
+  const {
+    tasks,
+    handleAddTask,
+    handleUpdateTask,
+    handleDeleteTask,
+    handleToggleAllTask,
+    handleToggleTask,
+    handleClearTasks,
+  } = useTasks();
+
   return (
     <>
       <section className='todoapp'>
-        <TodoAppHeader />
-        <TaskList tasks={initialTaskList} />
-        <TodoAppFooter tasks={initialTaskList} />
+        <TodoAppHeader onAddTask={handleAddTask} />
+        <TaskList
+          tasks={tasks}
+          onUpdateTask={handleUpdateTask}
+          onDeleteTask={handleDeleteTask}
+          onToggleTask={handleToggleTask}
+          onToggleAllTask={handleToggleAllTask}
+        />
+        <TodoAppFooter tasks={tasks} onClearTasks={handleClearTasks} />
       </section>
 
       <footer className='info'>
