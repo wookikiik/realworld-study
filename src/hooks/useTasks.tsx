@@ -1,4 +1,4 @@
-import { Task } from "@/types";
+import { Task } from "@types";
 import { createContext, useReducer, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
-import { Task } from "@/types";
+import { Task } from "@types";
 
 const TasksStateContext = createContext<Store>({ tasks: [] });
 const TasksActionContext = createContext<Action>({

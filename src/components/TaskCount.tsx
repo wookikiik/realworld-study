@@ -1,5 +1,5 @@
 import React from "react";
-import { Task } from "@/types";
+import { Task } from "@types";
 
 const TaskCount: React.FC<TaskCountProps> = ({ tasks }) => {
   const activeTasks = tasks.filter(({ complete }) => !complete).length;

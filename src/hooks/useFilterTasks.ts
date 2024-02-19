@@ -1,4 +1,4 @@
-import { Task } from "@/types";
+import { Task } from "@types";
 import { useLocation } from "./useLocation";
 
 export function useFilterTasks(tasks: Task[] = []): Task[] {

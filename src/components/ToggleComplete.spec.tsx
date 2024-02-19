@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ToggleComplete from "./ToggleComplete";
-import { Task } from "@/types";
+import { Task } from "@types";
 
 const mockUseTasksState = jest.fn();
 const mockToggleComplete = jest.fn();

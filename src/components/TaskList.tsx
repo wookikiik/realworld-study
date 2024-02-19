@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Task } from "@/types";
+import { Task } from "@types";
 import { flushSync } from "react-dom";
 import { useTasksActions, useTasksState, useFilterTasks } from "../hooks";
 const TaskList: React.FC = () => {
