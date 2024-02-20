@@ -21,15 +21,13 @@ export default function TodoApp() {
 
     let lastId = todos.reduce((maxId, current) => {
         return Math.max(maxId, current.id);
-    }, todos[0].id)
+    }, todos.length ? todos[0].id : 0)
 
     function getSequentialId() {
         return ++lastId;
     }
 
     function handleAdd(title) {
-        console.log("getSequentialId", getSequentialId());
-        console.log(todos);
         setTodos([...todos, {
             id: getSequentialId(),
             title: title,
@@ -37,10 +35,33 @@ export default function TodoApp() {
         }])
     }
 
+    function handleCompleted(editTodo) {
+        setTodos(todos.map(todo => {
+            if (editTodo.id === todo.id) {
+                return { ...todo, completed: !editTodo.completed }
+            }
+            return todo;
+        }))
+    }
+
+    function onDelete(deleteTodo) {
+        setTodos(todos.filter(todo => deleteTodo.id !== todo.id))
+    }
+
+    function hadleToggleAll() {
+        setTodos(todos.map(todo => {
+            return {...todo, completed: true}
+        }))
+    }
+
     return (
         <section className="todoapp">
             <Header handleAdd={handleAdd} />
-            <MainSection todos={todos} />
+            <MainSection
+                todos={todos}
+                handleCompleted={handleCompleted}
+                onDelete={onDelete}
+                onToggleAll={hadleToggleAll} />
             <Footer filterCount={filterCount} />
         </section>
     )
