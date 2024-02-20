@@ -1,10 +1,5 @@
 import { useReducer } from 'react';
-import {
-  TaskContextData,
-  Task,
-  TaskAction,
-  UpdateTaskParams,
-} from '../../../types/task';
+import { TaskContextData, Task, TaskAction } from '../../../types/task';
 
 const ADD_TASK = 'add_task';
 const UPDATE_TASK = 'update_task';
@@ -13,6 +8,9 @@ const TOGGLE_ALL_TASKS = 'toggle_all_tasks';
 const TOGGLE_TASK = 'toggle_task';
 const CLEAR_TASKS = 'clear_tasks';
 
+/**
+ * @deprecated
+ */
 const taskReducer = (state: Task[], action: TaskAction): Task[] => {
   const payload = action.payload;
 
@@ -53,6 +51,7 @@ const taskReducer = (state: Task[], action: TaskAction): Task[] => {
 };
 
 /**
+ * @deprecated
  * Tasks 상태 관리 hook
  */
 export const useTaskReducer = (initialTaskList: Task[]): TaskContextData => {
@@ -77,7 +76,7 @@ export const useTaskReducer = (initialTaskList: Task[]): TaskContextData => {
    *
    * @param {{id, title}}
    */
-  function updateTask({ id, title }: UpdateTaskParams) {
+  function updateTask({ id, title }: { id: number; title: string }) {
     dispatch({
       type: UPDATE_TASK,
       payload: {

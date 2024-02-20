@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { TaskEditorProps } from '../../types/task';
-import { useTask } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
 /**
  * 필요 기능
  * - 마운트 시 input focus
  */
 const TaskEditor = ({ task, onEndEditMode }: TaskEditorProps) => {
-  const { updateTask } = useTask();
+  const { updateTask } = useTasksStore();
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const TaskEditor = ({ task, onEndEditMode }: TaskEditorProps) => {
       const inputElement = e.target as HTMLInputElement;
 
       updateTask({
-        id: task.id,
+        taskId: task.id,
         title: inputElement.value,
       });
       onEndEditMode();

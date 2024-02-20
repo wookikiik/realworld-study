@@ -1,9 +1,9 @@
 import { Task } from '../../types/task';
 import TaskFilter from './TaskFilter';
-import { useTask } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
-const TodoAppFooter = () => {
-  const { tasks, clearTasks } = useTask();
+const TodoFooter = () => {
+  const { tasks, clearTasks } = useTasksStore();
 
   if (tasks.length === 0) {
     return null;
@@ -21,12 +21,18 @@ const TodoAppFooter = () => {
   return (
     <footer className='footer'>
       <span className='todo-count'>
-        <strong>{activeTasks.length}</strong> item left!
+        {activeTasks.length > 0 ? (
+          <>
+            <strong>{activeTasks.length}</strong> item left!
+          </>
+        ) : (
+          <>All Completed!</>
+        )}
       </span>
 
       <TaskFilter />
 
-      {completedTasks && (
+      {completedTasks.length > 0 && (
         <button className='clear-completed' onClick={handleClearTask}>
           Clear completed
         </button>
@@ -35,4 +41,4 @@ const TodoAppFooter = () => {
   );
 };
 
-export default TodoAppFooter;
+export default TodoFooter;

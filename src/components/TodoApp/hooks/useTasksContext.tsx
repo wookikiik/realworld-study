@@ -1,5 +1,5 @@
 import DUMMY_TASK_LIST from '../../../data/dummy/todo';
-import { useTaskReducer } from './useTaskReducer';
+import { useTaskReducer } from './useTasksReducer';
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
 import { TaskContextData, Task, TasksFilter } from '../../../types/task';
 
@@ -16,10 +16,16 @@ const INITIAL_TASK_CONTEXT = {
   },
 };
 
+/**
+ * @deprecated
+ */
 export const TasksContext =
   createContext<TaskContextData>(INITIAL_TASK_CONTEXT);
 
-function useTask() {
+/**
+ * @deprecated
+ */
+function useTasks() {
   const { tasks, actions } = useContext<TaskContextData>(TasksContext);
 
   return {
@@ -28,10 +34,16 @@ function useTask() {
   };
 }
 
+/**
+ * @deprecated
+ */
 export const TasksFilterContext = createContext<TasksFilter>({
   statusFilter: '',
   setStatusFilter: () => {},
 });
+/**
+ * @deprecated
+ */
 function useTasksFilter() {
   const { statusFilter, setStatusFilter } =
     useContext<TasksFilter>(TasksFilterContext);
@@ -42,6 +54,9 @@ function useTasksFilter() {
   };
 }
 
+/**
+ * @deprecated
+ */
 const TasksProvider = ({ children }: PropsWithChildren) => {
   const { tasks, actions } = useTaskReducer(initialTaskList);
   const [statusFilter, setStatusFilter] = useState('');
@@ -55,4 +70,4 @@ const TasksProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export { useTask, useTasksFilter, TasksProvider };
+export { useTasks, useTasksFilter, TasksProvider };

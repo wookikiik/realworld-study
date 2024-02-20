@@ -1,4 +1,4 @@
-import { useTasksFilter } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
 const TaskFilter = () => {
   return (
@@ -13,7 +13,7 @@ const TaskFilter = () => {
 };
 
 const FilterButton = ({ status = '' }: { status: string }) => {
-  const { statusFilter, setStatusFilter } = useTasksFilter();
+  const { statusFilter, applyStatusFilter } = useTasksStore();
 
   const isActiveFilter = (status: string) => {
     return statusFilter === status ? 'selected' : '';
@@ -21,7 +21,7 @@ const FilterButton = ({ status = '' }: { status: string }) => {
 
   function handleFilterChange(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
-    setStatusFilter(status);
+    applyStatusFilter(status);
   }
 
   return (

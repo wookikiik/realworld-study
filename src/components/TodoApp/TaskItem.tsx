@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import TaskEditor from './TaskEditor';
 import { TaskItemProps } from '../../types/task';
-import { useTask } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
 const TaskItem = ({ task }: TaskItemProps) => {
-  const { deleteTask, toggleTask } = useTask();
-
+  const { deleteTask, toggleTask } = useTasksStore();
   const [isEditMode, setIsEditMode] = useState(false);
 
   function handleDeleteTask() {

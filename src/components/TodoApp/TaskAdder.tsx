@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { useTask } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
 /**
  * 필요 기능
  * - 마운트 시 input focus
  */
 const TaskAdder = () => {
-  const { addTask } = useTask();
+  const { addTask } = useTasksStore();
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
 

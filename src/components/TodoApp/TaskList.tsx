@@ -1,6 +1,6 @@
 import { Task } from '../../types/task';
 import TaskItem from './TaskItem';
-import { useTask, useTasksFilter } from './hooks/useTasksContext';
+import useTasksStore from './hooks/useTasksStore';
 
 function filtering(statusFilter: string, task: Task) {
   if (statusFilter === 'Active') {
@@ -13,8 +13,7 @@ function filtering(statusFilter: string, task: Task) {
 }
 
 const TaskList = () => {
-  const { tasks, toggleAllTask } = useTask();
-  const { statusFilter } = useTasksFilter();
+  const { tasks, statusFilter, toggleAllTask } = useTasksStore();
 
   let visibleTasks: Task[] = tasks.filter((task) =>
     filtering(statusFilter, task)

@@ -1,24 +1,26 @@
 import '../../../node_modules/todomvc-common/base.css';
 import '../../../node_modules/todomvc-app-css/index.css';
 
-import TodoAppHeader from './TodoAppHeader';
-import TodoAppFooter from './TodoAppFooter';
+import TodoHeader from './TodoHeader';
+import TodoFooter from './TodoFooter';
 import TaskList from './TaskList';
-import { TasksProvider } from './hooks/useTasksContext';
+import useTasksLoader from './hooks/useTasksLoader';
 
 const TodoApp = () => {
+  useTasksLoader();
+
   return (
-    <TasksProvider>
+    <>
       <section className='todoapp'>
-        <TodoAppHeader />
+        <TodoHeader />
         <TaskList />
-        <TodoAppFooter />
+        <TodoFooter />
       </section>
 
       <footer className='info'>
         <p>Double-click to edit a todo</p>
       </footer>
-    </TasksProvider>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import TaskAdder from './TaskAdder';
 
-const TodoAppHeader = () => {
+const TodoHeader = () => {
   return (
     <header className='header'>
       <h1>todos</h1>
@@ -9,4 +9,4 @@ const TodoAppHeader = () => {
   );
 };
 
-export default TodoAppHeader;
+export default TodoHeader;
