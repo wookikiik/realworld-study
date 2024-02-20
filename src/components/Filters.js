@@ -1,15 +1,15 @@
+import { FilterContext, FilterDispatchContext } from "../contexts/FilterContext";
+import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from "../filterConstants";
 import FilterItem from "./FilterItem";
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-export default function Filters({ onFilter }) {
-    const FILTER_ALL = "All"
-    const FILTER_ACTIVE = "Active"
-    const FILTER_COMPLETED = "Completed"
+export default function Filters() {    
     
     const [allSelected, setAllSelected] = useState(true);
     const [activeSelected, setActiveSelected] = useState(false);
     const [completedSelected, setCompletedSelected] = useState(false);
-    const [filter, setFilter] = useState(FILTER_ALL);
+    const filter = useContext(FilterContext);
+    const dispatch = useContext(FilterDispatchContext);
 
     useEffect(() => {
         if (filter === FILTER_ALL) {
@@ -27,9 +27,8 @@ export default function Filters({ onFilter }) {
         }
     }, [filter])    
 
-    function handlefilter(filter) {
-        onFilter(filter);
-        setFilter(filter);
+    function handlefilter(filter) {        
+        dispatch(filter);
     }
 
 

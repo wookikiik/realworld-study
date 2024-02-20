@@ -1,11 +1,11 @@
 import TodoList from "./TodoList";
 import ToggleButton from "./ToggleButton";
 
-export default function MainSection({todos, handleCompleted, onDelete, onToggleAll}) {    
+export default function MainSection() {    
     return (
         <section className="main">
-            <ToggleButton onToggleAll={onToggleAll}/>
-            <TodoList todos={todos} handleCompleted={handleCompleted} onDelete={onDelete}/>
+            <ToggleButton />
+            <TodoList />
         </section>
     )
 }

@@ -1,13 +1,29 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
+import { TodosDispatchContext } from "../contexts/TodosContext";
 
-export default function TodoItem({ todo, onEditCompleted, onDelete }) {    
+export default function TodoItem({ todo }) {    
     const [isEditing, setIsEditing] = useState(false);
-    const editInputRef = useRef(null);
+    const editInputRef = useRef(null);    
+    const dispatch = useContext(TodosDispatchContext);
 
 
-    function onChangeMode() {
+    function handleChangeMode() {
         // TODO
         setIsEditing(!isEditing);                
+    }
+
+    function handleToggleCompleted(todo) {
+        dispatch({
+            type: 'toggleCompleted',
+            todo: todo,
+        })
+    }
+
+    function handleDelete(todo) {
+        dispatch({
+            type: 'delete',
+            id: todo.id,
+        })
     }
 
 
@@ -16,11 +32,11 @@ export default function TodoItem({ todo, onEditCompleted, onDelete }) {
             <div className="view">
                 <input className="toggle" type="checkbox"
                     checked={todo.completed}
-                    onChange={() => onEditCompleted(todo)}
+                    onChange={() => handleToggleCompleted(todo)}
                 />
-                <label onDoubleClick={onChangeMode}>{todo.title}</label>
+                <label onDoubleClick={handleChangeMode}>{todo.title}</label>
                 <button className="destroy"
-                    onClick={() => onDelete(todo)}></button>
+                    onClick={() => handleDelete(todo)}></button>
             </div>
             <input className="edit" defaultValue={todo.title} ref={editInputRef} />
         </>

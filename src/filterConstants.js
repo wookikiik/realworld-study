@@ -1,0 +1,5 @@
+const FILTER_ALL = "All"
+const FILTER_ACTIVE = "Active"
+const FILTER_COMPLETED = "Completed"
+
+export {FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED};
