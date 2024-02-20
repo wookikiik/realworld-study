@@ -1,5 +1,5 @@
 import FilterItem from "./FilterItem";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Filters({ onFilter }) {
     const FILTER_ALL = "All"

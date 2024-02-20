@@ -28,11 +28,11 @@ export default function TodoApp() {
     const filterCount = todos.filter(item => !item.completed).length;
 
     useEffect(() => {
-        if(filter === 'All') {
+        if(filter === FILTER_ALL) {
             setFilteredTodos(todos);
-        } else if (filter === "Active") {
+        } else if (filter === FILTER_ACTIVE) {
             setFilteredTodos(todos.filter(todo => todo.completed === false))
-        } else {
+        } else if (filter === FILTER_COMPLETED) {
             setFilteredTodos(todos.filter(todo => todo.completed === true))
         }
     }, [filter, todos]);

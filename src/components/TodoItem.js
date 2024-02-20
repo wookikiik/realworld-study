@@ -1,17 +1,13 @@
 import { useState, useRef } from "react"
 
-export default function TodoItem({ todo, onEditCompleted, onDelete }) {
-    const [editTodo, setEditTodo] = useState(todo);
+export default function TodoItem({ todo, onEditCompleted, onDelete }) {    
     const [isEditing, setIsEditing] = useState(false);
     const editInputRef = useRef(null);
 
 
     function onChangeMode() {
-        setIsEditing(!isEditing);
-        console.log(editInputRef.current);
-        console.log(editInputRef.current.style);
-        console.log(editInputRef.current.style.display === 'none');
-        // editInputRef.current.style.display = editInputRef.current.style.display === 'none' ? 'block' : 'none';
+        // TODO
+        setIsEditing(!isEditing);                
     }
 
 
