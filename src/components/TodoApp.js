@@ -1,14 +1,14 @@
 import Header from './Header';
 import Footer from './Footer';
 import MainSection from './MainSection';
-import { useState, useEffect } from 'react';
+import todoReducer from '../reducers/todoReducer';
+import { useState, useEffect, useReducer } from 'react';
 
 export default function TodoApp() {
     const FILTER_ALL = "All"
     const FILTER_ACTIVE = "Active"
     const FILTER_COMPLETED = "Completed" 
 
-   
     const initialTodo = [
         {
             id: 1,
@@ -22,7 +22,7 @@ export default function TodoApp() {
         }        
     ];
 
-    const [todos, setTodos] = useState(initialTodo);
+    const [todos, dispatch] = useReducer(todoReducer, initialTodo);
     const [filteredTodos, setFilteredTodos] = useState(todos);
     const [filter, setFilter] = useState(FILTER_ALL);
     const filterCount = todos.filter(item => !item.completed).length;
@@ -37,7 +37,6 @@ export default function TodoApp() {
         }
     }, [filter, todos]);
 
-
     let lastId = todos.reduce((maxId, current) => {
         return Math.max(maxId, current.id);
     }, todos.length ? todos[0].id : 0)
@@ -45,40 +44,43 @@ export default function TodoApp() {
     function getSequentialId() {
         return ++lastId;
     }
-
-    function handleAdd(title) {  
-        setTodos([...todos, {
-            id: getSequentialId(),
-            title: title,
-            completed: false,
-        }])
-    }
-
-    function handleCompleted(editTodo) {
-        setTodos(todos.map(todo => {
-            if (editTodo.id === todo.id) {
-                return { ...todo, completed: !editTodo.completed }
-            }
-            return todo;
-        }))
-    }
-
-    function onDelete(deleteTodo) {
-        setTodos(todos.filter(todo => deleteTodo.id !== todo.id))
-    }
-
-    function hadleToggleAll() {
-        setTodos(todos.map(todo => {
-            return {...todo, completed: true}
-        }))        
-    }
-
+    
     function handleFilter(filter) {
         setFilter(filter);        
     }
 
-    function handleClear() {
-        setTodos(todos.filter(todo => !todo.completed))
+    function handleAdd(title) {      
+        dispatch({
+            type: 'add',
+            id: getSequentialId(),
+            title: title,            
+        })
+    }
+    
+    function handleCompleted(editTodo) {    
+        dispatch({
+            type: 'toggleCompleted',
+            todo: editTodo,
+        })
+    }
+    
+    function onDelete(deleteTodo) {    
+        dispatch({
+            type: 'delete',
+            id: deleteTodo.id,
+        })
+    }
+    
+    function hadleToggleAll() {    
+        dispatch({
+            type: 'allCompleted',        
+        })        
+    }
+    
+    function handleClear() {    
+        dispatch({
+            type: 'clearCompleted',        
+        })
     }
 
     return (

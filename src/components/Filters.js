@@ -9,7 +9,7 @@ export default function Filters({ onFilter }) {
     const [allSelected, setAllSelected] = useState(true);
     const [activeSelected, setActiveSelected] = useState(false);
     const [completedSelected, setCompletedSelected] = useState(false);
-    const [filter, setFilter] = useState('All');
+    const [filter, setFilter] = useState(FILTER_ALL);
 
     useEffect(() => {
         if (filter === FILTER_ALL) {
