@@ -1,9 +1,14 @@
 import Header from './Header';
 import Footer from './Footer';
 import MainSection from './MainSection';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function TodoApp() {
+    const FILTER_ALL = "All"
+    const FILTER_ACTIVE = "Active"
+    const FILTER_COMPLETED = "Completed" 
+
+   
     const initialTodo = [
         {
             id: 1,
@@ -14,10 +19,24 @@ export default function TodoApp() {
             id: 2,
             title: 'example2',
             completed: true,
-        }
+        }        
     ];
+
     const [todos, setTodos] = useState(initialTodo);
+    const [filteredTodos, setFilteredTodos] = useState(todos);
+    const [filter, setFilter] = useState(FILTER_ALL);
     const filterCount = todos.filter(item => !item.completed).length;
+
+    useEffect(() => {
+        if(filter === 'All') {
+            setFilteredTodos(todos);
+        } else if (filter === "Active") {
+            setFilteredTodos(todos.filter(todo => todo.completed === false))
+        } else {
+            setFilteredTodos(todos.filter(todo => todo.completed === true))
+        }
+    }, [filter, todos]);
+
 
     let lastId = todos.reduce((maxId, current) => {
         return Math.max(maxId, current.id);
@@ -27,7 +46,7 @@ export default function TodoApp() {
         return ++lastId;
     }
 
-    function handleAdd(title) {
+    function handleAdd(title) {  
         setTodos([...todos, {
             id: getSequentialId(),
             title: title,
@@ -51,18 +70,26 @@ export default function TodoApp() {
     function hadleToggleAll() {
         setTodos(todos.map(todo => {
             return {...todo, completed: true}
-        }))
+        }))        
+    }
+
+    function handleFilter(filter) {
+        setFilter(filter);        
+    }
+
+    function handleClear() {
+        setTodos(todos.filter(todo => !todo.completed))
     }
 
     return (
         <section className="todoapp">
             <Header handleAdd={handleAdd} />
             <MainSection
-                todos={todos}
+                todos={filteredTodos}
                 handleCompleted={handleCompleted}
                 onDelete={onDelete}
                 onToggleAll={hadleToggleAll} />
-            <Footer filterCount={filterCount} />
+            <Footer filterCount={filterCount} onFilter={handleFilter} onClear={handleClear}/>
         </section>
     )
 }
