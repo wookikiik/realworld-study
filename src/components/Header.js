@@ -25,8 +25,8 @@ export default function Header() {
                 id: getSequentialId(),
                 title: inputValue,
             })
-        }
             setInputValue('');        
+        }            
     }
 
     return (

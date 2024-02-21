@@ -28,12 +28,12 @@ export default function TodoApp() {
         <section className="todoapp">
             <TodosContext.Provider value={todos}>
                 <TodosDispatchContext.Provider value={dispatch}>
-                    <FilterContext.Provider value={filter}>                        
-                            <Header />
-                            <MainSection />
-                            <FilterDispatchContext value={setFilter}>
+                    <Header />
+                    <FilterContext.Provider value={filter}>
+                        <MainSection />
+                        <FilterDispatchContext.Provider value={setFilter}>
                             <Footer />
-                        </FilterDispatchContext>
+                        </FilterDispatchContext.Provider>
                     </FilterContext.Provider>
                 </TodosDispatchContext.Provider>
             </TodosContext.Provider>

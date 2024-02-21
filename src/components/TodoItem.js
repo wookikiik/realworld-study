@@ -1,15 +1,18 @@
 import { useState, useRef, useContext } from "react"
 import { TodosDispatchContext } from "../contexts/TodosContext";
+import { flushSync } from "react-dom";
 
-export default function TodoItem({ todo }) {    
+export default function TodoItem({ todo }) {
     const [isEditing, setIsEditing] = useState(false);
-    const editInputRef = useRef(null);    
+    const [editTitle, setEditTItle] = useState(todo.title);
+    const editInputRef = useRef(null);
     const dispatch = useContext(TodosDispatchContext);
 
 
     function handleChangeMode() {
-        // TODO
-        setIsEditing(!isEditing);                
+    
+        flushSync(() => setIsEditing(!isEditing));
+        editInputRef.current.focus()
     }
 
     function handleToggleCompleted(todo) {
@@ -26,9 +29,27 @@ export default function TodoItem({ todo }) {
         })
     }
 
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            dispatch({
+                type: 'editTitle',
+                todo: {
+                    ...todo,
+                    title: editTitle
+                }
+            })
+            handleChangeMode();
+        }
+    }
+
+    function handleEditTitle(e) {
+        setEditTItle(e.target.value);
+    }
+
 
     return (
-        <>
+        <li className={todo.completed ? "completed" :
+            isEditing ? 'editing' : ''} key={todo.id}>
             <div className="view">
                 <input className="toggle" type="checkbox"
                     checked={todo.completed}
@@ -38,7 +59,11 @@ export default function TodoItem({ todo }) {
                 <button className="destroy"
                     onClick={() => handleDelete(todo)}></button>
             </div>
-            <input className="edit" defaultValue={todo.title} ref={editInputRef} />
-        </>
+            <input className="edit"
+                defaultValue={todo.title}
+                ref={editInputRef}
+                onKeyDown={handleKeyDown}
+                onChange={handleEditTitle} />
+        </li>
     )
 }

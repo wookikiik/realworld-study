@@ -18,6 +18,14 @@ export default function todoReducer(todos, action) {
         case 'delete' : {
             return todos.filter(todo => action.id !== todo.id)
         }
+        case 'editTitle' : {
+            return todos.map(todo => {
+                if(action.todo.id === todo.id) {
+                    return { ...todo, title: action.todo.title}
+                }
+                return todo;
+            })
+        }
         case 'allCompleted': {
             return todos.map(todo => {
                 return {...todo, completed: true}
