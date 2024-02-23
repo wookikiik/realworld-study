@@ -19,29 +19,27 @@ const TaskEditor = ({ task, onEndEditMode }: TaskEditorProps) => {
       onEndEditMode();
       return;
     }
+  }
 
-    if (e.key === 'Enter') {
-      const inputElement = e.target as HTMLInputElement;
-
-      updateTask({
-        taskId: task.id,
-        title: inputElement.value,
-      });
-      onEndEditMode();
-    }
+  function handleSubmit() {
+    updateTask({
+      taskId: task.id,
+      title: titleRef.current?.value || '',
+    });
+    onEndEditMode();
   }
 
   return (
-    <div className='input-container'>
+    <form onSubmit={handleSubmit}>
       <input
         ref={titleRef}
         type='text'
-        className='new-todo'
+        className='edit'
         defaultValue={task.title}
         onKeyDown={handleKeyPress}
         onBlur={onEndEditMode}
       />
-    </div>
+    </form>
   );
 };
 

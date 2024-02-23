@@ -7,7 +7,7 @@ export type TaskState = {
   /**
    * Task status filter
    */
-  statusFilter: string;
+  statusFilter: TaskStatus;
 
   /**
    * Tasks 초기화
@@ -57,10 +57,12 @@ export type TaskState = {
   /**
    * Apply status filter
    *
-   * @param {string} status target status
+   * @param {TaskStatus} status target status
    */
-  applyStatusFilter: (status: string) => void;
+  applyStatusFilter: (status: TaskStatus) => void;
 };
+
+export type TaskStatus = '' | 'Active' | 'Completed';
 
 export type Task = {
   id: number;
