@@ -1,4 +1,7 @@
-export default function Page(){
+import { auth } from '@/auth';
+
+export default async function Page(){
+
     return (
         <div className="profile-page">
   <div className="user-info">
