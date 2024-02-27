@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 export default function Page() {
   return (
     <main>
-      Realworld
+      <Link href="/profile">Profile</Link>
     </main>
   );
 }
