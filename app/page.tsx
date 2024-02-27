@@ -1,5 +1,5 @@
 import { titillium_web } from '@/app/ui/fonts';
-import {Avatar, PopularTags} from '@/app/ui';
+import {Avatar, PopularTags, TagList} from '@/app/ui';
 
 export default function Home() {
   return (
@@ -62,10 +62,7 @@ export default function Home() {
             <h1>The song you won&apos;t ever stop singing. No matter how hard you try.</h1>
             <p>This is the description for the post.</p>
             <span>Read more...</span>
-            <ul className="tag-list">
-              <li className="tag-default tag-pill tag-outline">realworld</li>
-              <li className="tag-default tag-pill tag-outline">implementations</li>
-            </ul>
+            <TagList tags={['realworld', 'implementations']} />
           </a>
         </div>
 

@@ -1,4 +1,4 @@
-export default function TagList({tags = []}){
+export default function TagList({tags = []}: TagListProps){
     return (
         <ul className="tag-list">
             {tags.map((tag, index) => (
