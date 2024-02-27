@@ -1,6 +1,8 @@
-import './ui/global.css';
+import '@/app/ui/global.css';
+
 import {source_sans} from './ui/fonts';
-import {Navigation, Footer} from '@/app/ui';
+import {Navigation, Footer} from '@/app/ui/component';
+import Script from 'next/script';
 
 export default function RootLayout({
   children,
@@ -15,6 +17,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </main>
+        <Script async defer src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></Script>
       </body>
     </html>
   );

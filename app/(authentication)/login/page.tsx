@@ -1,4 +1,4 @@
-import { ErrorMessages } from "@/app/ui"
+import { ErrorMessages } from "@/app/ui/component"
 import Link from "next/link"
 
 export default function Page(){

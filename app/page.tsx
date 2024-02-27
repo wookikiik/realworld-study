@@ -1,5 +1,5 @@
 import { titillium_web } from '@/app/ui/fonts';
-import {Avatar, PopularTags, TagList} from '@/app/ui';
+import { Avatar, PopularTags, TagList, IconButton } from '@/app/ui/component';
 
 export default function Home() {
   return (
@@ -32,9 +32,7 @@ export default function Home() {
               <a href="/profile/eric-simons" className="author">Eric Simons</a>
               <span className="date">January 20th</span>
             </div>
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-              <i className="ion-heart"></i> 29
-            </button>
+            <IconButton icon='heart' cssStyle='btn btn-outline-primary btn-sm pull-xs-right'> 29</IconButton>
           </div>
           <a href="/article/how-to-build-webapps-that-scale" className="preview-link">
             <h1>How to build webapps that scale</h1>
@@ -54,9 +52,7 @@ export default function Home() {
               <a href="/profile/albert-pai" className="author">Albert Pai</a>
               <span className="date">January 20th</span>
             </div>
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-              <i className="ion-heart"></i> 32
-            </button>
+            <IconButton icon='heart' cssStyle='btn btn-outline-primary btn-sm pull-xs-right'> 32</IconButton>
           </div>
           <a href="/article/the-song-you" className="preview-link">
             <h1>The song you won&apos;t ever stop singing. No matter how hard you try.</h1>
