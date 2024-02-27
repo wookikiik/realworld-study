@@ -1,0 +1,6 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Adding Authentication",
+  "steps": [],
+  "ref": "realworld/example/auth"
+}
