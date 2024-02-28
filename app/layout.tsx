@@ -7,8 +7,8 @@ import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Conduit',
     default: 'Conduit',
+    template: '%s | Conduit',
   }
 }
 
