@@ -6,6 +6,8 @@ import ErrorMessages from "./ErrorMessages";
 import TagList from "./TasList";
 import IconButton from "./IconButton";
 import FeedTab from "./FeedTab";
+import Pagination from "./Pagination";
+
 export {
   Avatar,
   Navigation,
@@ -15,4 +17,5 @@ export {
   TagList,
   IconButton,
   FeedTab,
+  Pagination,
 };

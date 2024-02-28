@@ -5,6 +5,7 @@ import {
   TagList,
   IconButton,
   FeedTab,
+  Pagination,
 } from "@/app/ui/component";
 import type { Metadata } from "next";
 
@@ -99,18 +100,7 @@ export default function Home() {
               </a>
             </div>
 
-            <ul className="pagination">
-              <li className="page-item active">
-                <a className="page-link" href="">
-                  1
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="">
-                  2
-                </a>
-              </li>
-            </ul>
+            <Pagination total={5} current={1} />
           </div>
 
           <div className="col-md-3">
