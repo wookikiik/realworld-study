@@ -4,7 +4,7 @@ export default function Home() {
             <div className="banner">
                 <div className="container">
                     <h1 className="logo-font">conduit</h1>
-                    <p>A place to share your <i>Angular</i> knowledge.</p>
+                    <p>A place to share your <i>React</i> knowledge.</p>
                 </div>
             </div>
             <div className="container page">
