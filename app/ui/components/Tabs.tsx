@@ -9,7 +9,7 @@ export default async function FeedTab({ tabs }: FeedTabProps) {
 
         return (
           <li key={tab.src} className="nav-item">
-            <a className="nav-link active" href={tab.src}>
+            <a className="nav-link" href={tab.src}>
               {tab.name}
             </a>
           </li>

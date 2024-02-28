@@ -5,6 +5,7 @@ import {
   TagsResponse,
   ArticleResponse,
   CommentsResponse,
+  ProfileResponse,
 } from "./definitions";
 
 export async function fetchAllArticle(): Promise<ArticlesResponse> {
@@ -93,5 +94,16 @@ export async function fetchComments(slug: string): Promise<CommentsResponse> {
         },
       },
     ],
+  };
+}
+
+export async function fetchProfile(username: string): Promise<ProfileResponse> {
+  return {
+    profile: {
+      username: "jake",
+      bio: "I work at statefarm",
+      image: "https://i.stack.imgur.com/xHWG8.jpg",
+      following: false,
+    },
   };
 }

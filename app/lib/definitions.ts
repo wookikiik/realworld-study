@@ -30,6 +30,10 @@ export interface CommentsResponse {
   comments: Comment[];
 }
 
+export interface ProfileResponse {
+  profile: Profile;
+}
+
 export interface User {
   token: string;
   email: string;
@@ -67,4 +71,11 @@ export interface Comment {
   updatedAt: string;
   body: string;
   author: Author;
+}
+
+export interface Profile {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
 }
