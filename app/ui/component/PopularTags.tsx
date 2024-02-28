@@ -1,30 +1,17 @@
-export default function PopularTags() {
+import { Tag } from "@/app/lib/definitions";
+
+export default function PopularTags({ tags }: PopularTagsProps) {
   return (
     <div className="tag-list">
-      <a href="" className="tag-pill tag-default">
-        programming
-      </a>
-      <a href="" className="tag-pill tag-default">
-        javascript
-      </a>
-      <a href="" className="tag-pill tag-default">
-        emberjs
-      </a>
-      <a href="" className="tag-pill tag-default">
-        angularjs
-      </a>
-      <a href="" className="tag-pill tag-default">
-        react
-      </a>
-      <a href="" className="tag-pill tag-default">
-        mean
-      </a>
-      <a href="" className="tag-pill tag-default">
-        node
-      </a>
-      <a href="" className="tag-pill tag-default">
-        rails
-      </a>
+      {tags.map((tag, index) => (
+        <a key={index} href="" className="tag-pill tag-default">
+          {tag}
+        </a>
+      ))}
     </div>
   );
 }
+
+type PopularTagsProps = {
+  tags: Tag[];
+};

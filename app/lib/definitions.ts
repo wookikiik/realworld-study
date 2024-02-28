@@ -18,6 +18,10 @@ export interface ArticlesResponse {
   articlesCount: number;
 }
 
+export interface TagsResponse {
+  tags: Tag[];
+}
+
 export interface User {
   token: string;
   email: string;
@@ -46,3 +50,5 @@ export interface Author {
   image: string;
   following: boolean;
 }
+
+export type Tag = string;

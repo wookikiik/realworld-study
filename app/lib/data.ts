@@ -1,6 +1,6 @@
 // Define an asynchronous function to fetch data
 
-import { ArticlesResponse } from "./definitions";
+import { ArticlesResponse, TagsResponse } from "./definitions";
 
 export async function fetchAllArticle(): Promise<ArticlesResponse> {
   return {
@@ -41,5 +41,11 @@ export async function fetchAllArticle(): Promise<ArticlesResponse> {
       },
     ],
     articlesCount: 2,
+  };
+}
+
+export async function fetchAllTag(): Promise<TagsResponse> {
+  return {
+    tags: ["reactjs", "angularjs"],
   };
 }

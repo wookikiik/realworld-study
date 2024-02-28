@@ -6,14 +6,17 @@ import {
   ArticlePreviews,
 } from "@/app/ui/component";
 import type { Metadata } from "next";
-import { fetchAllArticle } from "./lib/data";
+import { fetchAllArticle, fetchAllTag } from "./lib/data";
 
 export const metadata: Metadata = {
   title: "Home - Conduit",
 };
 
 export default async function Home() {
-  const articlesData = await fetchAllArticle();
+  const [articlesData, tagsData] = await Promise.all([
+    fetchAllArticle(),
+    fetchAllTag(),
+  ]);
 
   return (
     <div className="home-page">
@@ -35,7 +38,7 @@ export default async function Home() {
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
-              <PopularTags />
+              <PopularTags tags={tagsData.tags} />
             </div>
           </div>
         </div>
