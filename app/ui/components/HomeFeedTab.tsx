@@ -1,24 +1,27 @@
 import { useAuth } from "@/app/lib/hooks";
+import Tabs from "./Tabs";
+import { UserWithOptionalToken } from "@/app/lib/definitions";
 
-export default async function FeedTab() {
-  const { user, isLogined } = await useAuth();
-
-  return (
-    <div className="feed-toggle">
-      <ul className="nav nav-pills outline-active">
-        {isLogined && (
-          <li className="nav-item">
-            <a className="nav-link" href={`/#/${user?.name}`}>
-              Your Feed
-            </a>
-          </li>
-        )}
-        <li className="nav-item">
-          <a className="nav-link active" href="/#/global">
-            Global Feed
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
+export default async function HomeFeedTab() {
+  const tabs = createTabProps(await useAuth());
+  return <Tabs tabs={tabs} />;
 }
+
+function createTabProps({ user, isLogined }: CreateParams) {
+  return [
+    {
+      name: "Your Feed",
+      src: `/#/${user?.name}`,
+      permissions: () => isLogined,
+    },
+    {
+      name: "Global Feed",
+      src: "/#/global",
+    },
+  ];
+}
+
+type CreateParams = {
+  user: UserWithOptionalToken | undefined;
+  isLogined: boolean;
+};
