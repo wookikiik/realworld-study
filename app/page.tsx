@@ -1,19 +1,20 @@
 import { titillium_web } from "@/app/ui/fonts";
 import {
-  Avatar,
   PopularTags,
-  TagList,
-  IconButton,
   FeedTab,
   Pagination,
+  ArticlePreviews,
 } from "@/app/ui/component";
 import type { Metadata } from "next";
+import { fetchAllArticle } from "./lib/data";
 
 export const metadata: Metadata = {
   title: "Home - Conduit",
 };
 
-export default function Home() {
+export default async function Home() {
+  const articlesData = await fetchAllArticle();
+
   return (
     <div className="home-page">
       <div className="banner">
@@ -27,79 +28,7 @@ export default function Home() {
         <div className="row">
           <div className="col-md-9">
             <FeedTab />
-            <div className="article-preview">
-              <div className="article-meta">
-                <Avatar
-                  profile={{
-                    username: "Eric Simons",
-                    image: "http://i.imgur.com/Qr71crq.jpg",
-                  }}
-                />
-                <div className="info">
-                  <a href="/profile/eric-simons" className="author">
-                    Eric Simons
-                  </a>
-                  <span className="date">January 20th</span>
-                </div>
-                <IconButton
-                  icon="heart"
-                  cssStyle="btn btn-outline-primary btn-sm pull-xs-right"
-                >
-                  {" "}
-                  29
-                </IconButton>
-              </div>
-              <a
-                href="/article/how-to-build-webapps-that-scale"
-                className="preview-link"
-              >
-                <h1>How to build webapps that scale</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-                <ul className="tag-list">
-                  <li className="tag-default tag-pill tag-outline">
-                    realworld
-                  </li>
-                  <li className="tag-default tag-pill tag-outline">
-                    implementations
-                  </li>
-                </ul>
-              </a>
-            </div>
-
-            <div className="article-preview">
-              <div className="article-meta">
-                <Avatar
-                  profile={{
-                    username: "Albert Pai",
-                    image: "http://i.imgur.com/N4VcUeJ.jpg",
-                  }}
-                />
-                <div className="info">
-                  <a href="/profile/albert-pai" className="author">
-                    Albert Pai
-                  </a>
-                  <span className="date">January 20th</span>
-                </div>
-                <IconButton
-                  icon="heart"
-                  cssStyle="btn btn-outline-primary btn-sm pull-xs-right"
-                >
-                  {" "}
-                  32
-                </IconButton>
-              </div>
-              <a href="/article/the-song-you" className="preview-link">
-                <h1>
-                  The song you won&apos;t ever stop singing. No matter how hard
-                  you try.
-                </h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-                <TagList tags={["realworld", "implementations"]} />
-              </a>
-            </div>
-
+            <ArticlePreviews articles={articlesData.articles} />
             <Pagination total={5} current={1} />
           </div>
 

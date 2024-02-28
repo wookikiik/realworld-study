@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "i.imgur.com",
         pathname: "/*",
       },
+      {
+        protocol: "https",
+        hostname: "i.stack.imgur.com",
+        pathname: "/*",
+      },
     ],
   },
 };

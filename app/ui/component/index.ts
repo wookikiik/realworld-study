@@ -7,7 +7,7 @@ import TagList from "./TasList";
 import IconButton from "./IconButton";
 import FeedTab from "./FeedTab";
 import Pagination from "./Pagination";
-
+import ArticlePreviews from "./ArticlePreviews";
 export {
   Avatar,
   Navigation,
@@ -18,4 +18,5 @@ export {
   IconButton,
   FeedTab,
   Pagination,
+  ArticlePreviews,
 };
