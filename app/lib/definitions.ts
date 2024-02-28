@@ -13,6 +13,9 @@ export interface ArticleSearchParams {
 // #               Api response            #
 // #########################################
 
+export interface UserResponse {
+  user: User;
+}
 export interface ArticlesResponse {
   articles: Article[];
   articlesCount: number;
@@ -34,14 +37,12 @@ export interface ProfileResponse {
   profile: Profile;
 }
 
-export interface User {
+export interface SessionUser {
   token: string;
   email: string;
   name: string;
   image: string;
 }
-
-export type UserWithOptionalToken = Omit<User, "token"> & { token?: string };
 
 export interface Article {
   slug: string;
@@ -78,4 +79,11 @@ export interface Profile {
   bio: string;
   image: string;
   following: boolean;
+}
+
+export interface User {
+  email: string;
+  username: string;
+  bio?: string;
+  image?: string;
 }

@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import { UserWithOptionalToken } from "../definitions";
 
+/**
+ * @deprecated
+ */
 export async function useAuth() {
   const user = await getSessionUser();
   return {

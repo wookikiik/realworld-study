@@ -6,7 +6,17 @@ import {
   ArticleResponse,
   CommentsResponse,
   ProfileResponse,
+  User,
 } from "./definitions";
+
+export async function getCurrentUser(): Promise<User> {
+  return {
+    email: "jake@jake.jake",
+    username: "jake",
+    bio: "I like to skateboard",
+    image: "https://i.stack.imgur.com/xHWG8.jpg",
+  };
+}
 
 export async function fetchAllArticle(): Promise<ArticlesResponse> {
   return {

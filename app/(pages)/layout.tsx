@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { source_sans } from "../ui/fonts";
 import { Navigation, Footer } from "@/app/ui/components";
 import Script from "next/script";
+import UserProvider from "../lib/providers/UserProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${source_sans.className}`}>
         <main>
-          <Navigation />
-          {children}
+          <UserProvider>
+            <Navigation />
+            {children}
+          </UserProvider>
           <Footer />
         </main>
       </body>
