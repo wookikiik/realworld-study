@@ -6,7 +6,7 @@ import {
   ArticlePreviews,
 } from "@/app/ui/component";
 import type { Metadata } from "next";
-import { fetchAllArticle, fetchAllTag } from "./lib/data";
+import { fetchAllArticle, fetchAllTag } from "../lib/data";
 
 export const metadata: Metadata = {
   title: "Home - Conduit",

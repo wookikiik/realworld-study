@@ -1,7 +1,7 @@
 import "@/app/ui/global.css";
 import type { Metadata } from "next";
 
-import { source_sans } from "./ui/fonts";
+import { source_sans } from "../ui/fonts";
 import { Navigation, Footer } from "@/app/ui/component";
 import Script from "next/script";
 
