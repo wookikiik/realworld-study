@@ -8,6 +8,8 @@ import IconButton from "./IconButton";
 import FeedTab from "./FeedTab";
 import Pagination from "./Pagination";
 import ArticlePreviews from "./ArticlePreviews";
+import FavoriteToggle from "./FavoriteToggle";
+
 export {
   Avatar,
   Navigation,
@@ -19,4 +21,5 @@ export {
   FeedTab,
   Pagination,
   ArticlePreviews,
+  FavoriteToggle,
 };

@@ -1,6 +1,6 @@
 import { Article } from "@/app/lib/definitions";
 import Avatar from "./Avatar";
-import IconButton from "./IconButton";
+import { FavoriteToggle } from ".";
 
 export default function ArticlePreviews({ articles }: ArticlePreviewProps) {
   return (
@@ -16,19 +16,9 @@ export default function ArticlePreviews({ articles }: ArticlePreviewProps) {
                 <span className="date">January 20th</span>
               </div>
             </Avatar>
-
-            <IconButton
-              icon="heart"
-              cssStyle="btn btn-outline-primary btn-sm pull-xs-right"
-            >
-              {" "}
-              {article.favoritesCount}
-            </IconButton>
+            <FavoriteToggle article={article} />
           </div>
-          <a
-            href="/article/how-to-build-webapps-that-scale"
-            className="preview-link"
-          >
+          <a href={`/article/${article.slug}`} className="preview-link">
             <h1>{article.title}</h1>
             <p>{article.description}</p>
             <span>Read more...</span>

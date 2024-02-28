@@ -18,8 +18,16 @@ export interface ArticlesResponse {
   articlesCount: number;
 }
 
+export interface ArticleResponse {
+  article: Article;
+}
+
 export interface TagsResponse {
   tags: Tag[];
+}
+
+export interface CommentsResponse {
+  comments: Comment[];
 }
 
 export interface User {
@@ -52,3 +60,11 @@ export interface Author {
 }
 
 export type Tag = string;
+
+export interface Comment {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  body: string;
+  author: Author;
+}
