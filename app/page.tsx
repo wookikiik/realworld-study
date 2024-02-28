@@ -1,5 +1,11 @@
 import { titillium_web } from "@/app/ui/fonts";
-import { Avatar, PopularTags, TagList, IconButton } from "@/app/ui/component";
+import {
+  Avatar,
+  PopularTags,
+  TagList,
+  IconButton,
+  FeedTab,
+} from "@/app/ui/component";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,21 +25,7 @@ export default function Home() {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link" href="">
-                    Your Feed
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="">
-                    Global Feed
-                  </a>
-                </li>
-              </ul>
-            </div>
-
+            <FeedTab />
             <div className="article-preview">
               <div className="article-meta">
                 <Avatar

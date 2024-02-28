@@ -5,7 +5,7 @@ import PopularTags from "./PopularTags";
 import ErrorMessages from "./ErrorMessages";
 import TagList from "./TasList";
 import IconButton from "./IconButton";
-
+import FeedTab from "./FeedTab";
 export {
   Avatar,
   Navigation,
@@ -14,4 +14,5 @@ export {
   ErrorMessages,
   TagList,
   IconButton,
+  FeedTab,
 };

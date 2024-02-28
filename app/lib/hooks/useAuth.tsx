@@ -10,15 +10,15 @@ export async function useAuth() {
 }
 
 async function getSessionUser() {
-  return {
-    name: "Eric Simons",
-    email: "wmoo.heo@test.com",
-    image: "http://i.imgur.com/Qr71crq.jpg",
-  };
-  // const session = await auth();
-  // const user = session?.user as UserWithOptionalToken | undefined;
-  // !!user && delete user.token;
-  // return user;
+  // return {
+  //   name: "Eric Simons",
+  //   email: "wmoo.heo@test.com",
+  //   image: "http://i.imgur.com/Qr71crq.jpg",
+  // };
+  const session = await auth();
+  const user = session?.user as UserWithOptionalToken | undefined;
+  !!user && delete user.token;
+  return user;
 }
 
 function isLogined(user: UserWithOptionalToken | undefined) {
