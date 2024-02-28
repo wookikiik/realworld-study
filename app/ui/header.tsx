@@ -11,12 +11,12 @@ export default function Header() {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" href={"/"}>
+                        <Link className="nav-link" href={"/login"}>
                             Sign in
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" href={"/"}>
+                        <Link className="nav-link" href={"/signUp"}>
                             Sign up
                         </Link>
                     </li>
