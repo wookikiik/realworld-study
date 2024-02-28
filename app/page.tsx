@@ -29,7 +29,7 @@ export default async function Home() {
           <div className="col-md-9">
             <FeedTab />
             <ArticlePreviews articles={articlesData.articles} />
-            <Pagination total={5} current={1} />
+            <Pagination total={articlesData.articlesCount} current={1} />
           </div>
 
           <div className="col-md-3">

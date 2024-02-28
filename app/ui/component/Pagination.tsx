@@ -1,7 +1,13 @@
-export default function Pagination({ total, current = 1 }: PaginationProps) {
+export default function Pagination({
+  total,
+  perPage = 5,
+  current = 1,
+}: PaginationProps) {
+  const totalPage = Math.ceil(total / perPage);
+
   return (
     <ul className="pagination">
-      {Array.from({ length: total }).map((_, index) => {
+      {Array.from({ length: totalPage }).map((_, index) => {
         const value = index + 1;
         return (
           <li
@@ -20,5 +26,6 @@ export default function Pagination({ total, current = 1 }: PaginationProps) {
 
 type PaginationProps = {
   total: number;
-  current: number;
+  perPage?: number;
+  current?: number;
 };
