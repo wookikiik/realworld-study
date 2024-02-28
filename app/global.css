@@ -3824,6 +3824,7 @@
   
   .nav-link {
     display: inline-block;
+    cursor: pointer;
   }
   .nav-link:focus,
   .nav-link:hover {
