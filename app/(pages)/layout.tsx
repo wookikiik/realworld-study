@@ -25,11 +25,6 @@ export default function RootLayout({
           {children}
           <Footer />
         </main>
-        <Script
-          async
-          defer
-          src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"
-        ></Script>
       </body>
     </html>
   );
