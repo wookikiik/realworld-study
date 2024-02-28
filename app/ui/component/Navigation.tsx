@@ -1,14 +1,14 @@
+
 import { titillium_web } from '@/app/ui/fonts';
 import { Avatar } from '@/app/ui/component';
 import Link from "next/link";
-import {User} from '@/app/lib/definitions';
-import { auth } from '@/auth';
+import {UserWithOptionalToken} from '@/app/lib/definitions';
+import { useAuth } from '@/app/lib/hooks';
+import Image from 'next/image';
 
 export default async function Navigation(){
 
-  const session = await auth();
-  const isLogined = !session?.user;
-  const user = session?.user;
+  const {user, isLogined} = await useAuth();
 
   return (
     <nav className="navbar navbar-light">
@@ -26,17 +26,20 @@ export default async function Navigation(){
   )
 }
 
-function UserNavigation({user}: {user?: User}){
+function UserNavigation({user}: {user?: UserWithOptionalToken}){
   return (
     <>
       <li className="nav-item">
-        <a className="nav-link" href="/editor"><ion-icon name="clipboard"></ion-icon>&nbsp;New Article </a>
+        <a className="nav-link" href="/editor"><i className="ion-compose"></i>&nbsp;New Article </a>
       </li>
       <li className="nav-item">
         <a className="nav-link" href="/settings"> <i className="ion-gear-a"></i>&nbsp;Settings </a>
       </li>
       <li className="nav-item">
-        <Avatar cssStyle="nav-link" profile={{username: 'Eric Simons', image: 'http://i.imgur.com/Qr71crq.jpg'}} />
+        <a className="nav-link" href={`/profile/${user?.name}`}>
+            <Image src={user?.image || ''} className="user-pic" alt={`${user?.name}`} width={26} height={26} />
+            Eric Simons
+        </a>
       </li>
     </>
   )

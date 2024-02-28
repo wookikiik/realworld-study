@@ -1,5 +1,10 @@
 import { titillium_web } from '@/app/ui/fonts';
 import { Avatar, PopularTags, TagList, IconButton } from '@/app/ui/component';
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Home',
+};
 
 export default function Home() {
   return (
