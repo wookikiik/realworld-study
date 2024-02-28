@@ -1,5 +1,5 @@
 import { titillium_web } from "@/app/ui/fonts";
-import { Avatar } from "@/app/ui/component";
+import { Avatar } from "@/app/ui/components";
 import Link from "next/link";
 import { UserWithOptionalToken } from "@/app/lib/definitions";
 import { useAuth } from "@/app/lib/hooks";

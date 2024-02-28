@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-export default async function Page() {
+export default async function Page({ params: { username } }: PageProps) {
   return (
     <div className="profile-page">
       <div className="user-info">
@@ -124,3 +124,9 @@ export default async function Page() {
     </div>
   );
 }
+
+type PageProps = {
+  params: {
+    username: string;
+  };
+};

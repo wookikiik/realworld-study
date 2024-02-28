@@ -1,5 +1,5 @@
 import { Article } from "@/app/lib/definitions";
-import { Avatar } from "@/app/ui/component";
+import { Avatar } from "@/app/ui/components";
 import FollowActions from "./FollowActions";
 
 export default function ArticleMeta({ article }: ArticleMetaProps) {

@@ -1,10 +1,10 @@
 import { fetchArticle, fetchComments } from "@/app/lib/data";
 import { useAuth } from "@/app/lib/hooks";
-import { TagList } from "@/app/ui/component";
+import { TagList } from "@/app/ui/components";
 import ArticleMeta from "./_components/ArticleMeta";
 import Comments from "./_components/Comments";
 import PostComment from "./_components/PostComment";
-export default async function Page({ params: { slug } }: Props) {
+export default async function Page({ params: { slug } }: PageProps) {
   const [article, comments] = await Promise.all([
     fetchArticle(slug).then((data) => data.article),
     fetchComments(slug).then((data) => data.comments),
@@ -54,7 +54,7 @@ export default async function Page({ params: { slug } }: Props) {
   );
 }
 
-type Props = {
+type PageProps = {
   params: {
     slug: string;
   };

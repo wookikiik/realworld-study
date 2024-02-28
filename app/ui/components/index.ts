@@ -5,7 +5,7 @@ import PopularTags from "./PopularTags";
 import ErrorMessages from "./ErrorMessages";
 import TagList from "./TasList";
 import IconButton from "./IconButton";
-import FeedTab from "./FeedTab";
+import HomeFeedTab from "./HomeFeedTab";
 import Pagination from "./Pagination";
 import ArticlePreviews from "./ArticlePreviews";
 import FavoriteToggle from "./FavoriteToggle";
@@ -18,7 +18,7 @@ export {
   ErrorMessages,
   TagList,
   IconButton,
-  FeedTab,
+  HomeFeedTab,
   Pagination,
   ArticlePreviews,
   FavoriteToggle,

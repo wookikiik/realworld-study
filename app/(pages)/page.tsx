@@ -1,19 +1,15 @@
 import { titillium_web } from "@/app/ui/fonts";
-import {
-  PopularTags,
-  FeedTab,
-  Pagination,
-  ArticlePreviews,
-} from "@/app/ui/component";
+import { PopularTags, HomeFeedTab } from "@/app/ui/components";
 import type { Metadata } from "next";
 import { fetchAllArticle, fetchAllTag } from "../lib/data";
+import Articles from "../ui/components/Articles";
 
 export const metadata: Metadata = {
   title: "Home - Conduit",
 };
 
 export default async function Home() {
-  const [articlesData, tagsData] = await Promise.all([
+  const [articles, tagsData] = await Promise.all([
     fetchAllArticle(),
     fetchAllTag(),
   ]);
@@ -30,9 +26,7 @@ export default async function Home() {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedTab />
-            <ArticlePreviews articles={articlesData.articles} />
-            <Pagination total={articlesData.articlesCount} current={1} />
+            <Articles tab={<HomeFeedTab />} articles={articles} />
           </div>
 
           <div className="col-md-3">

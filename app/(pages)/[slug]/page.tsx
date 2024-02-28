@@ -1,4 +1,4 @@
-import { Avatar } from "@/app/ui/component";
+import { Avatar } from "@/app/ui/components";
 import { source_serif } from "@/app/ui/fonts";
 
 export default function Article() {
