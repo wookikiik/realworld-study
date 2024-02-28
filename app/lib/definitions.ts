@@ -1,10 +1,10 @@
 // Defined types and interfaces
 
 export type User = {
-    token: string;
-    email: string;
-    name: string;
-    image: string;
-}
+  token: string;
+  email: string;
+  name: string;
+  image: string;
+};
 
-export type UserWithOptionalToken = Omit<User, 'token'> & { token?: string };
+export type UserWithOptionalToken = Omit<User, "token"> & { token?: string };

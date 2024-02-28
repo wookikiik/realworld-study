@@ -1,16 +1,16 @@
-import '@/app/ui/global.css';
-import type { Metadata } from 'next'
- 
-import {source_sans} from './ui/fonts';
-import {Navigation, Footer} from '@/app/ui/component';
-import Script from 'next/script';
+import "@/app/ui/global.css";
+import type { Metadata } from "next";
+
+import { source_sans } from "./ui/fonts";
+import { Navigation, Footer } from "@/app/ui/component";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Conduit',
-    template: '%s | Conduit',
-  }
-}
+    default: "Conduit",
+    template: "%s - Conduit",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -25,7 +25,11 @@ export default function RootLayout({
           {children}
           <Footer />
         </main>
-        <Script async defer src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></Script>
+        <Script
+          async
+          defer
+          src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"
+        ></Script>
       </body>
     </html>
   );
