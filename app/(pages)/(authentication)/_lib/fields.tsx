@@ -32,3 +32,17 @@ export function PasswordInput<FORM extends FieldValues>({
     />
   );
 }
+
+export function UsernameInput<FORM extends FieldValues>({
+  label,
+  register,
+}: FieldProps<FORM>) {
+  return (
+    <input
+      className="form-control form-control-lg"
+      type="text"
+      placeholder="Username"
+      {...register(label, { required: "Username is required." })}
+    />
+  );
+}

@@ -30,11 +30,11 @@ export const { auth, signIn } = NextAuth({
       }
 
       // TODO: 권한이 (불)필요한 페이지 정리
-      if (nextUrl.pathname === "/") {
-        return true;
+      if (isNeedAuthorizePage(nextUrl.pathname)) {
+        return false;
       }
 
-      return false;
+      return true;
     },
     session: async ({ session, token }) => {
       return session;
@@ -55,3 +55,7 @@ export const { auth, signIn } = NextAuth({
     }),
   ],
 });
+
+function isNeedAuthorizePage(pathname: string) {
+  return ["/settings"].includes(pathname);
+}

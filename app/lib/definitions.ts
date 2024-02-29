@@ -92,3 +92,7 @@ export interface SigninForm {
   email: string;
   password: string;
 }
+
+export type SignupForm = SigninForm & {
+  username: string;
+};
