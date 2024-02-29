@@ -3,19 +3,33 @@
 export type LoginState = string | undefined;
 
 export type LoginForm = {
-    email: string;
-    password: string;
-}
+  email: string;
+  password: string;
+};
 
 export type UserModel = {
-    id: string;
-    email: string;
-    username: string;
-    token: string;
-    image: string;
-    bio: string;
+  email: string;
+  username: string;
+  token: string;
+  image: string;
+  bio: string;
+};
+
+export type User = {
+  email: string;
+  name: string;
+  image: string;
+  token: string;
 };
 
 export type LoginErrorModel = {
+  errors: {
     [field: string]: string[];
   };
+};
+
+export type LoginResponse =
+  | {
+      user: UserModel;
+    }
+  | LoginErrorModel;
