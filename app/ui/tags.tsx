@@ -1,7 +1,3 @@
 export default function feed() {
-    return (
-        <>
-            feed.
-        </>
-    )
+  return <>feed.</>;
 }
