@@ -38,10 +38,10 @@ export interface ProfileResponse {
 }
 
 export interface SessionUser {
-  token: string;
   email: string;
   name: string;
-  image: string;
+  image?: string;
+  token: string;
 }
 
 export interface Article {
@@ -84,6 +84,7 @@ export interface Profile {
 export interface User {
   email: string;
   username: string;
+  token: string;
   bio?: string;
   image?: string;
 }

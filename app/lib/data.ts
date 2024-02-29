@@ -9,12 +9,23 @@ import {
   User,
 } from "./definitions";
 
+export async function login(email: string, password: string): Promise<User> {
+  return {
+    email: "jake@jake.jake",
+    username: "jake",
+    bio: "I like to skateboard",
+    image: "https://i.stack.imgur.com/xHWG8.jpg",
+    token: "jwt.token.here",
+  };
+}
+
 export async function getCurrentUser(): Promise<User> {
   return {
     email: "jake@jake.jake",
     username: "jake",
     bio: "I like to skateboard",
     image: "https://i.stack.imgur.com/xHWG8.jpg",
+    token: "jwt.token.here",
   };
 }
 
