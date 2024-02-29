@@ -12,9 +12,10 @@ declare module "next-auth" {
   }
 }
 
-export const { auth, signIn } = NextAuth({
+export const { auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login",
+    signOut: "/logout",
   },
   callbacks: {
     authorized: async ({ auth, request: { nextUrl } }) => {

@@ -1,3 +1,5 @@
+import LogoutButton from "./_components/LogoutButton";
+
 export default function Page() {
   return (
     <div className="settings-page">
@@ -53,9 +55,7 @@ export default function Page() {
               </fieldset>
             </form>
             <hr />
-            <button className="btn btn-outline-danger">
-              Or click here to logout.
-            </button>
+            <LogoutButton />
           </div>
         </div>
       </div>

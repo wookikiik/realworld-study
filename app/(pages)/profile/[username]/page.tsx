@@ -6,13 +6,11 @@ import Articles from "@/app/ui/components/Articles";
 import Action from "./_components/Action";
 
 export default async function Page({ params: { username } }: PageProps) {
-  const profile = await fetchProfile(username).then((data) => data.profile);
+  const author = await fetchProfile(username).then((data) => data.profile);
 
   //
   const session = await auth();
   const user = session?.user;
-  const isLoggedIn = !!user;
-  const isArticleAuthor = isLoggedIn && profile.username === user?.name;
 
   // TODO: client component로 변경
   const articles = await fetchAllArticle();
@@ -25,14 +23,14 @@ export default async function Page({ params: { username } }: PageProps) {
             <div className="col-xs-12 col-md-10 offset-md-1">
               <Image
                 className="user-img"
-                src={profile.image}
-                alt={profile.username}
+                src={author.image}
+                alt={author.username}
                 width={100}
                 height={100}
               />
-              <h4>{profile.username}</h4>
-              <p>{profile.bio}</p>
-              <Action author={profile} user={user} />
+              <h4>{author.username}</h4>
+              <p>{author.bio}</p>
+              <Action author={author} user={user} />
             </div>
           </div>
         </div>
@@ -44,7 +42,7 @@ export default async function Page({ params: { username } }: PageProps) {
             <Articles
               tab={
                 <div className="articles-toggle">
-                  <FeedTab author={profile} />
+                  <FeedTab author={author} />
                 </div>
               }
               articles={articles}
