@@ -44,7 +44,7 @@ export const { auth, signIn } = NextAuth({
         session.user.token = token.accsessToken as string;
         session.user.name = token.username as string;
       }
-      console.log(session);
+      // console.log(session);
       return session;
     },
     jwt: async ({ token, user }) => {
@@ -52,7 +52,7 @@ export const { auth, signIn } = NextAuth({
         "token" in user && (token.accsessToken = user.token);
         "username" in user && (token.username = user.username);
       }
-      console.log(token);
+      // console.log(token);
       return token;
     },
   },

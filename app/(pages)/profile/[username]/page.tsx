@@ -1,14 +1,20 @@
 import { fetchAllArticle, fetchProfile } from "@/app/lib/data";
-import { useAuth } from "@/app/lib/hooks";
+import { auth } from "@/auth";
 import Image from "next/image";
 import FeedTab from "./_components/FeedTab";
 import Articles from "@/app/ui/components/Articles";
+import Action from "./_components/Action";
 
 export default async function Page({ params: { username } }: PageProps) {
   const profile = await fetchProfile(username).then((data) => data.profile);
-  const { user, isLogined } = await useAuth();
-  const isArticleAuthor = isLogined && profile.username === user?.name;
 
+  //
+  const session = await auth();
+  const user = session?.user;
+  const isLoggedIn = !!user;
+  const isArticleAuthor = isLoggedIn && profile.username === user?.name;
+
+  // TODO: client component로 변경
   const articles = await fetchAllArticle();
 
   return (
@@ -26,17 +32,7 @@ export default async function Page({ params: { username } }: PageProps) {
               />
               <h4>{profile.username}</h4>
               <p>{profile.bio}</p>
-              {isArticleAuthor ? (
-                <button className="btn btn-sm btn-outline-secondary action-btn">
-                  <i className="ion-gear-a"></i>
-                  &nbsp; Edit Profile Settings
-                </button>
-              ) : (
-                <button className="btn btn-sm btn-outline-secondary action-btn">
-                  <i className="ion-plus-round"></i>
-                  &nbsp; Follow {profile.username}
-                </button>
-              )}
+              <Action author={profile} user={user} />
             </div>
           </div>
         </div>

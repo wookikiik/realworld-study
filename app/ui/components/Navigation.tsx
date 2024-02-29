@@ -1,11 +1,11 @@
 "use client";
 
-import { titillium_web } from "@/app/ui/fonts";
 import ReactLink from "next/link";
-import { User } from "@/app/lib/definitions";
-import { useAuth } from "@/app/lib/providers/AuthProvider";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { titillium_web } from "@/app/ui/fonts";
+import { User } from "@/app/lib/definitions";
+import { useAuth } from "@/app/lib/providers/AuthProvider";
 
 export default function Navigation() {
   const { user, isLogined } = useAuth();
@@ -62,7 +62,7 @@ function UserNavigation({ pathname, user }: UserNavigationProps) {
             width={26}
             height={26}
           />
-          Eric Simons
+          {user.username}
         </Link>
       </li>
     </>
@@ -96,6 +96,12 @@ function Link({ active, href, children }: LinkProps) {
   );
 }
 
-type LinkProps = { active: boolean; href: string; children: React.ReactNode };
-type NavigationProps = { pathname: string };
+interface LinkProps {
+  active: boolean;
+  href: string;
+  children: React.ReactNode;
+}
+interface NavigationProps {
+  pathname: string;
+}
 type UserNavigationProps = NavigationProps & { user: User };
