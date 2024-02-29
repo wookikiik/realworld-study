@@ -47,7 +47,6 @@ function UserNavigation({ pathname, user }: UserNavigationProps) {
       </li>
       <li className="nav-item">
         <Link active={pathname === "/settings"} href="/settings">
-          {" "}
           <i className="ion-gear-a"></i>&nbsp;Settings
         </Link>
       </li>
