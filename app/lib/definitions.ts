@@ -87,3 +87,8 @@ export interface User {
   bio?: string;
   image?: string;
 }
+
+export interface SigninForm {
+  email: string;
+  password: string;
+}

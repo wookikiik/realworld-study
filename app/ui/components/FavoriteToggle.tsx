@@ -6,7 +6,7 @@ import IconButton from "./IconButton";
 export default function FavoriteToggle({ article }: FavoriteToggleProps) {
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
-    console.log("Article is favorited?", article.favorited);
+    // console.log("Article is favorited?", article.favorited);
   }
 
   return (

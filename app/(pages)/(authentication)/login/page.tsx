@@ -1,7 +1,24 @@
-import { ErrorMessages } from "@/app/ui/components";
+"use client";
+
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { signIn } from "@/app/lib/actions";
+import { SigninForm } from "@/app/lib/definitions";
+import { normalizeFormErrors } from "@/app/lib/utils";
+import { ErrorMessages } from "@/app/ui/components";
+import { EmailInput, PasswordInput } from "../_lib/fields";
 
 export default function Page() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SigninForm>();
+
+  const actionSignIn: () => void = handleSubmit(async (data: SigninForm) => {
+    await signIn(data);
+  });
+
   return (
     <>
       <h1 className="text-xs-center">Sign in</h1>
@@ -9,24 +26,16 @@ export default function Page() {
         <Link href="/register">Need an account?</Link>
       </p>
 
-      <ErrorMessages messages={["That email is already taken"]} />
+      <ErrorMessages messages={normalizeFormErrors(errors)} />
 
-      <form>
+      <form onSubmit={actionSignIn}>
         <fieldset className="form-group">
-          <input
-            className="form-control form-control-lg"
-            type="text"
-            placeholder="Email"
-          />
+          <EmailInput label="email" register={register} />
         </fieldset>
         <fieldset className="form-group">
-          <input
-            className="form-control form-control-lg"
-            type="password"
-            placeholder="Password"
-          />
+          <PasswordInput label="password" register={register} />
         </fieldset>
-        <button className="btn btn-lg btn-primary pull-xs-right">
+        <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
           Sign in
         </button>
       </form>
