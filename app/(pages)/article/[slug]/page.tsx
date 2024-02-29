@@ -9,8 +9,8 @@ export default async function Page({ params: { slug } }: PageProps) {
     fetchArticle(slug).then((data) => data.article),
     fetchComments(slug).then((data) => data.comments),
   ]);
-  const { user, isLogined } = await useAuth();
 
+  const { user, isLogined } = await useAuth();
   const isArticleAuthor = user?.name === article.author.username;
 
   return (

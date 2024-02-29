@@ -7,13 +7,12 @@ export default function Actions({ article }: ActionsProps) {
     <>
       <button className="btn btn-sm btn-outline-secondary">
         <i className="ion-plus-round"></i>
-        &nbsp; Follow {article.author.username}{" "}
-        <span className="counter">(10)</span>
+        &nbsp; Follow {article.author.username}&nbsp;
       </button>
       &nbsp;&nbsp;
       <button className="btn btn-sm btn-outline-primary">
         <i className="ion-heart"></i>
-        &nbsp; Favorite Post{" "}
+        &nbsp; Favorite Post&nbsp;
         <span className="counter">({article.favoritesCount})</span>
       </button>
       {/* <button className="btn btn-sm btn-outline-secondary">
