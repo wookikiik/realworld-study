@@ -18,3 +18,6 @@
 - 회원 데이터 조회(data.js `getCurrentUser`)
   - session에 등록된 token 사용 하여 API 호출
 - 프로필 페이지 전시
+
+**AUTH_SECRET 설정**
+.env 파일 참고
