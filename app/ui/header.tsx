@@ -1,9 +1,10 @@
+import { titilliumWeb } from "./fonts";
 import Link from "next/link";
 export default function Header() {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <Link className="navbar-brand" href={"/"}>
+        <Link className={`${titilliumWeb} navbar-brand`} href={"/"}>
           conduit
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
@@ -18,7 +19,7 @@ export default function Header() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" href={"/signUp"}>
+            <Link className="nav-link" href={"/register"}>
               Sign up
             </Link>
           </li>

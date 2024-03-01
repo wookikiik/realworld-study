@@ -1,6 +1,7 @@
 import "./global.css";
 import Footer from "./ui/footer";
 import Header from "./ui/header";
+import { sourceSans3 } from "./ui/fonts";
 
 export default function RootLayout({
   children,
@@ -9,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${sourceSans3.className} sans-serif`}>
         <Header />
         {children}
         <Footer />

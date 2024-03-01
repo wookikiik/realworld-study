@@ -1,11 +1,12 @@
-export default function Footer() {
+import { titilliumWeb } from "./fonts"
+export default function Footer() {  
   return (
     <footer>
       <div className="container">
-        <a className="logo-font">conduit</a>
+        <a href="/" className={`${titilliumWeb} logo-font` }>conduit</a>
         <span className="attribution">
-          An interactive learning project from{" "}
-          <a href="https://thinkster.io">Thinkster</a>. Code licensed under MIT.
+          An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp;
+          design licensed under MIT.
         </span>
       </div>
     </footer>
