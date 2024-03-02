@@ -1,3 +1,4 @@
+import Image from "next/image"
 export default function Page() {
     return (
         <div className="profile-page">
@@ -5,10 +6,10 @@ export default function Page() {
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-12 col-md-10 offset-md-1">
-                            <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
+                            <Image src="http://i.imgur.com/Qr71crq.jpg" className="user-img" alt="" width={512} height={512}/>
                             <h4>Eric Simons</h4>
                             <p>
-                                Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from
+                                Cofounder @GoThinkster, lived in Aol&apos;s HQ for a few months, kinda looks like Peeta from
                                 the Hunger Games
                             </p>
                             <button className="btn btn-sm btn-outline-secondary action-btn">
@@ -40,7 +41,7 @@ export default function Page() {
 
                         <div className="article-preview">
                             <div className="article-meta">
-                                <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                                <a href="/profile/eric-simons"><Image src="http://i.imgur.com/Qr71crq.jpg" alt="" width={512} height={512}/></a>
                                 <div className="info">
                                     <a href="/profile/eric-simons" className="author">Eric Simons</a>
                                     <span className="date">January 20th</span>
@@ -62,7 +63,7 @@ export default function Page() {
 
                         <div className="article-preview">
                             <div className="article-meta">
-                                <a href="/profile/albert-pai"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
+                                <a href="/profile/albert-pai"><Image src="http://i.imgur.com/N4VcUeJ.jpg" alt="" width={512} height={512}/></a>
                                 <div className="info">
                                     <a href="/profile/albert-pai" className="author">Albert Pai</a>
                                     <span className="date">January 20th</span>
@@ -72,7 +73,7 @@ export default function Page() {
                                 </button>
                             </div>
                             <a href="/article/the-song-you" className="preview-link">
-                                <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
+                                <h1>The song you won&apos;t ever stop singing. No matter how hard you try.</h1>
                                 <p>This is the description for the post.</p>
                                 <span>Read more...</span>
                                 <ul className="tag-list">

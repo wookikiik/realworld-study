@@ -1,4 +1,6 @@
 import { sourceSerif4 } from "../ui/fonts" 
+import Image from 'next/image';
+
 export default function Page() {
     return (
         <div className={`${sourceSerif4.className} article-page`}>
@@ -7,7 +9,8 @@ export default function Page() {
                     <h1>How to build webapps that scale</h1>
 
                     <div className="article-meta">
-                        <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                        <a href="/profile/eric-simons">
+                            <Image src="http://i.imgur.com/Qr71crq.jpg" alt="" width={512} height={512}/></a>
                         <div className="info">
                             <a href="/profile/eric-simons" className="author">Eric Simons</a>
                             <span className="date">January 20th</span>
@@ -39,7 +42,7 @@ export default function Page() {
                         </p>
                         <h2 id="introducing-ionic">Introducing RealWorld.</h2>
                         <p className={`${sourceSerif4.className}`}>
-                            It's a great solution for learning how other frameworks work.</p>
+                            It&apos;s a great solution for learning how other frameworks work.</p>
                         <ul className="tag-list">
                             <li className="tag-default tag-pill tag-outline">realworld</li>
                             <li className="tag-default tag-pill tag-outline">implementations</li>
@@ -51,7 +54,7 @@ export default function Page() {
 
                 <div className="article-actions">
                     <div className="article-meta">
-                        <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                        <a href="profile.html"><Image src="http://i.imgur.com/Qr71crq.jpg" alt="" width={512} height={512}/></a>
                         <div className="info">
                             <a href="" className="author">Eric Simons</a>
                             <span className="date">January 20th</span>
@@ -79,10 +82,10 @@ export default function Page() {
                     <div className="col-xs-12 col-md-8 offset-md-2">
                         <form className="card comment-form">
                             <div className="card-block">
-                                <textarea className="form-control" placeholder="Write a comment..." rows="3"></textarea>
+                                <textarea className="form-control" placeholder="Write a comment..." rows={3}></textarea>
                             </div>
                             <div className="card-footer">
-                                <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" />
+<Image src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" alt="" width={512} height={512}/>
                                 <button className="btn btn-sm btn-primary">Post Comment</button>
                             </div>
                         </form>
@@ -95,7 +98,7 @@ export default function Page() {
                             </div>
                             <div className="card-footer">
                                 <a href="/profile/author" className="comment-author">
-                                    <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" />
+                                    <Image src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" alt="" width={512} height={512}/>
                                 </a>
                                 &nbsp;
                                 <a href="/profile/jacob-schmidt" className="comment-author">Jacob Schmidt</a>
@@ -111,7 +114,7 @@ export default function Page() {
                             </div>
                             <div className="card-footer">
                                 <a href="/profile/author" className="comment-author">
-                                    <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" />
+                                    <Image src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img" alt="" width={512} height={512}/>
                                 </a>
                                 &nbsp;
                                 <a href="/profile/jacob-schmidt" className="comment-author">Jacob Schmidt</a>
