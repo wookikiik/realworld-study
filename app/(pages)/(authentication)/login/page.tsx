@@ -8,7 +8,9 @@ import { normalizeFormErrors } from "@/app/lib/utils";
 import { ErrorMessages } from "@/app/ui/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import { InputField } from "../_lib/fields";
 
+// Using zod to validate the form
 const schema = z
   .object({
     email: z.string().email("Email must be a valid email address"),
@@ -42,24 +44,12 @@ export default function Page() {
       <ErrorMessages messages={normalizeFormErrors(errors)} />
 
       <form onSubmit={actionSignIn}>
-        <fieldset className="form-group">
-          <input
-            className="form-control form-control-lg"
-            type="text"
-            placeholder="Email"
-            required
-            {...register("email")}
-          />
-        </fieldset>
-        <fieldset className="form-group">
-          <input
-            className="form-control form-control-lg"
-            type="password"
-            placeholder="Password"
-            required
-            {...register("password")}
-          />
-        </fieldset>
+        <InputField placeholder="Email" register={register("email")} />
+        <InputField
+          type="password"
+          placeholder="Password"
+          register={register("password")}
+        />
         <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
           Sign in
         </button>

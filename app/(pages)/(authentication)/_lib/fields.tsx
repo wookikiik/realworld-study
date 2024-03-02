@@ -1,48 +1,45 @@
-import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
-type FieldProps<FORM extends FieldValues> = {
-  label: Path<FORM>;
-  register: UseFormRegister<FORM>;
+type FieldProps = {
+  register: UseFormRegisterReturn;
 };
 
-export function EmailInput<FORM extends FieldValues>({
-  label,
-  register,
-}: FieldProps<FORM>) {
+type InputProps = {
+  type?: string;
+  placeholder: string;
+  required?: boolean;
+  register: UseFormRegisterReturn;
+};
+
+export function EmailInputField({ register }: FieldProps) {
+  return <InputField placeholder="Email" register={register} />;
+}
+
+export function PasswordInputField({ register }: FieldProps) {
   return (
-    <input
-      className="form-control form-control-lg"
-      type="email"
-      placeholder="Email"
-      {...register(label, { required: "Email is required." })}
-    />
+    <InputField type="password" placeholder="Password" register={register} />
   );
 }
 
-export function PasswordInput<FORM extends FieldValues>({
-  label,
-  register,
-}: FieldProps<FORM>) {
-  return (
-    <input
-      className="form-control form-control-lg"
-      type="password"
-      placeholder="Password"
-      {...register(label, { required: "Password is required." })}
-    />
-  );
+export function UsernameInputField({ register }: FieldProps) {
+  return <InputField placeholder="Username" register={register} />;
 }
 
-export function UsernameInput<FORM extends FieldValues>({
-  label,
+export function InputField({
+  type = "text",
+  placeholder,
+  required = true,
   register,
-}: FieldProps<FORM>) {
+}: InputProps) {
   return (
-    <input
-      className="form-control form-control-lg"
-      type="text"
-      placeholder="Username"
-      {...register(label, { required: "Username is required." })}
-    />
+    <fieldset className="form-group">
+      <input
+        className="form-control form-control-lg"
+        type={type}
+        placeholder={placeholder}
+        required={required}
+        {...register}
+      />
+    </fieldset>
   );
 }
