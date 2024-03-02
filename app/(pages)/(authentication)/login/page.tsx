@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import z from "zod";
 import { signIn } from "@/app/lib/actions";
 import { SigninForm } from "@/app/lib/definitions";
 import { normalizeFormErrors } from "@/app/lib/utils";
 import { ErrorMessages } from "@/app/ui/components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
 import { InputField } from "../_lib/fields";
 
 // Using zod to validate the form
