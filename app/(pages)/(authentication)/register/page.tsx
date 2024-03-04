@@ -6,7 +6,14 @@ import { signUp } from "@/app/lib/actions";
 import { SignupForm } from "@/app/lib/definitions";
 import { normalizeFormErrors } from "@/app/lib/utils";
 import { ErrorMessages } from "@/app/ui/components";
-import { EmailInputField, UsernameInputField } from "../_lib/fields";
+import { EmailInputField } from "../_lib/fields";
+import z from "zod";
+
+const schema = z
+  .object({
+    username: z.string().trim().min(1, "Username is required."),
+  })
+  .required();
 
 export default function Page() {
   const {
@@ -14,7 +21,9 @@ export default function Page() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<SignupForm>();
+  } = useForm<SignupForm>({
+    // resolver: zodResolver(schema),
+  });
 
   const actionSignup: () => void = handleSubmit(async (data: SignupForm) => {
     await signUp(data);
@@ -30,9 +39,15 @@ export default function Page() {
       <ErrorMessages messages={normalizeFormErrors(errors)} />
 
       <form onSubmit={actionSignup}>
-        <UsernameInputField
-          register={register("username", { required: "Username is required." })}
-        />
+        <fieldset className="form-group">
+          <input
+            className="form-control form-control-lg"
+            type="text"
+            placeholder="Uername"
+            {...register("username")}
+          />
+        </fieldset>
+
         <EmailInputField
           register={register("email", {
             required: "Email is required.",
@@ -42,6 +57,7 @@ export default function Page() {
             },
           })}
         />
+
         <fieldset className="form-group">
           {/* space value trimmed */}
           <Controller
