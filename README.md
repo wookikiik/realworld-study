@@ -59,6 +59,8 @@ app
 
 ## Auth
 
+https://velog.io/@youngjun625/Next.js14-NextAuth-v5%EB%A1%9C-%EC%9D%B8%EC%A6%9D-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-1-%EB%A1%9C%EA%B7%B8%EC%9D%B8%EB%A1%9C%EA%B7%B8%EC%95%84%EC%9B%83
+
 1. 사용자 로그인
    call signIn -> provider.authorize가 실행됨.
 2. 인증 확인

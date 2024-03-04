@@ -2,18 +2,28 @@ import './styles/global.css';
 
 import { AppHeader } from './ui/components/header/appHeader';
 import { AppFooter } from './ui/components/footer/appFooter';
+import { PropsWithChildren } from 'react';
+import { Metadata } from 'next';
+import Auth from './lib/providers/Auth';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const metadata: Metadata = {
+  title: {
+    default: 'Conduit',
+    template: '%s - Conduit',
+  },
+};
+
+export default function RootLayout(props: PropsWithChildren) {
+  const { children } = props;
+
   return (
     <html lang="en">
       <body>
-        <AppHeader />
-        {children}
-        <AppFooter />
+        <Auth>
+          <AppHeader />
+          {children}
+          <AppFooter />
+        </Auth>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/app/lib/providers/AuthProvider';
+import { signOut } from '@/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,20 +10,21 @@ import { usePathname } from 'next/navigation';
  * Separate logined user
  */
 export const AppHeader = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
         <Link className="navbar-brand" href="/">
           conduit
         </Link>
-        <AppNavigationForUser />
-        <AppNavigationForAnonymous />
+        {isLoggedIn ? <UserNavigation /> : <AnonymousNavigation />}
       </div>
     </nav>
   );
 };
 
-const AppNavigationForAnonymous = () => {
+const AnonymousNavigation = () => {
   const pathname = usePathname();
 
   return (
@@ -55,7 +57,7 @@ const AppNavigationForAnonymous = () => {
   );
 };
 
-const AppNavigationForUser = () => {
+const UserNavigation = () => {
   const pathname = usePathname();
 
   return (

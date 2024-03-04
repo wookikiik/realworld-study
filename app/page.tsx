@@ -2,7 +2,7 @@ import { Articles } from './(pages)/(article)/_components/articles';
 import { FeedTab } from './ui/components/tab/feedTab';
 import { PopularTags } from './ui/components/tag/popularTags';
 
-export default function Page() {
+export default async function Page() {
   return (
     <div className="home-page">
       <TitleBanner />
