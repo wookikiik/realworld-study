@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import InputName from "@/app/ui/inputName";
 import {UserAuthInfo} from "@/app/types";
 import InputPassword from "@/app/ui/inputPassword";
+import ErrorMessages from "@/app/ui/errorMessages";
 
 export default function Page() {
   const {
@@ -30,6 +31,8 @@ export default function Page() {
                   <li key={key}>{error.message}</li>
                 ))}
               </ul>
+              {/*{errors && <ErrorMessages errors={errors}/>}*/}
+
               <InputName name="name" register={register}/>
               <InputPassword name={"password"} register={register}/>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
