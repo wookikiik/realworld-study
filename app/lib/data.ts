@@ -1,5 +1,6 @@
 // Define an asynchronous function to fetch data
 
+import { auth } from "@/auth";
 import {
   ArticlesResponse,
   TagsResponse,
@@ -7,12 +8,58 @@ import {
   CommentsResponse,
   ProfileResponse,
   User,
+  UserResponse,
+  SignupForm,
+  ErrorResponse
 } from "./definitions";
 
-export async function login(email: string, password: string): Promise<User> {
+
+const API_BASE_URL = process.env.API_BASE_URL;
+
+export async function login(email: string, password: string): Promise<UserResponse | ErrorResponse> {
+  
+  const response = await POST('/users/login', {email, password})
+  if(response?.ok){
+    return response.json();
+  }
+
+  switch(response?.status){
+    // Fail any validations
+    case 422:
+      break;
+
+    // Unauthorized requests
+    case 401: 
+      break;
+
+    // Forbidden requests
+    case 403:
+      break;
+    
+    // Not found requests
+    case 404:
+      break;    
+    
+    // Success requests
+    default: 
+      //...
+  }
+
   return {
-    email: "jake@jake.jake",
-    username: "jake",
+    user: {
+      email: "jake@jake.jake",
+      username: "jake",
+      bio: "I like to skateboard",
+      image: "https://i.stack.imgur.com/xHWG8.jpg",
+      token: "jwt.token.here",
+    }
+  };
+}
+
+export async function register(data: SignupForm): Promise<User> {
+  return {
+    email: data.email,
+    username: data.username,
     bio: "I like to skateboard",
     image: "https://i.stack.imgur.com/xHWG8.jpg",
     token: "jwt.token.here",
@@ -127,4 +174,31 @@ export async function fetchProfile(username: string): Promise<ProfileResponse> {
       following: false,
     },
   };
+}
+
+
+async function POST(url: string, data?: Record<string, any>){
+  return callAPI(url, 'POST', data);
+}
+
+async function GET(url: string, data?: Record<string, any>){
+  return callAPI(url, 'POST', data);
+}
+
+async function callAPI(url: string, method: 'GET' | 'POST', data?: Record<string, any>){
+  const headers: Record<string, any> = {
+    'Content-Type': 'application/json'
+  }
+
+  //  Add Authorization
+  const session = await auth();
+  if(session?.user.token){
+    headers['Authorization'] = `Token ${session.user.token}`
+  }
+
+  return fetch(`${API_BASE_URL}/${url}`, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : ''
+  })
 }

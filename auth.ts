@@ -67,9 +67,13 @@ export const { auth, signIn, signOut } = NextAuth({
         }
 
         const { email, password } = parsedCredentials.data;
-        const user = await login(email, password);
-        // TODO: handle error
-        return user;
+        const data = await login(email, password);
+        if('errors' in data){
+          // TODO: handle error
+          return null;
+        }
+        
+        return data.user;
       },
     }),
   ],

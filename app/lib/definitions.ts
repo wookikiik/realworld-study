@@ -13,6 +13,10 @@ export interface ArticleSearchParams {
 // #               Api response            #
 // #########################################
 
+export interface ErrorResponse {
+  errors: Record<string, string[]>;
+}
+
 export interface UserResponse {
   user: User;
 }

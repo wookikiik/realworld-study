@@ -9,6 +9,7 @@ import { normalizeFormErrors } from "@/app/lib/utils";
 import { ErrorMessages } from "@/app/ui/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputField } from "../_lib/fields";
+import { useEffect, useState } from "react";
 
 // Using zod to validate the form
 const schema = z
@@ -25,10 +26,17 @@ export default function Page() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors, isSubmitting },
   } = useForm<SigninForm>({
     resolver: zodResolver(schema),
   });
+
+  // TODO: error 상태 관리
+  const [errors, setErrors] = useState<string[]>([]);
+  useEffect(() => {
+    setErrors(normalizeFormErrors(formErrors))
+  }, [formErrors])
+
 
   const actionSignIn: () => void = handleSubmit(async (data: SigninForm) => {
     await signIn(data);
@@ -41,7 +49,7 @@ export default function Page() {
         <Link href="/register">Need an account?</Link>
       </p>
 
-      <ErrorMessages messages={normalizeFormErrors(errors)} />
+      <ErrorMessages messages={errors} />
 
       <form onSubmit={actionSignIn}>
         <InputField placeholder="Email" register={register("email")} />
@@ -50,10 +58,16 @@ export default function Page() {
           placeholder="Password"
           register={register("password")}
         />
-        <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
-          Sign in
-        </button>
+        <LoginButton isSubmitting={isSubmitting} />
       </form>
     </>
   );
+}
+
+function LoginButton({isSubmitting}: {isSubmitting: boolean}){
+  return (
+    <button aria-disabled={isSubmitting} disabled={isSubmitting} type="submit" className="btn btn-lg btn-primary pull-xs-right">
+      Sign in
+    </button>
+  )
 }
