@@ -13,4 +13,19 @@ const Auth = async ({ children }: { children: React.ReactNode }) => {
   return <AuthProvider session={session}>{children}</AuthProvider>;
 };
 
+/**
+ * Get session info for server-side
+ * {@link useAuth}
+ */
+
+export const getAuth = async () => {
+  const session = await auth();
+
+  return {
+    session,
+    user: session?.user,
+    authenticated: session?.authenticated,
+  };
+};
+
 export default Auth;

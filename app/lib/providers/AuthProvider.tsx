@@ -25,7 +25,7 @@ const AuthProvider = ({
 
 /**
  * Session info hook for client-side
- * @link useAuth.ts
+ * {@link getAuth}
  */
 export const useAuth = () => {
   const session = useContext(AuthContext);

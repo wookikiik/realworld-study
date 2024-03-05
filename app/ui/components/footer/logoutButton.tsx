@@ -1,21 +1,18 @@
-import { logout } from '@/app/lib/actions';
-import { useAuth } from '@/app/lib/hooks/useAuth';
+'use client';
 
-const LogoutButton = async ({ redirectTo }: { redirectTo?: string }) => {
-  const { authenticated } = await useAuth();
+import { logout } from '@/app/lib/actions';
+import { useAuth } from '@/app/lib/providers/AuthProvider';
+
+const LogoutButton = ({ redirectTo }: { redirectTo?: string }) => {
+  const { authenticated } = useAuth();
 
   if (!authenticated) {
     return null;
   }
 
   return (
-    <form
-      action={async () => {
-        'use server';
-        await logout({ redirectTo });
-      }}
-    >
-      <button>Sign Out</button>
+    <form action={() => logout({ redirectTo })}>
+      <button className='btn btn-secondary'>Sign Out</button>
     </form>
   );
 };

@@ -1,20 +1,20 @@
 import Link from 'next/link';
-import LogoutButton from './logoutButton';
 
-export const AppFooter = async () => {
+export const AppFooter = () => {
   return (
     <footer>
-      <div className="container">
-        <Link href="/" className="logo-font">
+      <div className='container'>
+        <Link
+          href='/'
+          className='logo-font'
+        >
           conduit
         </Link>
-        <span className="attribution">
+        <span className='attribution'>
           An interactive learning project from{' '}
-          <Link href="https://thinkster.io">Thinkster</Link>. Code &amp; design
+          <Link href='https://thinkster.io'>Thinkster</Link>. Code &amp; design
           licensed under MIT.
         </span>
-
-        <LogoutButton />
       </div>
     </footer>
   );

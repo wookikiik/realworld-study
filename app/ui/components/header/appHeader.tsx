@@ -4,6 +4,7 @@ import { useAuth } from '@/app/lib/providers/AuthProvider';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import LogoutButton from '../footer/logoutButton';
 
 /**
  * Separate logined user
@@ -12,9 +13,12 @@ export const AppHeader = () => {
   const { authenticated } = useAuth();
 
   return (
-    <nav className="navbar navbar-light">
-      <div className="container">
-        <Link className="navbar-brand" href="/">
+    <nav className='navbar navbar-light'>
+      <div className='container'>
+        <Link
+          className='navbar-brand'
+          href='/'
+        >
           conduit
         </Link>
         {authenticated ? <UserNavigation /> : <AnonymousNavigation />}
@@ -27,27 +31,27 @@ const AnonymousNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <ul className="nav navbar-nav pull-xs-right">
-      <li className="nav-item">
+    <ul className='nav navbar-nav pull-xs-right'>
+      <li className='nav-item'>
         <Link
-          href="/"
+          href='/'
           className={`${pathname === '/' ? 'active' : ''} nav-link`}
         >
           Home
         </Link>
       </li>
-      <li className="nav-item">
+      <li className='nav-item'>
         <Link
           className={`${pathname === '/login' ? 'active' : ''} nav-link`}
-          href="/login"
+          href='/login'
         >
           Sign in
         </Link>
       </li>
-      <li className="nav-item">
+      <li className='nav-item'>
         <Link
           className={`${pathname === '/register' ? 'active' : ''} nav-link`}
-          href="/register"
+          href='/register'
         >
           Sign up
         </Link>
@@ -60,38 +64,50 @@ const UserNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <ul className="nav navbar-nav pull-xs-right">
-      <li className="nav-item">
+    <ul className='nav navbar-nav pull-xs-right'>
+      <li className='nav-item'>
         <Link
           className={`${pathname === '/' ? 'active' : ''} nav-link`}
-          href="/"
+          href='/'
         >
           Home
         </Link>
       </li>
-      <li className="nav-item">
-        <Link className="nav-link" href="/editor">
+      <li className='nav-item'>
+        <Link
+          className='nav-link'
+          href='/editor'
+        >
           {' '}
-          <i className="ion-compose"></i>&nbsp;New Article{' '}
+          <i className='ion-compose'></i>&nbsp;New Article{' '}
         </Link>
       </li>
-      <li className="nav-item">
-        <Link className="nav-link" href="/settings">
+      <li className='nav-item'>
+        <Link
+          className='nav-link'
+          href='/settings'
+        >
           {' '}
-          <i className="ion-gear-a"></i>&nbsp;Settings{' '}
+          <i className='ion-gear-a'></i>&nbsp;Settings{' '}
         </Link>
       </li>
-      <li className="nav-item">
-        <Link className="nav-link" href="/profile/eric-simons">
+      <li className='nav-item'>
+        <Link
+          className='nav-link'
+          href='/profile/eric-simons'
+        >
           <Image
-            src="http://i.imgur.com/Qr71crq.jpg"
-            alt=""
+            src='http://i.imgur.com/Qr71crq.jpg'
+            alt=''
             width={26}
             height={26}
-            className="user-pic"
+            className='user-pic'
           />
           Eric Simons
         </Link>
+      </li>
+      <li className='nav-item'>
+        <LogoutButton />
       </li>
     </ul>
   );
