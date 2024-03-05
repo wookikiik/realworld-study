@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${source_sans.className}`}>
+      <body className={`${source_sans.variable}`}>
         <main>
           <UserProvider>
             <Navigation />
