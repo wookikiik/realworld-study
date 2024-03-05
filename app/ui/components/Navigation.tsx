@@ -12,28 +12,18 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="navbar navbar-light">
-      <div className="container">
-        <ReactLink
-          className={`${titillium_web.className} navbar-brand`}
-          href="/"
-        >
-          conduit
-        </ReactLink>
-        <ul className="nav navbar-nav pull-xs-right">
-          <li className="nav-item">
-            <Link active={pathname === "/"} href="/">
-              Home
-            </Link>
-          </li>
-          {isLogined ? (
-            <UserNavigation pathname={pathname} user={user!!} />
-          ) : (
-            <GuestNavigation pathname={pathname} />
-          )}
-        </ul>
-      </div>
-    </nav>
+    <ul className="nav navbar-nav pull-xs-right">
+      <li className="nav-item">
+        <Link active={pathname === "/"} href="/">
+          Home
+        </Link>
+      </li>
+      {isLogined ? (
+        <UserNavigation pathname={pathname} user={user!!} />
+      ) : (
+        <GuestNavigation pathname={pathname} />
+      )}
+    </ul>
   );
 }
 
