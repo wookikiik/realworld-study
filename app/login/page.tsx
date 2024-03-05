@@ -1,21 +1,18 @@
 'use client'
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form"
-import UserInfo from "../ui/userInfo";
-
-type Inputs = {
-  email: string
-  password: string
-}
+import InputName from "@/app/ui/inputName";
+import {UserAuthInfo} from "@/app/types";
+import InputEmail from "@/app/ui/inputEmail";
 
 export default function Page() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<UserAuthInfo>()
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<UserAuthInfo> = (data) => console.log(data)
 
   return (
     <div className="auth-page">
@@ -33,16 +30,8 @@ export default function Page() {
                   <li key={key}>{error.message}</li>
                 ))}
               </ul>
-              <UserInfo />
-              {/* <fieldset className="form-group">
-                <input className="form-control form-control-lg"
-                  type="text" placeholder="Email"
-                  {...register("email", { required: "email required" })} />
-              </fieldset>
-              <fieldset className="form-group">
-                <input className="form-control form-control-lg" type="password" placeholder="Password"
-                  {...register("password", { required: "password required" })} />
-              </fieldset> */}
+              <InputName name="name" register={register}/>
+              <InputEmail name="email" register={register}/>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
             </form>
           </div>
