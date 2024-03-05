@@ -36,3 +36,15 @@
 # reference
 
 [Setting up Jest with Next.js](https://nextjs.org/docs/app/building-your-application/testing/jest)
+
+
+
+# 이슈 
+react hook form nextjs server actions
+
+action 동작 없음.
+react hook form의 Form 사용
+react hook form의 handleSubmit 사용
+
+action이 아니라 onSubmit 사용 시 문제점
+Error 처리 방식 수정.
