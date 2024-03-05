@@ -1,59 +1,19 @@
+import { getCurrentUser } from "@/app/lib/data";
+import Form from "./_components/Form";
 import LogoutButton from "./_components/LogoutButton";
+import { UserWithoutToken } from "@/app/lib/definitions";
 
-export default function Page() {
+export default async function Page() {
+  const profile = (await getCurrentUser()) as UserWithoutToken;
+  delete profile.token; // Don't send the token to the client
+
   return (
     <div className="settings-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Your Settings</h1>
-
-            <ul className="error-messages">
-              <li>That name is required</li>
-            </ul>
-
-            <form>
-              <fieldset>
-                <fieldset className="form-group">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="URL of profile picture"
-                  />
-                </fieldset>
-                <fieldset className="form-group">
-                  <input
-                    className="form-control form-control-lg"
-                    type="text"
-                    placeholder="Your Name"
-                  />
-                </fieldset>
-                <fieldset className="form-group">
-                  <textarea
-                    className="form-control form-control-lg"
-                    rows={8}
-                    placeholder="Short bio about you"
-                  ></textarea>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input
-                    className="form-control form-control-lg"
-                    type="text"
-                    placeholder="Email"
-                  />
-                </fieldset>
-                <fieldset className="form-group">
-                  <input
-                    className="form-control form-control-lg"
-                    type="password"
-                    placeholder="New Password"
-                  />
-                </fieldset>
-                <button className="btn btn-lg btn-primary pull-xs-right">
-                  Update Settings
-                </button>
-              </fieldset>
-            </form>
+            <Form profile={profile} />
             <hr />
             <LogoutButton />
           </div>

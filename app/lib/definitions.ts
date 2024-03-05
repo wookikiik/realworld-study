@@ -82,7 +82,9 @@ export interface Profile {
   username: string;
   bio: string;
   image: string;
+  email?: string;
   following: boolean;
+  password?: string;
 }
 
 export interface User {
@@ -92,6 +94,8 @@ export interface User {
   bio?: string;
   image?: string;
 }
+
+export type UserWithoutToken = Omit<User, "token"> & { token?: string };
 
 export interface SigninForm {
   email: string;
