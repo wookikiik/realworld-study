@@ -39,7 +39,8 @@ export default function Page() {
 
 
   const actionSignIn: () => void = handleSubmit(async (data: SigninForm) => {
-    await signIn(data);
+    const error = await signIn(data);
+    error && setErrors([error]);
   });
 
   return (
