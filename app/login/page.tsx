@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form"
 import InputName from "@/app/ui/inputName";
 import {UserAuthInfo} from "@/app/types";
-import InputEmail from "@/app/ui/inputEmail";
+import InputPassword from "@/app/ui/inputPassword";
 
 export default function Page() {
   const {
@@ -31,7 +31,7 @@ export default function Page() {
                 ))}
               </ul>
               <InputName name="name" register={register}/>
-              <InputEmail name="email" register={register}/>
+              <InputPassword name={"password"} register={register}/>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
             </form>
           </div>
