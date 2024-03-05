@@ -8,14 +8,13 @@ export default function ArticlePreviews({ articles }: ArticlePreviewProps) {
       {articles.map((article) => (
         <div key={article.slug} className="article-preview">
           <div className="article-meta">
-            <Avatar profile={article.author}>
-              <div className="info">
-                <a href="/profile/eric-simons" className="author">
-                  {article.author.username}
-                </a>
-                <span className="date">January 20th</span>
-              </div>
-            </Avatar>
+            <Avatar profile={article.author} />
+            <div className="info">
+              <a href="/profile/eric-simons" className="author">
+                {article.author.username}
+              </a>
+              <span className="date">January 20th</span>
+            </div>
             <FavoriteToggle article={article} />
           </div>
           <a href={`/article/${article.slug}`} className="preview-link">

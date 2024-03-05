@@ -5,19 +5,13 @@ export default function Avatar({
   profile,
   cssStyle = "",
   children = null,
+  sx = { width: 32, height: 32 },
 }: AvatarProps) {
   return (
-    <>
-      <Link className={cssStyle} href={`/profile/${profile.username}`}>
-        <Image
-          src={profile.image}
-          alt={profile.username}
-          width={32}
-          height={32}
-        />
-      </Link>
+    <Link className={cssStyle} href={`/profile/${profile.username}`}>
+      <Image src={profile.image} alt={profile.username} {...sx} />
       {children}
-    </>
+    </Link>
   );
 }
 
@@ -28,4 +22,5 @@ type AvatarProps = {
   };
   cssStyle?: string;
   children?: React.ReactNode;
+  sx?: { width: number; height: number };
 };
