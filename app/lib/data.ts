@@ -2,7 +2,7 @@
 
 import { SignInForm, User } from '@/app/lib/definitions';
 
-export const fetchLogin = async (payload: SignInForm): Promise<User> => {
+export const login = async (payload: SignInForm): Promise<User> => {
   return {
     email: payload.email,
     name: 'Test',

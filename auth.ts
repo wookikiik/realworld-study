@@ -2,29 +2,21 @@ import 'next-auth/jwt';
 import NextAuth, { User } from 'next-auth';
 import credentials from 'next-auth/providers/credentials';
 import { NextResponse } from 'next/server';
-import { fetchLogin } from './app/lib/data';
+import { login } from './app/lib/data';
 import { AdapterUser } from 'next-auth/adapters';
 
 declare module 'next-auth' {
-  /**
-   * The shape of the user object returned in the OAuth providers' `profile` callback,
-   * or the second parameter of the `session` callback, when using a database.
-   */
   interface User {
     token: string;
     bio?: string;
   }
-  /**
-   * Returned by `useSession`, `auth`, contains information about the active session.
-   */
   interface Session {
     user: User;
-    authorized: boolean; // TODO: 체크 조건 고민 필요
+    authenticated: boolean; // TODO: 체크 조건 고민 필요
   }
 }
 
 declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
     user: User;
   }
@@ -43,14 +35,13 @@ export const { auth, signIn, signOut } = NextAuth({
    */
   callbacks: {
     // signIn: async ({ user, account, profile, email, credentials }) => {}
-    // redirect: async ({ url, baseUrl }) => {},
+    // redirect: async ({url, baseUrl}}) => {},
     /**
      * 페이지 접근을 핸들링 한다. next or redirect
+     * @see https://nextjs.org/learn/dashboard-app/adding-authentication
      */
-    authorized: async ({ auth: session, request: { nextUrl } }) => {
-      const isLoggedIn = !!session?.user;
-
-      if (!session?.authorized) {
+    authorized: async ({ auth, request: { nextUrl } }) => {
+      if (!auth?.authenticated) {
         return NextResponse.next();
       }
 
@@ -65,8 +56,8 @@ export const { auth, signIn, signOut } = NextAuth({
 
       return Response.redirect(new URL('/', nextUrl));
     },
-    session: async ({ session, token, user }) => {
-      session.authorized = session && !!token?.user;
+    session: async ({ session, token }) => {
+      session.authenticated = session && !!token?.user;
       session.user = token.user as AdapterUser & User;
 
       return session;
@@ -84,7 +75,7 @@ export const { auth, signIn, signOut } = NextAuth({
   providers: [
     credentials({
       authorize: async (credentials) => {
-        const user = await fetchLogin({
+        const user = await login({
           email: credentials.email as string,
           password: credentials.password as string,
         });

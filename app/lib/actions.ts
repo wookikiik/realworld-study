@@ -1,14 +1,12 @@
 'use server';
 
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { SignInForm } from '@/app/lib/definitions';
 import { AuthError } from 'next-auth';
 
-export async function loginAction(
-  formData: SignInForm
-): Promise<string | void> {
+export const login = async (formData: SignInForm): Promise<string | void> => {
   try {
-    // Auth - signin 호출
+    // Auth - signIn 호출
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
@@ -21,4 +19,12 @@ export async function loginAction(
     }
     throw error;
   }
-}
+};
+
+export const logout = async ({ redirectTo = '/' }: { redirectTo?: string }) => {
+  // Auth - signOut 호출
+  await signOut({
+    redirect: true,
+    redirectTo: redirectTo,
+  });
+};

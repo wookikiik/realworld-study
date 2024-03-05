@@ -1,6 +1,6 @@
 'use client';
 
-import { loginAction } from '@/app/lib/actions';
+import { login } from '@/app/lib/actions';
 import { SignInForm } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ export default function Page() {
   } = useForm<SignInForm>();
 
   const onSubmit: SubmitHandler<SignInForm> = async (formData) => {
-    await loginAction(formData);
+    await login(formData);
   };
 
   return (

@@ -6,7 +6,7 @@ import { Session } from 'next-auth';
 /**
  * Session을 제공하는 Context
  */
-const AuthContext = createContext<Session | null>(null);
+export const AuthContext = createContext<Session | null>(null);
 
 /**
  * SessionContext를 제공하는 Provider
@@ -23,13 +23,17 @@ const AuthProvider = ({
   );
 };
 
+/**
+ * Session info hook for client-side
+ * @link useAuth.ts
+ */
 export const useAuth = () => {
   const session = useContext(AuthContext);
 
   return {
     session,
     user: session?.user,
-    isLoggedIn: session?.authorized,
+    authenticated: session?.authenticated,
   };
 };
 

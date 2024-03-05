@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuth } from '@/app/lib/providers/AuthProvider';
-import { signOut } from '@/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,7 +9,7 @@ import { usePathname } from 'next/navigation';
  * Separate logined user
  */
 export const AppHeader = () => {
-  const { isLoggedIn } = useAuth();
+  const { authenticated } = useAuth();
 
   return (
     <nav className="navbar navbar-light">
@@ -18,7 +17,7 @@ export const AppHeader = () => {
         <Link className="navbar-brand" href="/">
           conduit
         </Link>
-        {isLoggedIn ? <UserNavigation /> : <AnonymousNavigation />}
+        {authenticated ? <UserNavigation /> : <AnonymousNavigation />}
       </div>
     </nav>
   );
