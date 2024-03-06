@@ -3,6 +3,7 @@ import useSWR, { Fetcher } from "swr";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { ArticlesResponse } from "@/app/lib/definitions";
 import { ArticlePreviews } from ".";
+import { useAuth } from "@/app/lib/providers/AuthProvider";
 
 type Props = { currentFeed: string };
 
@@ -36,6 +37,7 @@ function Tabs({ currentFeed }: { currentFeed: string }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { isLogined } = useAuth();
 
   function handleTabChange(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
@@ -48,12 +50,14 @@ function Tabs({ currentFeed }: { currentFeed: string }) {
   return (
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
-        <Tab
-          name="Your Feed"
-          feed="feed"
-          active={currentFeed === "feed"}
-          onClick={handleTabChange}
-        />
+        {isLogined && (
+          <Tab
+            name="Your Feed"
+            feed="feed"
+            active={currentFeed === "feed"}
+            onClick={handleTabChange}
+          />
+        )}
         <Tab
           name="Global Feed"
           feed="global"

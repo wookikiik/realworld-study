@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // TODO: 회원 접근 가능 path config로 설정
-const loggedInPath = ["/settings", "/profile"];
+const loggedInPath = ["/settings", "/profile", "/editor"];
 
 export default async function middleware(
   req: NextRequest,

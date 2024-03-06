@@ -3,6 +3,7 @@ import { PopularTags, ArticlesByTabs } from "@/app/ui/components";
 import type { Metadata } from "next";
 import { fetchAllTag } from "../lib/data";
 import { Suspense } from "react";
+import { auth } from "@/auth";
 export const metadata: Metadata = {
   title: "Home - Conduit",
 };
@@ -13,6 +14,8 @@ export default async function Home({
   searchParams: { feed?: string };
 }) {
   const tagsData = await fetchAllTag();
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <div className="home-page">
@@ -26,8 +29,10 @@ export default async function Home({
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <Suspense key={feed || "global"} fallback={<div>Loading...</div>}>
-              <ArticlesByTabs currentFeed={feed || "global"} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <ArticlesByTabs
+                currentFeed={feed || (user ? "feed" : "global")}
+              />
             </Suspense>
           </div>
 
