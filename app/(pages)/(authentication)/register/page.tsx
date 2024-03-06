@@ -1,33 +1,60 @@
 "use client";
 
 import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { signUp } from "@/app/lib/actions";
 import { SignupForm } from "@/app/lib/definitions";
 import { normalizeFormErrors } from "@/app/lib/utils";
 import { ErrorMessages } from "@/app/ui/components";
-import { EmailInputField } from "../_lib/fields";
-import z from "zod";
-
-const schema = z
-  .object({
-    username: z.string().trim().min(1, "Username is required."),
-  })
-  .required();
 
 export default function Page() {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm<SignupForm>({
-    // resolver: zodResolver(schema),
+    formState: { errors: formErrors },
+  } = useForm<SignupForm>();
+
+  const [errors, setErrors] = useState<string[]>([]);
+
+  useEffect(() => {
+    setErrors(normalizeFormErrors(formErrors));
+  }, [formErrors]);
+
+  const actionSignup: () => void = handleSubmit(async (form: SignupForm) => {
+    const errors = await signUp(form);
+    errors && setErrors(errors);
   });
 
-  const actionSignup: () => void = handleSubmit(async (data: SignupForm) => {
-    await signUp(data);
-  });
+  const usernameField = register(
+    "username", //
+    // {
+    //   required: "Username is required.",
+    // },
+  );
+
+  const emailField = register(
+    "email", //
+    // {
+    //   required: "Email is required.",
+    //   pattern: {
+    //     value: /\S+@\S+\.\S+/,
+    //     message: "Email must be a valid email address.",
+    //   },
+    // },
+  );
+
+  const passwordField = register(
+    "password", //
+    // {
+    //   required: "Password is required.",
+    //   minLength: {
+    //     value: 5,
+    //     message: "Password must be at least 5 characters long.",
+    //   },
+    // },
+  );
 
   return (
     <>
@@ -36,49 +63,33 @@ export default function Page() {
         <Link href="/login">Have an account?</Link>
       </p>
 
-      <ErrorMessages messages={normalizeFormErrors(errors)} />
+      <ErrorMessages messages={errors} />
 
       <form onSubmit={actionSignup}>
         <fieldset className="form-group">
           <input
             className="form-control form-control-lg"
             type="text"
-            placeholder="Uername"
-            {...register("username")}
+            placeholder="Username"
+            {...usernameField}
           />
         </fieldset>
 
-        <EmailInputField
-          register={register("email", {
-            required: "Email is required.",
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Email must be a valid email address.",
-            },
-          })}
-        />
+        <fieldset className="form-group">
+          <input
+            className="form-control form-control-lg"
+            type="email"
+            placeholder="Email"
+            {...emailField}
+          />
+        </fieldset>
 
         <fieldset className="form-group">
-          {/* space value trimmed */}
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: "Password is required.",
-              minLength: {
-                value: 5,
-                message: "Password must be at least 5 characters long.",
-              },
-            }}
-            render={({ field }) => (
-              <input
-                {...field}
-                className="form-control form-control-lg"
-                placeholder="Password"
-                onChange={(e) => field.onChange(e.target.value.trim())}
-              />
-            )}
+          <input
+            className="form-control form-control-lg"
+            type="password"
+            placeholder="Password"
+            {...passwordField}
           />
         </fieldset>
         <button className="btn btn-lg btn-primary pull-xs-right">

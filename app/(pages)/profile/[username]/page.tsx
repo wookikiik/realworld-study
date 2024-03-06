@@ -7,8 +7,6 @@ import Action from "./_components/Action";
 
 export default async function Page({ params: { username } }: PageProps) {
   const author = await fetchProfile(username).then((data) => data.profile);
-
-  //
   const session = await auth();
   const user = session?.user;
 

@@ -10,70 +10,56 @@ import {
   User,
   UserResponse,
   SignupForm,
-  ErrorResponse
+  ErrorResponse,
 } from "./definitions";
-
 
 const API_BASE_URL = process.env.API_BASE_URL;
 
-export async function login(email: string, password: string): Promise<UserResponse | ErrorResponse> {
-  
-  const response = await POST('/users/login', {email, password})
-  if(response?.ok){
-    return response.json();
-  }
-
-  switch(response?.status){
-    // Fail any validations
-    case 422:
-      break;
-
-    // Unauthorized requests
-    case 401: 
-      break;
-
-    // Forbidden requests
-    case 403:
-      break;
-    
-    // Not found requests
-    case 404:
-      break;    
-    
-    // Success requests
-    default: 
-      //...
-  }
-
-  return {
-    user: {
-      email: "jake@jake.jake",
-      username: "jake",
-      bio: "I like to skateboard",
-      image: "https://i.stack.imgur.com/xHWG8.jpg",
-      token: "jwt.token.here",
-    }
-  };
+export async function login(
+  email: string,
+  password: string,
+): Promise<UserResponse | ErrorResponse> {
+  const response = await POST("/users/login", { user: { email, password } });
+  return unWarpperResponseData<UserResponse | ErrorResponse>(response);
+  // return {
+  //   user: {
+  //     email: "jake@jake.jake",
+  //     username: "jake",
+  //     bio: "I like to skateboard",
+  //     image: "https://i.stack.imgur.com/xHWG8.jpg",
+  //     token: "jwt.token.here",
+  //   },
+  // };
 }
 
-export async function register(data: SignupForm): Promise<User> {
-  return {
-    email: data.email,
-    username: data.username,
-    bio: "I like to skateboard",
-    image: "https://i.stack.imgur.com/xHWG8.jpg",
-    token: "jwt.token.here",
-  };
+export async function register(
+  data: SignupForm,
+): Promise<UserResponse | ErrorResponse> {
+  const response = await POST("/users", { user: data });
+  return unWarpperResponseData<UserResponse | ErrorResponse>(response);
+  // return {
+  //   user: {
+  //     email: "jake@jake.jake",
+  //     username: "jake",
+  //     bio: "I like to skateboard",
+  //     image: "https://i.stack.imgur.com/xHWG8.jpg",
+  //     token: "jwt.token.here",
+  //   },
+  // };
 }
 
 export async function getCurrentUser(): Promise<User> {
-  return {
-    email: "jake@jake.jake",
-    username: "jake",
-    bio: "I like to skateboard",
-    image: "https://i.stack.imgur.com/xHWG8.jpg",
-    token: "jwt.token.here",
-  };
+  const response = await GET("/user");
+  const userResponse = await unWarpperResponseData<UserResponse>(response);
+  return userResponse.user;
+
+  // return {
+  //   email: "jake@jake.jake",
+  //   username: "jake",
+  //   bio: "I like to skateboard",
+  //   image: "https://i.stack.imgur.com/xHWG8.jpg",
+  //   token: "jwt.token.here",
+  // };
 }
 
 export async function fetchAllArticle(): Promise<ArticlesResponse> {
@@ -166,6 +152,10 @@ export async function fetchComments(slug: string): Promise<CommentsResponse> {
 }
 
 export async function fetchProfile(username: string): Promise<ProfileResponse> {
+  const response = await GET(`/profiles/${username}`);
+  const profile = await unWarpperResponseData<ProfileResponse>(response);
+  return profile;
+
   return {
     profile: {
       username: "jake",
@@ -176,29 +166,58 @@ export async function fetchProfile(username: string): Promise<ProfileResponse> {
   };
 }
 
-
-async function POST(url: string, data?: Record<string, any>){
-  return callAPI(url, 'POST', data);
+async function POST(url: string, data?: Record<string, any>) {
+  return callAPI(url, "POST", data);
 }
 
-async function GET(url: string, data?: Record<string, any>){
-  return callAPI(url, 'POST', data);
+async function GET(url: string, params?: Record<string, any>) {
+  const urlParams = new URLSearchParams(params).toString();
+  return callAPI(`${url}?${urlParams}`, "GET");
 }
 
-async function callAPI(url: string, method: 'GET' | 'POST', data?: Record<string, any>){
+async function callAPI(
+  url: string,
+  method: "GET" | "POST",
+  data?: Record<string, any>,
+) {
   const headers: Record<string, any> = {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  };
 
   //  Add Authorization
   const session = await auth();
-  if(session?.user.token){
-    headers['Authorization'] = `Token ${session.user.token}`
+  if (session?.user.token) {
+    headers["Authorization"] = `Token ${session.user.token}`;
   }
 
-  return fetch(`${API_BASE_URL}/${url}`, {
+  console.log("callAPI", url, method, data, headers);
+  return fetch(`${API_BASE_URL}${url}`, {
     method,
     headers,
-    body: data ? JSON.stringify(data) : ''
-  })
+    body: data ? JSON.stringify(data) : undefined,
+    cache: "no-store",
+  });
+}
+
+async function unWarpperResponseData<T>(response: Response): Promise<T> {
+  if (response.ok || response.status === 422) {
+    return response.json();
+  }
+
+  console.log(response.status, response.statusText);
+  switch (response?.status) {
+    // Unauthorized requests
+    case 401:
+      throw new Error("Unauthorized");
+
+    // Forbidden requests
+    case 403:
+      throw new Error("Forbidden");
+
+    // Not found requests
+    case 404:
+      throw new Error("Not found");
+  }
+
+  throw new Error("Unknown error");
 }

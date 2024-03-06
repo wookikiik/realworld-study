@@ -63,12 +63,13 @@ export const { auth, signIn, signOut } = NextAuth({
       authorize: async (credentials) => {
         const parsedCredentials = CredentialsSchema.safeParse(credentials);
         if (!parsedCredentials.success) {
-          // 데이터 유효성 검증은 actions에서 마무리, 결과만 반환한다.
+          console.log(parsedCredentials.error);
           return null;
         }
 
         const { email, password } = parsedCredentials.data;
         const data = await login(email, password);
+        console.log(data);
         if ("errors" in data) {
           // TODO: handle error
           return null;

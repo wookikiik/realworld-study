@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "i.stack.imgur.com",
         pathname: "/*",
       },
+      {
+        protocol: "https",
+        hostname: "static.productionready.io",
+        pathname: "/images/*",
+      },
     ],
   },
 };
