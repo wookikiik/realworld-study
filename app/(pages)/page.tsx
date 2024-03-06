@@ -1,18 +1,18 @@
 import { titillium_web } from "@/app/ui/fonts";
-import { PopularTags, HomeFeedTab } from "@/app/ui/components";
+import { PopularTags, ArticlesByTabs } from "@/app/ui/components";
 import type { Metadata } from "next";
-import { fetchAllArticle, fetchAllTag } from "../lib/data";
-import Articles from "../ui/components/Articles";
-
+import { fetchAllTag } from "../lib/data";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Home - Conduit",
 };
 
-export default async function Home() {
-  const [articles, tagsData] = await Promise.all([
-    fetchAllArticle(),
-    fetchAllTag(),
-  ]);
+export default async function Home({
+  searchParams: { feed },
+}: {
+  searchParams: { feed?: string };
+}) {
+  const tagsData = await fetchAllTag();
 
   return (
     <div className="home-page">
@@ -26,7 +26,9 @@ export default async function Home() {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <Articles tab={<HomeFeedTab />} articles={articles} />
+            <Suspense key={feed || "global"} fallback={<div>Loading...</div>}>
+              <ArticlesByTabs currentFeed={feed || "global"} />
+            </Suspense>
           </div>
 
           <div className="col-md-3">

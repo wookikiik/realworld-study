@@ -3,10 +3,15 @@
 // #########################################
 // #             Search parameter          #
 // #########################################
-export interface ArticleSearchParams {
+export interface ArticleListSearchParams {
   author?: string;
   slug?: string;
-  tag?: string;
+  favorited?: string;
+}
+
+export interface PaginationParams {
+  limit?: number;
+  offset?: number;
 }
 
 // #########################################

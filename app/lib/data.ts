@@ -1,4 +1,5 @@
 // Define an asynchronous function to fetch data
+import { unstable_noStore as noStore } from "next/cache";
 
 import { auth } from "@/auth";
 import {
@@ -11,6 +12,8 @@ import {
   UserResponse,
   SignupForm,
   ErrorResponse,
+  ArticleListSearchParams,
+  PaginationParams,
 } from "./definitions";
 
 const API_BASE_URL = process.env.API_BASE_URL;
@@ -19,6 +22,7 @@ export async function login(
   email: string,
   password: string,
 ): Promise<UserResponse | ErrorResponse> {
+  noStore();
   const response = await POST("/users/login", { user: { email, password } });
   return unWarpperResponseData<UserResponse | ErrorResponse>(response);
   // return {
@@ -35,6 +39,7 @@ export async function login(
 export async function register(
   data: SignupForm,
 ): Promise<UserResponse | ErrorResponse> {
+  noStore();
   const response = await POST("/users", { user: data });
   return unWarpperResponseData<UserResponse | ErrorResponse>(response);
   // return {
@@ -49,6 +54,7 @@ export async function register(
 }
 
 export async function getCurrentUser(): Promise<User> {
+  noStore();
   const response = await GET("/user");
   const userResponse = await unWarpperResponseData<UserResponse>(response);
   return userResponse.user;
@@ -62,7 +68,7 @@ export async function getCurrentUser(): Promise<User> {
   // };
 }
 
-export async function fetchAllArticle(): Promise<ArticlesResponse> {
+export async function fetchArticleListFeed(): Promise<ArticlesResponse> {
   return {
     articles: [
       {
@@ -102,6 +108,61 @@ export async function fetchAllArticle(): Promise<ArticlesResponse> {
     ],
     articlesCount: 2,
   };
+}
+
+export async function fetchArticleList(
+  searchParams: ArticleListSearchParams & PaginationParams,
+): Promise<ArticlesResponse> {
+  // const url = "/articles";
+  // const params: Record<string, string | number> = {};
+  // Object.entries(searchParams).forEach(([key, value]) => {
+  //   if (value) {
+  //     params[key] = value;
+  //   }
+  // });
+
+  // console.log(params);
+
+  return {
+    articles: [
+      {
+        slug: "how-to-train-your-dragon",
+        title: "How to train your dragon",
+        description: "Ever wonder how?",
+        body: "It takes a Jacobian",
+        tagList: ["dragons", "training"],
+        createdAt: "2016-02-18T03:22:56.637Z",
+        updatedAt: "2016-02-18T03:48:35.824Z",
+        favorited: false,
+        favoritesCount: 0,
+        author: {
+          username: "jake",
+          bio: "I work at statefarm",
+          image: "https://i.stack.imgur.com/xHWG8.jpg",
+          following: false,
+        },
+      },
+      {
+        slug: "how-to-train-your-dragon-2",
+        title: "How to train your dragon 2",
+        description: "So toothless",
+        body: "It a dragon",
+        tagList: ["dragons", "training"],
+        createdAt: "2016-02-18T03:22:56.637Z",
+        updatedAt: "2016-02-18T03:48:35.824Z",
+        favorited: false,
+        favoritesCount: 0,
+        author: {
+          username: "jake",
+          bio: "I work at statefarm",
+          image: "https://i.stack.imgur.com/xHWG8.jpg",
+          following: false,
+        },
+      },
+    ],
+    articlesCount: 2,
+  };
+  // const response = await GET("/articles", params);
 }
 
 export async function fetchArticle(slug: string): Promise<ArticleResponse> {
@@ -190,12 +251,11 @@ async function callAPI(
     headers["Authorization"] = `Token ${session.user.token}`;
   }
 
-  console.log("callAPI", url, method, data, headers);
+  // console.log("callAPI", url, method, data, headers);
   return fetch(`${API_BASE_URL}${url}`, {
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
-    cache: "no-store",
   });
 }
 

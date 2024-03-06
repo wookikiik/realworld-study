@@ -1,18 +1,22 @@
-import { useAuth } from "@/app/lib/hooks";
-import Tabs from "./Tabs";
-import { UserWithOptionalToken } from "@/app/lib/definitions";
+"use client";
 
-export default async function HomeFeedTab() {
-  const tabs = createTabProps(await useAuth());
+import { useAuth } from "@/app/lib/providers/AuthProvider";
+import Tabs from "./Tabs";
+import { User } from "@/app/lib/definitions";
+
+export default function HomeFeedTab() {
+  const { user } = useAuth();
+  const tabs = createTabProps(user);
+
   return <Tabs tabs={tabs} />;
 }
 
-function createTabProps({ user, isLogined }: CreateParams) {
+function createTabProps(user: User | undefined) {
   return [
     {
       name: "Your Feed",
-      src: `/#/${user?.name}`,
-      permissions: () => isLogined,
+      src: `/#/${user?.username}`,
+      permissions: () => !!user,
     },
     {
       name: "Global Feed",
@@ -20,8 +24,3 @@ function createTabProps({ user, isLogined }: CreateParams) {
     },
   ];
 }
-
-type CreateParams = {
-  user: UserWithOptionalToken | undefined;
-  isLogined: boolean;
-};
