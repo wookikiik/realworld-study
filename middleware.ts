@@ -1,5 +1,9 @@
-export { auth as default } from '@/auth';
-
+import NextAuth from 'next-auth';
+import { auth } from './auth';
+ 
+export default auth;
+ 
 export const config = {
-    matcher: ['/profile', '/login', '/register'],
-}
+  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+};

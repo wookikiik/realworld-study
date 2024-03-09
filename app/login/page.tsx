@@ -1,10 +1,11 @@
 'use client'
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form"
-import InputName from "@/app/ui/inputName";
-import {UserAuthInfo} from "@/app/types";
+import type { UserAuthInfo } from "../lib/definitions";
 import InputPassword from "@/app/ui/inputPassword";
 import ErrorMessages from "@/app/ui/errorMessages";
+import InputEmail from "../ui/inputEmail";
+import { signIn } from "../lib/actions";
 
 export default function Page() {
   const {
@@ -13,7 +14,9 @@ export default function Page() {
     formState: { errors },
   } = useForm<UserAuthInfo>()
 
-  const onSubmit: SubmitHandler<UserAuthInfo> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<UserAuthInfo> = async (data) => {        
+    await signIn(data);    
+  }
 
   return (
     <div className="auth-page">
@@ -24,17 +27,10 @@ export default function Page() {
             <p className="text-xs-center">
               <Link href="/register">Need an account?</Link>
             </p>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <ul className="error-messages">
-                {errors && Object.entries(errors).map(([key, error]) => (
-                  <li key={key}>{error.message}</li>
-                ))}
-              </ul>
-              {/*{errors && <ErrorMessages errors={errors}/>}*/}
-
-              <InputName name="name" register={register}/>
-              <InputPassword name={"password"} register={register}/>
+            <form onSubmit={handleSubmit(onSubmit)}>            
+              {errors && <ErrorMessages errors={errors} />}
+              <InputEmail name="email" register={register}/>
+              <InputPassword name="password" register={register}/>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
             </form>
           </div>

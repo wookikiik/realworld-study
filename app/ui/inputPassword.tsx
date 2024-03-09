@@ -1,5 +1,5 @@
 import {Path, UseFormRegister} from "react-hook-form"
-import {UserAuthInfo} from "@/app/types";
+import type { UserAuthInfo } from "../lib/definitions"
 
 type InputPassword = {
     name: Path<UserAuthInfo>

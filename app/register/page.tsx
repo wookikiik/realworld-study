@@ -4,7 +4,7 @@ import InputName from "@/app/ui/inputName";
 import InputPassword from "@/app/ui/inputPassword";
 import InputEmail from "@/app/ui/inputEmail";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {UserAuthInfo} from "@/app/types";
+import type { UserAuthInfo } from "../lib/definitions";
 
 export default function Page() {
   const {
