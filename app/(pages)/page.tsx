@@ -1,5 +1,9 @@
 import { titillium_web } from "@/app/ui/fonts";
-import { PopularTags, ArticlesByTabs } from "@/app/ui/components";
+import {
+  PopularTags,
+  ArticlesWithPagination,
+  HomeFeedTab,
+} from "@/app/ui/components";
 import type { Metadata } from "next";
 import { fetchAllTag } from "../lib/data";
 import { Suspense } from "react";
@@ -9,14 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({
-  searchParams: { feed },
-}: {
-  searchParams: { feed?: string };
-}) {
+  searchParams: { feed, tag, page = 1 },
+}: HomeProps) {
   const tagsData = await fetchAllTag();
   const session = await auth();
   const user = session?.user;
 
+  const currentFeed = feed || (user ? "feed" : "global");
   return (
     <div className="home-page">
       <div className="banner">
@@ -30,9 +33,8 @@ export default async function Home({
         <div className="row">
           <div className="col-md-9">
             <Suspense fallback={<div>Loading...</div>}>
-              <ArticlesByTabs
-                currentFeed={feed || (user ? "feed" : "global")}
-              />
+              <HomeFeedTab feed={currentFeed} tag={tag} />
+              <ArticlesWithPagination feed={currentFeed} tag={tag} />
             </Suspense>
           </div>
 
@@ -47,3 +49,11 @@ export default async function Home({
     </div>
   );
 }
+
+type HomeProps = {
+  searchParams: {
+    feed?: string; //
+    tag?: string;
+    page?: number;
+  };
+};

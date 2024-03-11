@@ -5,9 +5,7 @@ export async function GET(
   { params: { slug } }: { params: { slug: string[] } },
 ) {
   const [type, searchValue] = slug;
-
   if (type === "feed") {
-    // console.log("feed", searchValue);
     const data =
       searchValue === "global" //
         ? await fetchArticleList({})
@@ -17,8 +15,9 @@ export async function GET(
   }
   // TODO: search by tag
   else if (type === "tag") {
-    //
+    console.log("search by tag", searchValue);
   }
 
+  console.warn("Unknown feed type", type);
   return Response.json({ articles: [], articlesCount: 0 });
 }
