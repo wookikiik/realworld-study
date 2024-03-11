@@ -1,17 +1,16 @@
-import { fetchAllArticle, fetchProfile } from "@/app/lib/data";
+import { fetchProfile } from "@/app/lib/data";
 import { auth } from "@/auth";
 import Image from "next/image";
-import FeedTab from "./_components/FeedTab";
-import Articles from "@/app/ui/components/Articles";
+import FeedTabs from "./_components/FeedTabs";
 import Action from "./_components/Action";
-
-export default async function Page({ params: { username } }: PageProps) {
+import { ArticlesWithPagination } from "@/app/ui/components";
+export default async function Page({
+  params: { username },
+  searchParams: { feed = "feed" },
+}: PageProps) {
   const author = await fetchProfile(username).then((data) => data.profile);
   const session = await auth();
   const user = session?.user;
-
-  // TODO: client component로 변경
-  const articles = await fetchAllArticle();
 
   return (
     <div className="profile-page">
@@ -37,14 +36,8 @@ export default async function Page({ params: { username } }: PageProps) {
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <Articles
-              tab={
-                <div className="articles-toggle">
-                  <FeedTab author={author} />
-                </div>
-              }
-              articles={articles}
-            />
+            <FeedTabs feed={feed} />
+            <ArticlesWithPagination feed={feed} />
           </div>
         </div>
       </div>
@@ -55,5 +48,8 @@ export default async function Page({ params: { username } }: PageProps) {
 type PageProps = {
   params: {
     username: string;
+  };
+  searchParams: {
+    feed?: string;
   };
 };
