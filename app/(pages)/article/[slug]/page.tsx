@@ -4,9 +4,18 @@ import { TagList } from "@/app/ui/components";
 import ArticleMeta from "./_components/ArticleMeta";
 import Comments from "./_components/Comments";
 import PostComment from "./_components/PostComment";
+import ReactMarkdown from "react-markdown";
+
 export default async function Page({ params: { slug } }: PageProps) {
   const [article, comments] = await Promise.all([
-    fetchArticle(slug).then((data) => data.article),
+    fetchArticle(slug)
+      .then((data) => {
+        if ("errors" in data) {
+          throw new Error(data.errors.body.join(", "));
+        }
+        return data;
+      })
+      .then((data) => data.article),
     fetchComments(slug).then((data) => data.comments),
   ]);
 
@@ -25,14 +34,8 @@ export default async function Page({ params: { slug } }: PageProps) {
       <div className="container page">
         <div className="row article-content">
           <div className="col-md-12">
-            <p>
-              Web development technologies have evolved at an incredible clip
-              over the past few years.
-            </p>
-            <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-            <p>
-              It&apos;s a great solution for learning how other frameworks work.
-            </p>
+            <p>{article.description}</p>
+            <ReactMarkdown>{article.body}</ReactMarkdown>
             <TagList tags={article.tagList} />
           </div>
         </div>

@@ -12,8 +12,8 @@ async function UserProvider({ children }: ProvidersProps) {
   let currentUser: User | undefined = undefined;
   const session = await auth();
   if (!!session?.user) {
-    currentUser = await getCurrentUser();
-    delete currentUser.token;
+    currentUser = await getCurrentUser().then((data) => data.user);
+    delete currentUser?.token;
   }
 
   return <AuthProvider currentUser={currentUser}>{children}</AuthProvider>;

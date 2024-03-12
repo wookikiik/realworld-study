@@ -3,7 +3,6 @@
 import ReactLink from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { titillium_web } from "@/app/ui/fonts";
 import { User } from "@/app/lib/definitions";
 import { useAuth } from "@/app/lib/providers/AuthProvider";
 

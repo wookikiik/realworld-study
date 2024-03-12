@@ -1,5 +1,6 @@
 // Define an asynchronous function to fetch data
 import { unstable_noStore as noStore } from "next/cache";
+import { notFound } from "next/navigation";
 
 import { auth } from "@/auth";
 import {
@@ -15,6 +16,7 @@ import {
   ArticleListSearchParams,
   PaginationParams,
   ProfileForm,
+  ArticleForm,
 } from "./definitions";
 
 const API_BASE_URL = process.env.API_BASE_URL;
@@ -25,7 +27,7 @@ export async function login(
 ): Promise<UserResponse | ErrorResponse> {
   noStore();
   const response = await POST("/users/login", { user: { email, password } });
-  return unWarpperResponseData<UserResponse | ErrorResponse>(response);
+  return unWarpperResponseData(response);
   // return {
   //   user: {
   //     email: "jake@jake.jake",
@@ -42,7 +44,7 @@ export async function register(
 ): Promise<UserResponse | ErrorResponse> {
   noStore();
   const response = await POST("/users", { user: data });
-  return unWarpperResponseData<UserResponse | ErrorResponse>(response);
+  return unWarpperResponseData(response);
   // return {
   //   user: {
   //     email: "jake@jake.jake",
@@ -54,11 +56,10 @@ export async function register(
   // };
 }
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<UserResponse> {
   noStore();
   const response = await GET("/user");
-  const userResponse = await unWarpperResponseData<UserResponse>(response);
-  return userResponse.user;
+  return unWarpperResponseData(response);
 
   // return {
   //   email: "jake@jake.jake",
@@ -166,7 +167,11 @@ export async function fetchArticleList(
   // const response = await GET("/articles", params);
 }
 
-export async function fetchArticle(slug: string): Promise<ArticleResponse> {
+export async function fetchArticle(
+  slug: string,
+): Promise<ArticleResponse | ErrorResponse> {
+  const response = await GET(`/articles/${slug}`);
+  return unWarpperResponseData(response);
   return {
     article: {
       slug: "how-to-train-your-dragon",
@@ -186,6 +191,13 @@ export async function fetchArticle(slug: string): Promise<ArticleResponse> {
       },
     },
   };
+}
+
+export async function createArticle(
+  formData: ArticleForm,
+): Promise<ArticleResponse | ErrorResponse> {
+  const response = await POST("/articles", { article: formData });
+  return unWarpperResponseData(response);
 }
 
 export async function fetchAllTag(): Promise<TagsResponse> {
@@ -215,8 +227,7 @@ export async function fetchComments(slug: string): Promise<CommentsResponse> {
 
 export async function fetchProfile(username: string): Promise<ProfileResponse> {
   const response = await GET(`/profiles/${username}`);
-  const profile = await unWarpperResponseData<ProfileResponse>(response);
-  return profile;
+  return unWarpperResponseData(response);
 
   return {
     profile: {
@@ -279,7 +290,7 @@ async function unWarpperResponseData<T>(response: Response): Promise<T> {
     return response.json();
   }
 
-  console.log(response.status, response.statusText);
+  // console.log(response.status, response.statusText);
   switch (response?.status) {
     // Unauthorized requests
     case 401:
@@ -291,8 +302,8 @@ async function unWarpperResponseData<T>(response: Response): Promise<T> {
 
     // Not found requests
     case 404:
-      throw new Error("Not found");
+      notFound();
+    default:
+      throw new Error("Unknown error");
   }
-
-  throw new Error("Unknown error");
 }

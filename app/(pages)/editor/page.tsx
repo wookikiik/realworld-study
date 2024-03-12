@@ -2,23 +2,30 @@
 
 import { ArticleForm } from "@/app/lib/definitions";
 import { ErrorMessages } from "@/app/ui/components";
-import { useState, useRef } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-import type { Control } from "react-hook-form";
+import { useState, useRef, useEffect } from "react";
+import { useForm, useFieldArray, useWatch, Controller } from "react-hook-form";
+import { normalizeFormErrors } from "@/app/lib/utils";
+import type { Control, UseFormSetError } from "react-hook-form";
+import { createArticle } from "@/app/lib/actions";
 
 export default function Page() {
-  const { register, watch, control } = useForm<ArticleForm>();
-  const { fields, append, remove } = useFieldArray({
+  const {
+    register,
     control,
-    name: "tagList",
-  });
-
+    setError: setFormError,
+    formState: { errors: formErrors },
+    handleSubmit,
+  } = useForm<ArticleForm>();
   const [errors, setErrors] = useState<string[]>([]);
 
-  const displayTags = watch("tagList");
-  function handleAppendTag(tag: string) {
-    append(tag);
-  }
+  useEffect(() => {
+    setErrors(normalizeFormErrors(formErrors));
+  }, [formErrors]);
+
+  const action: () => void = handleSubmit(async (data) => {
+    const errors = await createArticle(data);
+    errors && setErrors(errors);
+  });
 
   return (
     <div className="editor-page">
@@ -27,7 +34,7 @@ export default function Page() {
           <div className="col-md-10 offset-md-1 col-xs-12">
             <ErrorMessages messages={errors} />
 
-            <form>
+            <form onSubmit={action}>
               <fieldset>
                 <fieldset className="form-group">
                   <input
@@ -54,35 +61,11 @@ export default function Page() {
                   ></textarea>
                 </fieldset>
                 <fieldset className="form-group">
-                  <TagController tags={fields} onAppendTag={handleAppendTag}>
-                    <div>
-                      {fields.map((item, index) => (
-                        <span key={item.id} className="tag-default tag-pill">
-                          <i
-                            style={{ marginRight: "5px" }}
-                            className="ion-close-round"
-                            onClick={() => remove(index)}
-                          ></i>
-                          {displayTags && displayTags[index]}
-                          <input
-                            type="hidden"
-                            key={item.id}
-                            {...register(`tagList.${index}`, {
-                              min: {
-                                value: 3,
-                                message:
-                                  "Tag must be at least 3 characters long",
-                              },
-                            })}
-                          />
-                        </span>
-                      ))}
-                    </div>
-                  </TagController>
+                  <TagController onError={setFormError} control={control} />
                 </fieldset>
                 <button
                   className="btn btn-lg pull-xs-right btn-primary"
-                  type="button"
+                  type="submit"
                 >
                   Publish Article
                 </button>
@@ -95,8 +78,17 @@ export default function Page() {
   );
 }
 
-function TagController({ tags, onAppendTag, children }: TagControllerProps) {
+function TagController({ control, onError }: TagControllerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "tagList",
+  });
+
+  const displayTags = useWatch({
+    control,
+    name: "tagList",
+  });
 
   function handleAppendTag(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") {
@@ -104,7 +96,17 @@ function TagController({ tags, onAppendTag, children }: TagControllerProps) {
     }
 
     e.preventDefault();
-    onAppendTag(inputRef.current!.value);
+
+    const value = inputRef.current!.value;
+    if (value.length < 2) {
+      onError("tagList", {
+        type: "minLength",
+        message: "Tag must be at least 1 characters long",
+      });
+      return;
+    }
+
+    append(value);
     inputRef.current!.value = "";
   }
 
@@ -118,13 +120,31 @@ function TagController({ tags, onAppendTag, children }: TagControllerProps) {
         ref={inputRef}
         placeholder="Enter tags"
       />
-      {children}
+      <div>
+        {fields.map((item, index) => (
+          <span key={item.id} className="tag-default tag-pill">
+            <i
+              style={{ marginRight: "5px" }}
+              className="ion-close-round"
+              onClick={() => remove(index)}
+            ></i>
+            {displayTags && displayTags[index]}
+            {/* register로 처리하지 않고, Controller를 사용하여 렌더링 하기 */}
+            <Controller
+              control={control}
+              name={`tagList.${index}`}
+              render={({ field }) => (
+                <input type="hidden" key={item.id} {...field} />
+              )}
+            />
+          </span>
+        ))}
+      </div>
     </>
   );
 }
 
 type TagControllerProps = {
-  tags: Record<"id", string>[];
-  children: React.ReactNode;
-  onAppendTag: (tag: string) => void;
+  onError: UseFormSetError<ArticleForm>;
+  control: Control<ArticleForm>;
 };

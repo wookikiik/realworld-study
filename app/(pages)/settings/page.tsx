@@ -4,7 +4,9 @@ import LogoutButton from "./_components/LogoutButton";
 import { UserWithoutToken } from "@/app/lib/definitions";
 
 export default async function Page() {
-  const profile = (await getCurrentUser()) as UserWithoutToken;
+  const profile = (await getCurrentUser().then(
+    (data) => data.user,
+  )) as UserWithoutToken;
   delete profile.token; // Don't send the token to the client
 
   return (
