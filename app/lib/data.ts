@@ -14,6 +14,7 @@ import {
   ErrorResponse,
   ArticleListSearchParams,
   PaginationParams,
+  ProfileForm,
 } from "./definitions";
 
 const API_BASE_URL = process.env.API_BASE_URL;
@@ -227,6 +228,16 @@ export async function fetchProfile(username: string): Promise<ProfileResponse> {
   };
 }
 
+export async function updateProfile(
+  profile: ProfileForm,
+): Promise<UserResponse | ErrorResponse> {
+  const response = await PUT(`/user`, {
+    user: profile,
+  });
+
+  return unWarpperResponseData<UserResponse>(response);
+}
+
 async function POST(url: string, data?: Record<string, any>) {
   return callAPI(url, "POST", data);
 }
@@ -236,9 +247,13 @@ async function GET(url: string, params?: Record<string, any>) {
   return callAPI(`${url}?${urlParams}`, "GET");
 }
 
+async function PUT(url: string, data?: Record<string, any>) {
+  return callAPI(url, "PUT", data);
+}
+
 async function callAPI(
   url: string,
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "PUT",
   data?: Record<string, any>,
 ) {
   const headers: Record<string, any> = {

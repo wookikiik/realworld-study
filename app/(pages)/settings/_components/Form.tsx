@@ -1,23 +1,56 @@
 "use client";
 
-import { UserWithoutToken, Profile } from "@/app/lib/definitions";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserWithoutToken, ProfileForm } from "@/app/lib/definitions";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { ErrorMessages } from "@/app/ui/components";
+import { normalizeFormErrors } from "@/app/lib/utils";
+import { updateProfile } from "@/app/lib/actions";
+
+const schema = z.object({
+  image: z.string().url(),
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long" }),
+  bio: z.string().optional(),
+  email: z.string().email("Email must be a valid email address"),
+  password: z
+    .string()
+    .optional()
+    .refine((value) => !value || value.length >= 5, {
+      message: "Password must be at least 5 characters long",
+    }),
+});
 
 export default function Form({ profile }: FormProps) {
+  const [errors, setErrors] = useState<string[]>([]);
+
   const {
     register,
-    formState: { errors },
-  } = useForm<Profile>({
+    formState: { errors: formErrors },
+    handleSubmit,
+  } = useForm<ProfileForm>({
     defaultValues: profile,
+    reValidateMode: "onChange",
+    resolver: zodResolver(schema),
+  });
+
+  useEffect(() => {
+    // console.log(formErrors);
+    setErrors(normalizeFormErrors(formErrors));
+  }, [formErrors]);
+
+  const action: () => void = handleSubmit(async (data: ProfileForm) => {
+    const errors = await updateProfile(data);
+    errors && setErrors(errors);
   });
 
   return (
     <>
-      <ul className="error-messages">
-        <li>That name is required</li>
-      </ul>
-
-      <form>
+      <ErrorMessages messages={errors} />
+      <form onSubmit={action}>
         <fieldset>
           <fieldset className="form-group">
             <input
@@ -56,6 +89,7 @@ export default function Form({ profile }: FormProps) {
               className="form-control form-control-lg"
               type="password"
               placeholder="New Password"
+              {...register("password")}
             />
           </fieldset>
           <button className="btn btn-lg btn-primary pull-xs-right">

@@ -1,10 +1,10 @@
 "use server";
 
 import { signIn as authentication } from "@/auth";
-import { SigninForm, SignupForm } from "./definitions";
+import { ProfileForm, SigninForm, SignupForm } from "./definitions";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { register } from "./data";
+import { register, updateProfile as updateUser } from "./data";
 
 export async function signIn(
   formData: SigninForm,
@@ -42,4 +42,23 @@ export async function signUp(
 
   // 회원가입 후 이상 없으면 로그인 페이지로 이동
   redirect("/login");
+}
+
+export async function updateProfile(
+  formData: ProfileForm,
+): Promise<string[] | undefined> {
+  const data = await updateUser(formData);
+
+  if ("errors" in data) {
+    const errors: string[] = [];
+    Object.entries(data.errors).map(([field, fieldErrors]) => {
+      fieldErrors.forEach((error: string) =>
+        errors.push(`${field} is ${error}`),
+      );
+    });
+
+    return errors;
+  }
+
+  redirect(`/profile/${formData.username}`);
 }

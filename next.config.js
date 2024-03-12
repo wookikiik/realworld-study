@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "static.productionready.io",
         pathname: "/images/*",
       },
+      {
+        protocol: "https",
+        hostname: "dimg.donga.com",
+        pathname: "/**",
+      },
     ],
   },
 };

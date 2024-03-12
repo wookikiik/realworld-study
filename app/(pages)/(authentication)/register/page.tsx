@@ -27,34 +27,25 @@ export default function Page() {
     errors && setErrors(errors);
   });
 
-  const usernameField = register(
-    "username", //
-    // {
-    //   required: "Username is required.",
-    // },
-  );
+  const usernameField = register("username", {
+    required: "Username is required.",
+  });
 
-  const emailField = register(
-    "email", //
-    // {
-    //   required: "Email is required.",
-    //   pattern: {
-    //     value: /\S+@\S+\.\S+/,
-    //     message: "Email must be a valid email address.",
-    //   },
-    // },
-  );
+  const emailField = register("email", {
+    required: "Email is required.",
+    pattern: {
+      value: /\S+@\S+\.\S+/,
+      message: "Email must be a valid email address.",
+    },
+  });
 
-  const passwordField = register(
-    "password", //
-    // {
-    //   required: "Password is required.",
-    //   minLength: {
-    //     value: 5,
-    //     message: "Password must be at least 5 characters long.",
-    //   },
-    // },
-  );
+  const passwordField = register("password", {
+    required: "Password is required.",
+    minLength: {
+      value: 5,
+      message: "Password must be at least 5 characters long.",
+    },
+  });
 
   return (
     <>

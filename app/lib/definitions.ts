@@ -110,3 +110,11 @@ export interface SigninForm {
 export type SignupForm = SigninForm & {
   username: string;
 };
+
+export type ProfileForm = {
+  image: string;
+  username: string;
+  bio?: string;
+  email: string;
+  password?: string;
+};
