@@ -118,3 +118,10 @@ export type ProfileForm = {
   email: string;
   password?: string;
 };
+
+export type ArticleForm = {
+  title: string;
+  description: string;
+  body: string;
+  tagList?: string[];
+};
