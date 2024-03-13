@@ -1,16 +1,16 @@
-import Link from 'next/link';
+import { Article } from '@/app/lib/definitions';
 
-interface TabProperty {
-  id: '';
-  name: '';
-  href: '';
+interface TagsProperty {
+  article: Article;
 }
-
-export const Tags = ({ tabProperties }: { tabProperties: TabProperty[] }) => {
+export const Tags = ({ article }: TagsProperty) => {
   return (
     <ul className="tag-list">
-      <li className="tag-default tag-pill tag-outline">realworld</li>
-      <li className="tag-default tag-pill tag-outline">implementations</li>
+      {article.tagList.map((tag) => (
+        <li key={tag} className="tag-default tag-pill tag-outline">
+          {tag}
+        </li>
+      ))}
     </ul>
   );
 };

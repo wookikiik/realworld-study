@@ -10,6 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^3.3.4",
     "@types/node": "20.5.7",
     "autoprefixer": "10.4.15",
     "clsx": "^2.0.0",

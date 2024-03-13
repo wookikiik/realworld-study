@@ -1,20 +1,51 @@
-import { Articles } from './(pages)/(article)/_components/articles';
-import { FeedTab } from './ui/components/tab/feedTab';
-import { PopularTags } from './ui/components/tag/popularTags';
+import { getAuth } from './lib/utils/authentication';
+import { Articles } from './ui/components/article/Articles';
+import { FeedTab } from './ui/components/tab/FeedTab';
+import { PopularTags } from './ui/components/tag/PopularTags';
 
-export default async function Page() {
+interface PageProps {
+  searchParams: {
+    tab: string;
+    page?: string;
+  };
+}
+export default async function Page({ searchParams: { tab, page } }: PageProps) {
+  const { session } = await getAuth();
+
+  let feedTabs = [
+    {
+      name: 'global',
+      display: 'Global Feed',
+      query: '',
+    },
+  ];
+
+  if (session) {
+    feedTabs = [
+      {
+        name: 'my', //
+        display: 'Your Feed',
+        query: `?author=${session.user?.username}`,
+      },
+      ...feedTabs,
+    ];
+  }
+
+  const query: string[] = [];
+  tab && query.push(feedTabs.find((t) => t.name === tab)?.query || '');
+  page && query.push(`offset=${page}`);
+
   return (
     <div className="home-page">
       <TitleBanner />
 
-      {/* TODO: feed container ?? */}
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
             <div className="feed-toggle">
-              <FeedTab />
+              <FeedTab tabs={feedTabs} activeTab={tab || 'global'} />
             </div>
-            <Articles />
+            <Articles query={query.join('&')} />
           </div>
           <PopularTags />
         </div>

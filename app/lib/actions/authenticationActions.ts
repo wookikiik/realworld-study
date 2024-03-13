@@ -1,26 +1,28 @@
 'use server';
 
+import { SignForm, SignUpResponse } from '@/app/lib/definitions';
 import { signIn, signOut } from '@/auth';
-import { SignInForm } from '@/app/lib/definitions';
 import { AuthError } from 'next-auth';
+import { registration } from '../data';
 
-export const login = async (formData: SignInForm): Promise<string | void> => {
+export const signUp = async (formData: SignForm): Promise<SignUpResponse> => {
+  return await registration(formData);
+};
+
+export const login = async (formData: SignForm): Promise<string | void> => {
   try {
-    // Auth - signIn 호출
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
+      return error?.message;
     }
     throw error;
   }
 };
 
+/**
+ * TODO: destroy session, token
+ */
 export const logout = async ({ redirectTo = '/' }: { redirectTo?: string }) => {
   // Auth - signOut 호출
   await signOut({

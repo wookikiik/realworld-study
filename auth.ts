@@ -1,12 +1,13 @@
+import NextAuth, { AuthError, User } from 'next-auth';
+import { AdapterUser } from 'next-auth/adapters';
 import 'next-auth/jwt';
-import NextAuth, { User } from 'next-auth';
 import credentials from 'next-auth/providers/credentials';
 import { NextResponse } from 'next/server';
-import { login } from './app/lib/data';
-import { AdapterUser } from 'next-auth/adapters';
+import { authentication } from './app/lib/data';
 
 declare module 'next-auth' {
   interface User {
+    username: string;
     token: string;
     bio?: string;
   }
@@ -22,24 +23,19 @@ declare module 'next-auth/jwt' {
   }
 }
 
-/**
- *
- */
+export class SignError extends AuthError {
+  constructor({ message = 'Something went wrong.' }: { message?: string }) {
+    super();
+    this.message = message;
+  }
+}
+
 export const { auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: '/login',
     signOut: '/logout',
   },
-  /**
-   * @see https://authjs.dev/guides/basics/callbacks
-   */
   callbacks: {
-    // signIn: async ({ user, account, profile, email, credentials }) => {}
-    // redirect: async ({url, baseUrl}}) => {},
-    /**
-     * 페이지 접근을 핸들링 한다. next or redirect
-     * @see https://nextjs.org/learn/dashboard-app/adding-authentication
-     */
     authorized: async ({ auth, request: { nextUrl } }) => {
       if (!auth?.authenticated) {
         return NextResponse.next();
@@ -62,12 +58,12 @@ export const { auth, signIn, signOut } = NextAuth({
 
       return session;
     },
-    /**
-     * JWT가 생성되거나 업데이트 될 때 호출된다.
-     * i.e signin, 클라이언트에서 세션에 접근할 때 => 토큰 정보 업데이트
-     */
     jwt: async ({ token, user }) => {
-      user && (token.user = user);
+      if (user) {
+        token.user = user;
+        'token' in user && (token.accessToken = user.token);
+      }
+
       return token;
     },
   },
@@ -75,15 +71,22 @@ export const { auth, signIn, signOut } = NextAuth({
   providers: [
     credentials({
       authorize: async (credentials) => {
-        const user = await login({
-          email: credentials.email as string,
-          password: credentials.password as string,
-        });
+        try {
+          const { user, message } = await authentication({
+            email: credentials.email as string,
+            password: credentials.password as string,
+          });
 
-        if (user) {
-          return user;
-        } else {
-          return null;
+          if (user) {
+            return user;
+          }
+
+          throw new SignError({ message });
+        } catch (error) {
+          if (error instanceof AuthError) {
+            throw error;
+          }
+          throw new SignError({});
         }
       },
     }),

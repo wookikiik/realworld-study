@@ -1,7 +1,7 @@
 'use client';
 
-import { logout } from '@/app/lib/actions';
-import { useAuth } from '@/app/lib/providers/AuthProvider';
+import { logout } from '@/app/lib/actions/authenticationActions';
+import { useAuth } from '@/app/lib/hooks/useAuth';
 
 const LogoutButton = ({ redirectTo }: { redirectTo?: string }) => {
   const { authenticated } = useAuth();
@@ -12,7 +12,9 @@ const LogoutButton = ({ redirectTo }: { redirectTo?: string }) => {
 
   return (
     <form action={() => logout({ redirectTo })}>
-      <button className='btn btn-secondary'>Sign Out</button>
+      <button className="btn btn-outline-danger">
+        Or click here to logout.
+      </button>
     </form>
   );
 };

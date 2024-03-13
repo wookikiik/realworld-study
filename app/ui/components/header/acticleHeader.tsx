@@ -1,12 +1,16 @@
-import { ArticleMeta } from '../../../(pages)/(article)/_components/articleMeta';
+import { Article } from '@/app/lib/definitions';
+import { ArticleMeta } from '../article/ArticleMeta';
 
-export const ArticleHeader = () => {
+interface ArticleHeaderProps {
+  article: Article;
+}
+export const ArticleHeader = ({ article }: ArticleHeaderProps) => {
   return (
     <div className="banner">
       <div className="container">
-        <h1>How to build webapps that scale</h1>
+        <h1>{article.title}</h1>
 
-        <ArticleMeta />
+        <ArticleMeta article={article} />
       </div>
     </div>
   );

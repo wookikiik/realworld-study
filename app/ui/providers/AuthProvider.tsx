@@ -1,11 +1,8 @@
 'use client';
 
-import { createContext, useContext } from 'react';
 import { Session } from 'next-auth';
+import { createContext } from 'react';
 
-/**
- * Session을 제공하는 Context
- */
 export const AuthContext = createContext<Session | null>(null);
 
 /**
@@ -21,20 +18,6 @@ const AuthProvider = ({
   return (
     <AuthContext.Provider value={session}>{children}</AuthContext.Provider>
   );
-};
-
-/**
- * Session info hook for client-side
- * {@link getAuth}
- */
-export const useAuth = () => {
-  const session = useContext(AuthContext);
-
-  return {
-    session,
-    user: session?.user,
-    authenticated: session?.authenticated,
-  };
 };
 
 export default AuthProvider;

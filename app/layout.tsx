@@ -1,10 +1,10 @@
-import './styles/global.css';
+import './global.css';
 
-import { AppHeader } from './ui/components/header/appHeader';
-import { AppFooter } from './ui/components/footer/appFooter';
-import { PropsWithChildren } from 'react';
 import { Metadata } from 'next';
-import Auth from './lib/providers/Auth';
+import { PropsWithChildren } from 'react';
+import { AppFooter } from './ui/components/footer/AppFooter';
+import { AppHeader } from './ui/components/header/AppHeader';
+import Providers from './ui/providers/Providers';
 
 export const metadata: Metadata = {
   title: {
@@ -18,12 +18,15 @@ export default function RootLayout(props: PropsWithChildren) {
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" sizes="any" />
+      </head>
       <body>
-        <Auth>
+        <Providers>
           <AppHeader />
           {children}
           <AppFooter />
-        </Auth>
+        </Providers>
       </body>
     </html>
   );

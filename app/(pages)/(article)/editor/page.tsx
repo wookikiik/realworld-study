@@ -1,4 +1,4 @@
-import { ArticleEditor } from '@/app/(pages)/(article)/_components/articleEditor';
+import { ArticleEditor } from '@/app/ui/components/article/ArticleEditor';
 
 /**
  * 게시물 작성 페이지

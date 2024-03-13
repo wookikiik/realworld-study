@@ -9,7 +9,15 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'imgur.com/',
+        hostname: 'imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.productionready.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.stack.imgur.com',
       },
     ],
   },

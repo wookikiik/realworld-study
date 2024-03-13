@@ -1,41 +1,55 @@
+import { getArticles } from '@/app/lib/actions/articleActions';
+import { Article } from '@/app/lib/definitions';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArticleFavoriteButton } from './ArticleButtons';
 
 /**
  * 게시물 목록 컴포넌트
- * props.type 으로 처리: '' | 'my' | 'favorites' | ;g
  */
-const ArticleList = () => {
+const ArticleList = async ({ query = '' }: { query?: string }) => {
+  // useSwr
+  const { articles, articlesCount } = await getArticles(query);
+
   return (
     <>
-      {/* TODO: loop list */}
-      <ArticleItem />
-      <Pagination />
+      {articles.map((article) => (
+        <ArticleItem key={article.slug} article={article} />
+      ))}
+      <Pagination count={articlesCount} />
     </>
   );
 };
 
-const ArticleItem = () => {
+interface AcrticleItemProps {
+  article: Article;
+}
+const ArticleItem = ({ article }: AcrticleItemProps) => {
+  const { author } = article;
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link href="/profile/eric-simons">
+        <Link href={`/profile/${author.username}`}>
           <Image
-            src="http://i.imgur.com/Qr71crq.jpg"
+            src={author.image || '/images/smiley-cyrus.jpg'}
             alt=""
             width={512}
             height={512}
           />
         </Link>
         <div className="info">
-          <Link href="/profile/eric-simons" className="author">
-            Eric Simons
+          <Link href={`/profile/${author.username}`} className="author">
+            {author.username}
           </Link>
-          <span className="date">January 20th</span>
+          <span className="date">{article.createdAt}</span>
         </div>
-        <button className="btn btn-outline-primary btn-sm pull-xs-right">
-          <i className="ion-heart"></i> 29
-        </button>
+        <ArticleFavoriteButton
+          slug={article.slug}
+          favorited={article.favorited}
+          favoritesCount={article.favoritesCount}
+          isSimple={true}
+          className="pull-xs-right"
+        />
       </div>
       <Link
         href="/article/how-to-build-webapps-that-scale"
@@ -53,7 +67,10 @@ const ArticleItem = () => {
   );
 };
 
-const Pagination = () => {
+interface PaginationProps {
+  count: number;
+}
+const Pagination = ({ count }: PaginationProps) => {
   return (
     <ul className="pagination">
       <li className="page-item active">

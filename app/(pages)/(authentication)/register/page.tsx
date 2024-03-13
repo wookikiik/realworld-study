@@ -1,4 +1,10 @@
+import SignForm from '@/app/ui/components/user/SignForm';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Register',
+};
 
 export default function Page() {
   return (
@@ -10,37 +16,7 @@ export default function Page() {
             <p className="text-xs-center">
               <Link href="/login">Have an account?</Link>
             </p>
-
-            <ul className="error-messages">
-              <li>That email is already taken</li>
-            </ul>
-
-            <form>
-              <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="text"
-                  placeholder="Username"
-                />
-              </fieldset>
-              <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="text"
-                  placeholder="Email"
-                />
-              </fieldset>
-              <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="password"
-                  placeholder="Password"
-                />
-              </fieldset>
-              <button className="btn btn-lg btn-primary pull-xs-right">
-                Sign up
-              </button>
-            </form>
+            <SignForm isRegister={true} />
           </div>
         </div>
       </div>
