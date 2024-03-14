@@ -1,0 +1,131 @@
+/**
+=========================
+=========Articles========
+=========================
+*/
+/* 스켈레톤 공통 스타일 */
+.skeleton-avatar,
+.skeleton-author,
+.skeleton-date,
+.skeleton-button,
+.skeleton-title,
+.skeleton-description,
+.skeleton-read-more,
+.skeleton-tag {
+  background-color: #f0f0f0;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* 개별 요소 스타일 */
+.skeleton-avatar-info-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeleton-avatar-info {
+  display: flex;
+  align-items: center;
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-author {
+  width: 120px;
+  height: 16px;
+}
+
+.skeleton-date {
+  width: 180px;
+  height: 12px;
+}
+
+.skeleton-button {
+  width: 30px; /* 버튼 크기 조정 */
+  height: 20px; /* 버튼 크기 조정 */
+}
+
+.skeleton-title {
+  width: 400px;
+  height: 24px;
+}
+
+.skeleton-description {
+  width: 300px;
+  height: 16px;
+}
+
+.skeleton-read-more {
+  width: 80px;
+  height: 16px;
+}
+
+.tag-list-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tag-list {
+  display: flex;
+}
+
+.skeleton-tag {
+  width: 120px;
+  height: 20px;
+  border-radius: 10px;
+  margin-right: 8px;
+}
+
+/* 애니메이션 */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/**
+=========================
+======Setting Form=======
+=========================
+*/
+.skeleton {
+  animation: skeletonAnimation 1.5s infinite; /* 깜박이는 효과 추가 */
+}
+
+/* 실루엣 처리를 위한 스타일 */
+.skeleton::before {
+  content: '\00a0'; /* 빈 문자열 삽입 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes skeletonAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -3,7 +3,7 @@
 import { SignForm, SignUpResponse } from '@/app/lib/definitions';
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import { registration } from '../data';
+import { registration } from '../data/authentication';
 
 export const signUp = async (formData: SignForm): Promise<SignUpResponse> => {
   return await registration(formData);

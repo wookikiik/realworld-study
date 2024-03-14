@@ -1,6 +1,6 @@
-import { getCurrentUser } from '@/app/lib/data';
-import SettingForm from '@/app/ui/components/user/SettingForm';
-import LogoutButton from '../../ui/components/user/Logout';
+import { getCurrentUser } from '@/app/lib/actions/userActions';
+import SettingForm from '@/app/ui/components/form/SettingForm';
+import LogoutButton from '../../ui/components/profile/buttons/LogoutButton';
 
 export default async function Page() {
   const { user } = await getCurrentUser();

@@ -1,7 +1,6 @@
 import { Article as TypeOfArticle } from '@/app/lib/definitions';
 import { Comment } from '../comment/Comment';
 import { CommentEditor } from '../comment/CommentEditor';
-import { ArticleHeader } from '../header/ActicleHeader';
 import { Tags as ArticleTags } from '../tag/Tags';
 import { ArticleMeta } from './ArticleMeta';
 
@@ -11,7 +10,13 @@ interface ArticleProps {
 export const Article = async ({ article }: ArticleProps) => {
   return (
     <div className="article-page">
-      <ArticleHeader article={article} />
+      <div className="banner">
+        <div className="container">
+          <h1>{article.title}</h1>
+
+          <ArticleMeta article={article} />
+        </div>
+      </div>
 
       <div className="container page">
         <div className="row article-content">

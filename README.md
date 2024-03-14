@@ -1,13 +1,15 @@
-## Todo - sprint 4
+## Todo - sprint 5
 
-1. Form handling
+1. Data fetching and Rendring static/dynamic, streaming
 
-   - useFormState, useFormStatus
-   - react form hook
+client-component
 
-2. Visible by Authentication
+- useEffect : PopularTags
+- api router / useSWR : main, profile
+  server-component
+- server action, data.js
 
-3. Error handling
-   - Validation
-   - Api
-   - Common
+2. Streaming
+
+- 페이지 : loading.tsx
+- 컴포넌트 : Suspense

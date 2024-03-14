@@ -1,10 +1,7 @@
 import { auth } from '@/auth';
 import { SystemError } from '../errors';
 
-/**
- * TODO: set path variable & url params
- * TODO: error handler
- */
+const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const _errorHandler = async (response: Response) => {
   switch (response.status) {
@@ -12,6 +9,7 @@ const _errorHandler = async (response: Response) => {
     case 422:
       return await response.json();
     default:
+      // TODO: 전역 에러 처리
       return Promise.reject(new SystemError());
   }
 };
@@ -39,7 +37,7 @@ const _fetcher = async ({
   payload && (_options.body = JSON.stringify(payload));
 
   try {
-    const response = await fetch(`http://localhost:8080${url}`, _options);
+    const response = await fetch(`${BASE_API_URL}${url}`, _options);
 
     if (response.ok) {
       return await response.json();

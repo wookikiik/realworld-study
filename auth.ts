@@ -3,7 +3,7 @@ import { AdapterUser } from 'next-auth/adapters';
 import 'next-auth/jwt';
 import credentials from 'next-auth/providers/credentials';
 import { NextResponse } from 'next/server';
-import { authentication } from './app/lib/data';
+import { authentication } from './app/lib/data/authentication';
 
 declare module 'next-auth' {
   interface User {

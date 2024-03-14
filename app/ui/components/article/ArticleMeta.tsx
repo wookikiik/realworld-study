@@ -1,12 +1,10 @@
 import { Article } from '@/app/lib/definitions';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FollowButton } from '../profile/ProfileButtons';
-import {
-  ArticleDeleteButton,
-  ArticleEditButton,
-  ArticleFavoriteButton,
-} from './ArticleButtons';
+import { ArticleDeleteButton } from './buttons/ArticleDeleteButton';
+import { ArticleEditButton } from './buttons/ArticleEditButton';
+import { ArticleFavoriteButton } from './buttons/ArticleFavoriteButton';
+import { AuthorFollowButton } from './buttons/AuthorFollowButton';
 
 interface ArticleMetaProps {
   article: Article;
@@ -27,13 +25,9 @@ export const ArticleMeta = ({ article }: ArticleMetaProps) => {
         </Link>
         <span className="date">January 20th</span>
       </div>
-      <FollowButton profile={author} />
+      <AuthorFollowButton author={author} />
       &nbsp;
-      <ArticleFavoriteButton
-        slug={article.slug}
-        favorited={article.favorited}
-        favoritesCount={article.favoritesCount}
-      />
+      <ArticleFavoriteButton slug={article.slug} />
       <ArticleEditButton
         slug={article.slug}
         authorName={article.author.username}

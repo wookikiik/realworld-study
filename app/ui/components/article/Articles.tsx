@@ -1,15 +1,42 @@
-import { getArticles } from '@/app/lib/actions/articleActions';
+'use client';
+
 import { Article } from '@/app/lib/definitions';
+import { useArticles } from '@/app/lib/hooks/useArticle';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArticleFavoriteButton } from './ArticleButtons';
+import { ArticlesSkeleton } from '../../skeletons/article/Articles';
+import Pagination from '../common/Pagination';
+import { ArticleFavoriteButtonWithoutContext } from './buttons/ArticleFavoriteButton';
 
 /**
  * 게시물 목록 컴포넌트
  */
-const ArticleList = async ({ query = '' }: { query?: string }) => {
-  // useSwr
-  const { articles, articlesCount } = await getArticles(query);
+interface ArticleListProps {
+  query: {
+    tab?: string;
+    feed?: string;
+    tag?: string;
+  };
+  page?: string;
+  author?: string;
+}
+const ArticleList = ({ query, page, author }: ArticleListProps) => {
+  const { data, isLoading } = useArticles({
+    ...query,
+    page: Number(page),
+    author,
+  });
+
+  const articles = data?.articles || [];
+  const articlesCount = data?.articlesCount || 0;
+
+  if (isLoading) {
+    return <ArticlesSkeleton />;
+  }
+
+  if (articles.length === 0) {
+    return <div className="article-preview">No articles are here... yet.</div>;
+  }
 
   return (
     <>
@@ -24,7 +51,7 @@ const ArticleList = async ({ query = '' }: { query?: string }) => {
 interface AcrticleItemProps {
   article: Article;
 }
-const ArticleItem = ({ article }: AcrticleItemProps) => {
+export const ArticleItem = ({ article }: AcrticleItemProps) => {
   const { author } = article;
   return (
     <div className="article-preview">
@@ -43,7 +70,7 @@ const ArticleItem = ({ article }: AcrticleItemProps) => {
           </Link>
           <span className="date">{article.createdAt}</span>
         </div>
-        <ArticleFavoriteButton
+        <ArticleFavoriteButtonWithoutContext
           slug={article.slug}
           favorited={article.favorited}
           favoritesCount={article.favoritesCount}
@@ -51,39 +78,19 @@ const ArticleItem = ({ article }: AcrticleItemProps) => {
           className="pull-xs-right"
         />
       </div>
-      <Link
-        href="/article/how-to-build-webapps-that-scale"
-        className="preview-link"
-      >
-        <h1>How to build webapps that scale</h1>
-        <p>This is the description for the post.</p>
+      <Link href={`/article/${article.slug}`} className="preview-link">
+        <h1>{article.title}</h1>
+        <p>{article.description}</p>
         <span>Read more...</span>
         <ul className="tag-list">
-          <li className="tag-default tag-pill tag-outline">realworld</li>
-          <li className="tag-default tag-pill tag-outline">implementations</li>
+          {article.tagList.map((tag) => (
+            <li key={tag} className="tag-default tag-pill tag-outline">
+              {tag}
+            </li>
+          ))}
         </ul>
       </Link>
     </div>
-  );
-};
-
-interface PaginationProps {
-  count: number;
-}
-const Pagination = ({ count }: PaginationProps) => {
-  return (
-    <ul className="pagination">
-      <li className="page-item active">
-        <Link className="page-link" href="">
-          1
-        </Link>
-      </li>
-      <li className="page-item">
-        <Link className="page-link" href="">
-          2
-        </Link>
-      </li>
-    </ul>
   );
 };
 
