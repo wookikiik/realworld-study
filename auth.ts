@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import type { SessionUser,  UserAuthInfo } from './app/lib/definitions';
-import type { NextAuthConfig } from 'next-auth';
+import type {  UserAuthInfo } from './app/lib/definitions';
 import { login } from './app/login/data';
 import { NextResponse } from "next/server";
 
@@ -14,12 +13,13 @@ import { NextResponse } from "next/server";
 // 서버에서 사용하는 애는 따로 감쌈
 // 분리 / 
 
-declare module "next-auth" {
-    type User = Partial<User>;
-    interface Session {
-      user: SessionUser;
+declare module "next-auth" {    
+    interface User {
+        token: string
     }
   }
+
+  
 
 async function getUser(email: string, password: string): Promise<UserAuthInfo | undefined> {
     try {
@@ -58,10 +58,11 @@ export const { auth, signIn, signOut } = NextAuth({
 
             return NextResponse.next();
         },
-        session: async ({ session, token }) => {                    
+        session: async ({ session, token }) => {     
+            console.log('session token', token)               
             session.user.email = token.email as string
             session.user.name = token.name as string
-            session.user.token = token.sub as string
+            session.user.token = token.token as string
                         
             console.log("session", session);
             return session;
@@ -70,7 +71,8 @@ export const { auth, signIn, signOut } = NextAuth({
             console.log("jwt", user)            
             if (user) {
                 token.email = user.email
-                token.name = user.name                     
+                token.name = user.name     
+                token.token = user.token
                 console.log("token", token);
             }            
             return token;

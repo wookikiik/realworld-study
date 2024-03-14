@@ -46,10 +46,12 @@ export async function getFeed(): Promise<any> {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization' : `Token ${session?.user.token}`,
+          'Authorization' : `Token ${session?.user?.token}`,
         },              
       })
       
     const data = await res.json()
-    return data;
+    console.log('Authorization', `Token ${session?.user?.token}`)
+    console.log('getFeed', data);
+    return data?.articles;
 }

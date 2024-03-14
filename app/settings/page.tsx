@@ -1,4 +1,6 @@
-export default function Page() {
+import { auth } from "@/auth";
+export default async function Page() {
+    const session = await auth()
     return (
         <div className="settings-page">
             <div className="container page">
@@ -21,7 +23,7 @@ export default function Page() {
                                 <fieldset className="form-group">
                                     <textarea
                                         className="form-control form-control-lg"
-                                        rows="8"
+                                        rows={8}
                                         placeholder="Short bio about you"
                                     ></textarea>
                                 </fieldset>

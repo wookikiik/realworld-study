@@ -1,27 +1,26 @@
-'use server';
 import { titilliumWeb } from "./fonts";
-import { auth } from "@/auth";
 import ArticlePreview from "./articlePreview";
 import Pagination from "./pagination";
 import ToggleTab from "./toggleTab";
 import { getArticles, getFeed } from "../login/data";
+import { auth } from "@/auth";
 
 
 export default async function Home({
-  searchParams,
+  searchParams
 }: {
   searchParams?: {
     query?: string;
-    page?: string;
-  };
+    page?: string;    
+  },  
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-
   const session = await auth()
-  let articles = await getArticles({});
   const isLoggedIn = session?.user ? true : false;
-
+  let articles = getArticles({});
+  
+  
   async function onToggle(feed: string) {
     if(feed === 'global') {
       articles = await getArticles({});
@@ -29,6 +28,7 @@ export default async function Home({
     if(feed === 'feed') {
       articles = await getFeed();
     }
+    console.log('onToggle');
   }
 
   return (

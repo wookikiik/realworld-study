@@ -1,11 +1,13 @@
+'use server';
 import Home from "./ui/home";
-import { sourceSerif4 } from "./ui/fonts";
-import { SessionProvider } from "next-auth/react";
+// import { auth } from "@/auth";
 
-export default function Page() {
+export default async function Page() {
+  // const session = await auth()
+  // const isLoggedIn = session?.user ? true : false;
   return (
     <main>      
-      <Home />
+      <Home/>
     </main>
   );
 }

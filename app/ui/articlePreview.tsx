@@ -1,13 +1,8 @@
 'use server';
 import Image from "next/image";
 
-import { useEffect, useState } from "react";
-
-import { usePathname } from "next/navigation";
-
 export default async function ArticlePreview({articles}: any) {
     
-
     return (
         articles && articles.map((article: any, index: any) => {
             return (

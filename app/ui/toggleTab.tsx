@@ -1,6 +1,3 @@
-'use client';
-
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 export default function ToggleTab({ isLoggedIn, onToggle }: { isLoggedIn: boolean, onToggle: Function }) {
 
 
