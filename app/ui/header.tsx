@@ -1,10 +1,14 @@
+'use server';
 import { titilliumWeb } from "./fonts";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
+import Image from "next/image";
 
-export default function Header() {
-  const { data: session } = useSession();
-  const isLoggedIn = session?.user
+export default async function Header() {
+  const session = await auth()  
+  const isLoggedIn = session?.user;
+  console.log('header', session);
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -17,7 +21,7 @@ export default function Header() {
               Home
             </Link>
           </li>
-          {isLoggedIn ? <>
+          {!isLoggedIn ? <>
             <li className="nav-item">
               <Link className="nav-link" href="/login">
                 Sign in
@@ -37,11 +41,11 @@ export default function Header() {
               <li className="nav-item">
                 <Link className="nav-link" href="/settings">
                   <i className="ion-gear-a"></i>&nbsp;Settings </Link>
-              </li>
+              </li>              
               <li className="nav-item">
                 <Link className="nav-link" href="/profile/eric-simons">
-                  {/* <Image src="" className="user-pic" /> */}
-                  Eric Simons
+                  <Image src={session?.user?.image ?? ''} alt='' className="user-pic" unoptimized={true} width={25} height={25} />
+                  {session?.user?.name}
                 </Link>
               </li></>}
 

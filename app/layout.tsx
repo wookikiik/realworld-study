@@ -1,10 +1,7 @@
-'use client';
-
 import "./global.css";
 import Footer from "./ui/footer";
 import Header from "./ui/header";
 import { sourceSans3 } from "./ui/fonts";
-import Providers from "./provider";
 
 export default function RootLayout({
   children,
@@ -14,12 +11,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${sourceSans3.className} sans-serif`}>
-        <Providers>
+      <body className={`${sourceSans3.className} sans-serif`}>        
           <Header />
           {children}
           <Footer />
-        </Providers>
       </body>
     </html>
   );

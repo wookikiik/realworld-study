@@ -42,4 +42,12 @@ JWT 토큰 생성/갱신 (jwt 콜백 호출): 인증이 성공한 후, NextAuth.
     - 저장된 session을 확인하는 기능 ? SessionProvider
 3. nav 컴포넌트에 상태를 전달하여 해당 상태에 따라 다른 컴포넌트를 노출한다
 
-### /profile 경로 접근 시 이용자에 따른 profile []
+## mock 데이터로 리턴하던 login 값을 api 연결로 변경[0]
+
+## 본인이 작성한 글 tab 보이기
+
+## 회원 정보 변경 페이지 만들기
+
+## register api 연결[]
+## api 에러처리
+
