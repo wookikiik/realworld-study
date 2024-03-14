@@ -1,31 +1,18 @@
-export default function Pagination({
-  total,
-  perPage = 5,
-  current = 1,
-}: PaginationProps) {
-  const totalPage = Math.ceil(total / perPage);
-
+export default function Pagination({ totalPage, page }: PaginationProps) {
   return (
     <ul className="pagination">
-      {Array.from({ length: totalPage }).map((_, index) => {
-        const value = index + 1;
-        return (
-          <li
-            key={value}
-            className={`page-item ${value === current ? "active" : ""}`}
-          >
-            <a className="page-link" href="">
-              {value}
-            </a>
-          </li>
-        );
-      })}
+      {Array.from({ length: totalPage }, (_, i) => (
+        <li className={`page-item ${i + 1 === page ? "active" : ""}`} key={i}>
+          <a className="page-link" href="#">
+            {i + 1}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }
 
 type PaginationProps = {
-  total: number;
-  perPage?: number;
-  current?: number;
+  totalPage: number;
+  page?: number;
 };

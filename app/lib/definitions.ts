@@ -125,3 +125,12 @@ export type ArticleForm = {
   body: string;
   tagList?: string[];
 };
+
+export type FeedId = "feed" | "global" | "tag" | "user" | "favorited";
+
+export type FeedTab = {
+  id: FeedId;
+  active: boolean;
+  name: string;
+  onChangeTab: (tab: FeedTab) => void;
+};

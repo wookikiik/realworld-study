@@ -3,7 +3,14 @@ import Avatar from "./Avatar";
 import { FavoriteToggle } from ".";
 import AuthorAvatar from "./AuthorAvatar";
 
-export default function ArticlePreviews({ articles }: ArticlePreviewProps) {
+export default function ArticlePreviews({
+  articles,
+  articlesCount,
+}: ArticlePreviewProps) {
+  if (articlesCount === 0) {
+    return <div>No articles are here... yet.</div>;
+  }
+
   return (
     <>
       {articles.map((article) => (
@@ -38,4 +45,5 @@ function TagList({ tags }: { tags: string[] }) {
 
 type ArticlePreviewProps = {
   articles: Article[];
+  articlesCount: number;
 };

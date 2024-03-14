@@ -13,13 +13,7 @@ export default function PopularTags({ tags }: PopularTagsProps) {
 
     const params = new URLSearchParams(searchParams);
     const tagName = e.currentTarget.getAttribute("href");
-
-    searchParams.get("feed") && params.delete("feed");
-
-    tagName //
-      ? params.set("tag", tagName)
-      : params.delete("tag");
-
+    tagName && params.set("feed", tagName);
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -28,7 +22,7 @@ export default function PopularTags({ tags }: PopularTagsProps) {
       {tags.map((tag, index) => (
         <a
           key={index}
-          href={tag}
+          href={`#${tag}`}
           className="tag-pill tag-default"
           onClick={handleClick}
         >

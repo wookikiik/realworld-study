@@ -1,9 +1,9 @@
 import { fetchProfile } from "@/app/lib/data";
 import { auth } from "@/auth";
 import Image from "next/image";
-import FeedTabs from "./_components/FeedTabs";
+import Articles from "./_components/Articles";
 import Action from "./_components/Action";
-import { ArticlesWithPagination } from "@/app/ui/components";
+
 export default async function Page({
   params: { username },
   searchParams: { feed = "feed" },
@@ -36,8 +36,7 @@ export default async function Page({
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <FeedTabs feed={feed} />
-            <ArticlesWithPagination group="" value="" />
+            <Articles feed={feed} />
           </div>
         </div>
       </div>

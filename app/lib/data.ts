@@ -114,19 +114,9 @@ export async function fetchArticleListFeed(): Promise<
   };
 }
 
-export async function fetchArticleList(
+export async function mockupFetchArticleList(
   searchParams: ArticleListSearchParams & PaginationParams,
 ): Promise<ArticlesResponse> {
-  // const url = "/articles";
-  // const params: Record<string, string | number> = {};
-  // Object.entries(searchParams).forEach(([key, value]) => {
-  //   if (value) {
-  //     params[key] = value;
-  //   }
-  // });
-
-  // console.log(params);
-
   return {
     articles: [
       {
@@ -166,7 +156,13 @@ export async function fetchArticleList(
     ],
     articlesCount: 2,
   };
-  // const response = await GET("/articles", params);
+}
+
+export async function fetchArticleList(
+  searchParams: ArticleListSearchParams & PaginationParams,
+): Promise<ArticlesResponse | ErrorResponse> {
+  const response = await GET("/articles", searchParams);
+  return unWarpperResponseData(response);
 }
 
 export async function fetchArticle(

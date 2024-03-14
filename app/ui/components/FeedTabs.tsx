@@ -1,71 +1,36 @@
 "use client";
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-
-export default function FeedTabs({ tabs }: ComponentProps) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  function handleTabChange(e: React.MouseEvent<HTMLAnchorElement>) {
+export default function FeedTabs({ cssStyle, tabs, onChnageTab }: Props) {
+  function handleChnageTab(
+    e: React.MouseEvent<HTMLAnchorElement>,
+    tab: string,
+  ) {
     e.preventDefault();
-
-    const params = new URLSearchParams(searchParams);
-    const linkElement = e.target as HTMLAnchorElement;
-    const dataset = linkElement.dataset;
-    const group = dataset.group!!;
-    const value = dataset.value!!;
-
-    params.delete("tag");
-    params.delete("feed");
-
-    group //
-      ? params.set(group, value)
-      : params.delete(group);
-
-    replace(`${pathname}?${params.toString()}`);
+    onChnageTab(tab);
   }
 
   return (
-    <ul className="nav nav-pills outline-active">
-      {tabs.map((tab) => (
-        <li key={tab.id} className="nav-item">
-          <a
-            className={`nav-link ${tab.active ? "active" : ""}`}
-            href="#"
-            data-group={tab.group}
-            data-value={tab.value}
-            onClick={handleTabChange}
-          >
-            {tab.tabName}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div className={cssStyle}>
+      <ul className="nav nav-pills outline-active">
+        {tabs.map((tab) => (
+          <li className="nav-item" key={tab.id}>
+            <a
+              className={`nav-link ${tab.active ? "active" : ""}`}
+              href="#"
+              data-tab={tab.id}
+              onClick={(e) => handleChnageTab(e, tab.id)}
+            >
+              {tab.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
-export class FeedTabsBuilder {
-  _tabs: FeedTab[] = [];
-
-  addTab(tab: FeedTab) {
-    this._tabs.push(tab);
-    return this;
-  }
-
-  build() {
-    return <FeedTabs tabs={this._tabs} />;
-  }
+interface Props {
+  cssStyle: string;
+  tabs: { id: string; name: string; active: boolean }[];
+  onChnageTab: (tab: string) => void;
 }
-
-type ComponentProps = {
-  tabs: FeedTab[];
-};
-
-type FeedTab = {
-  id: string;
-  group: string;
-  value: string;
-  tabName: string;
-  active: boolean;
-};
