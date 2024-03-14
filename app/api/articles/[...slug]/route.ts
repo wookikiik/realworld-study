@@ -1,23 +1,36 @@
 import { fetchArticleList, fetchArticleListFeed } from "@/app/lib/data";
+import { ArticlesResponse, ErrorResponse } from "@/app/lib/definitions";
 
 export async function GET(
   request: Request,
   { params: { slug } }: { params: { slug: string[] } },
 ) {
+  let data: ArticlesResponse | ErrorResponse = {
+    articles: [],
+    articlesCount: 0,
+  };
+
   const [type, searchValue] = slug;
+  // console.log("GET", type, searchValue);
+
   if (type === "feed") {
-    const data =
-      searchValue === "global" //
-        ? await fetchArticleList({})
-        : await fetchArticleListFeed();
-
-    return Response.json(data);
+    switch (searchValue) {
+      case "feed":
+        data = await fetchArticleListFeed();
+        break;
+      case "global":
+        data = await fetchArticleList({});
+        break;
+    }
+  } else if (type === "author") {
+    data = await fetchArticleList({
+      author: searchValue,
+    });
+  } else if (type === "tag") {
+    // console.log("search by tag", searchValue);
+  } else {
+    console.log("Unknown feed type", type);
   }
-  // TODO: search by tag
-  else if (type === "tag") {
-    console.log("search by tag", searchValue);
-  }
 
-  console.warn("Unknown feed type", type);
-  return Response.json({ articles: [], articlesCount: 0 });
+  return Response.json(data);
 }

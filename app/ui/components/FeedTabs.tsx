@@ -11,16 +11,17 @@ export default function FeedTabs({ tabs }: ComponentProps) {
     e.preventDefault();
 
     const params = new URLSearchParams(searchParams);
-    const feed = e.currentTarget.getAttribute("href");
-    if (feed) {
-      params.set("feed", feed);
-      feed === "tag" //
-        ? params.set("tag", "tag")
-        : params.delete("tag");
-    } else {
-      params.delete("feed");
-      params.delete("tag");
-    }
+    const linkElement = e.target as HTMLAnchorElement;
+    const dataset = linkElement.dataset;
+    const group = dataset.group!!;
+    const value = dataset.value!!;
+
+    params.delete("tag");
+    params.delete("feed");
+
+    group //
+      ? params.set(group, value)
+      : params.delete(group);
 
     replace(`${pathname}?${params.toString()}`);
   }
@@ -28,13 +29,15 @@ export default function FeedTabs({ tabs }: ComponentProps) {
   return (
     <ul className="nav nav-pills outline-active">
       {tabs.map((tab) => (
-        <li key={tab.href} className="nav-item">
+        <li key={tab.id} className="nav-item">
           <a
             className={`nav-link ${tab.active ? "active" : ""}`}
-            href={tab.href}
+            href="#"
+            data-group={tab.group}
+            data-value={tab.value}
             onClick={handleTabChange}
           >
-            {tab.name}
+            {tab.tabName}
           </a>
         </li>
       ))}
@@ -60,7 +63,9 @@ type ComponentProps = {
 };
 
 type FeedTab = {
-  name: string;
-  href: string;
+  id: string;
+  group: string;
+  value: string;
+  tabName: string;
   active: boolean;
 };

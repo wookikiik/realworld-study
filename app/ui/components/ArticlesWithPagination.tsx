@@ -10,15 +10,16 @@ const articlesFetcher: Fetcher<ArticlesResponse, string> = (url) =>
 // /* 다중 인자 사용 방법: */ const { data: user } = useSWR(['/api/user', token], ([url, token]) => fetchWithToken(url, token))
 
 export default function ArticlesWithPagination({
-  feed,
-  tag,
+  group,
+  value,
   pagination,
 }: Props) {
   const { data, isLoading } = useSWR(
-    `/api/articles/${tag ? "tag" : "feed"}/${tag || feed}`,
+    `/api/articles/${group}/${value}`,
     articlesFetcher,
   );
 
+  // console.log(data);
   if (isLoading) return <div>Loading...</div>;
   if (!data?.articlesCount || data.articlesCount === 0) {
     return <div>No articles are here... yet.</div>;
@@ -35,7 +36,7 @@ type Pagination = {
 };
 
 type Props = {
-  feed: string;
-  tag?: string;
+  group: string;
+  value: string;
   pagination?: Pagination;
 };

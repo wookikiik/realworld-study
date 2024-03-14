@@ -37,7 +37,7 @@ export default async function Page({
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <FeedTabs feed={feed} />
-            <ArticlesWithPagination feed={feed} />
+            <ArticlesWithPagination group="" value="" />
           </div>
         </div>
       </div>

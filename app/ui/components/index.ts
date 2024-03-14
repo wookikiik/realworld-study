@@ -11,7 +11,6 @@ import ArticlePreviews from "./ArticlePreviews";
 import FavoriteToggle from "./FavoriteToggle";
 import Tabs from "./Tabs";
 import FeedTabSkeleton from "./FeedTabSkeleton";
-import ArticlesByTabs from "./ArticlesByTabs";
 import FeedTabs from "./FeedTabs";
 import ArticlesWithPagination from "./ArticlesWithPagination";
 
@@ -30,6 +29,5 @@ export {
   Tabs,
   FeedTabs,
   FeedTabSkeleton,
-  ArticlesByTabs,
   ArticlesWithPagination,
 };

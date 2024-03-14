@@ -1,7 +1,6 @@
 // Define an asynchronous function to fetch data
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
-
 import { auth } from "@/auth";
 import {
   ArticlesResponse,
@@ -9,7 +8,6 @@ import {
   ArticleResponse,
   CommentsResponse,
   ProfileResponse,
-  User,
   UserResponse,
   SignupForm,
   ErrorResponse,
@@ -70,7 +68,11 @@ export async function getCurrentUser(): Promise<UserResponse> {
   // };
 }
 
-export async function fetchArticleListFeed(): Promise<ArticlesResponse> {
+export async function fetchArticleListFeed(): Promise<
+  ArticlesResponse | ErrorResponse
+> {
+  const data = await GET("/articles/feed");
+  return unWarpperResponseData(data);
   return {
     articles: [
       {

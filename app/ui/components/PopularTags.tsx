@@ -12,17 +12,13 @@ export default function PopularTags({ tags }: PopularTagsProps) {
     e.preventDefault();
 
     const params = new URLSearchParams(searchParams);
-    const tag = e.currentTarget.getAttribute("href");
+    const tagName = e.currentTarget.getAttribute("href");
 
-    const feed = searchParams.get("feed");
+    searchParams.get("feed") && params.delete("feed");
 
-    if (tag) {
-      params.set("tag", tag);
-      feed !== "tag" && params.set("feed", "tag");
-    } else {
-      params.delete("feed");
-      params.delete("tag");
-    }
+    tagName //
+      ? params.set("tag", tagName)
+      : params.delete("tag");
 
     replace(`${pathname}?${params.toString()}`);
   }

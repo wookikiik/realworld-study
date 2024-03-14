@@ -3,29 +3,35 @@
 import { useAuth } from "@/app/lib/providers/AuthProvider";
 import { FeedTabsBuilder } from "./FeedTabs";
 
-export default function HomeFeedTab({ feed, tag }: Props) {
+export default function HomeFeedTab({ group, value }: Props) {
   const { isLogined } = useAuth();
 
   const builder = new FeedTabsBuilder();
   if (isLogined) {
     builder.addTab({
-      name: "Your Feed",
-      href: "feed",
-      active: feed === "feed",
+      id: "1",
+      group: "feed",
+      value: "feed",
+      tabName: "Your Feed",
+      active: group === "feed" && value === "feed",
     });
   }
 
   builder.addTab({
-    name: "Global Feed",
-    href: "global",
-    active: feed === "global",
+    id: "2",
+    group: "feed",
+    value: "global",
+    tabName: "Global Feed",
+    active: group === "feed" && value === "global",
   });
 
-  if (tag && feed === "tag") {
+  if (group === "tag") {
     builder.addTab({
-      name: `#${tag}`,
-      href: "tag",
-      active: feed === "tag",
+      id: "3",
+      group: "tag",
+      value,
+      tabName: `#${value}`,
+      active: group === "tag",
     });
   }
 
@@ -33,6 +39,6 @@ export default function HomeFeedTab({ feed, tag }: Props) {
 }
 
 type Props = {
-  feed: string;
-  tag?: string;
+  group: string;
+  value: string;
 };

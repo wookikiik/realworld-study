@@ -33,8 +33,14 @@ export default async function Home({
         <div className="row">
           <div className="col-md-9">
             <Suspense fallback={<div>Loading...</div>}>
-              <HomeFeedTab feed={currentFeed} tag={tag} />
-              <ArticlesWithPagination feed={currentFeed} tag={tag} />
+              <HomeFeedTab
+                group={tag ? "tag" : "feed"}
+                value={tag || currentFeed}
+              />
+              {/* <ArticlesWithPagination
+                group={tag ? "tag" : "feed"}
+                value={tag || currentFeed}
+              /> */}
             </Suspense>
           </div>
 
