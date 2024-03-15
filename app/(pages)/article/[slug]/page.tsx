@@ -1,10 +1,8 @@
-import { fetchArticle, fetchComments } from "@/app/lib/data";
-import { useAuth } from "@/app/lib/hooks";
-import { TagList } from "@/app/ui/components";
-import ArticleMeta from "./_components/ArticleMeta";
-import Comments from "./_components/Comments";
-import PostComment from "./_components/PostComment";
 import ReactMarkdown from "react-markdown";
+import { auth } from "@/auth";
+import { fetchArticle, fetchComments } from "@/app/lib/data";
+import { TagList } from "@/app/ui/components";
+import { ArticleMeta, Comments, PostComment } from "./_components";
 
 export default async function Page({ params: { slug } }: PageProps) {
   const [article, comments] = await Promise.all([
@@ -19,7 +17,9 @@ export default async function Page({ params: { slug } }: PageProps) {
     fetchComments(slug).then((data) => data.comments),
   ]);
 
-  const { user, isLogined } = await useAuth();
+  const session = await auth();
+  const user = session?.user;
+
   const isArticleAuthor = user?.name === article.author.username;
 
   return (
@@ -48,7 +48,7 @@ export default async function Page({ params: { slug } }: PageProps) {
 
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
-            {isLogined && !isArticleAuthor && <PostComment />}
+            {!!user && !isArticleAuthor && <PostComment />}
             <Comments comments={comments} />
           </div>
         </div>

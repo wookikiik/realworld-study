@@ -68,6 +68,17 @@ export async function createArticle(
   redirect(`/article/${data.article.slug}`);
 }
 
+export async function updateArticle(
+  formData: ArticleForm,
+): Promise<string[] | undefined> {
+  const data = await callCreateArticle(formData);
+  if ("errors" in data) {
+    return flatErrors(data);
+  }
+
+  redirect(`/article/${data.article.slug}`);
+}
+
 function flatErrors(response: ErrorResponse) {
   const errors: string[] = [];
   Object.entries(response.errors).map(([field, fieldErrors]) => {
