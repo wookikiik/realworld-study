@@ -5,7 +5,6 @@ export interface User {
   username: string;
   image?: string | null;
   bio?: string;
-  token: string;
 }
 
 export interface Profile {

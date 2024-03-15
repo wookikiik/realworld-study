@@ -9,11 +9,10 @@ import { AuthContext } from '../../ui/providers/AuthProvider';
  */
 
 export const useAuth = () => {
-  const session = useContext(AuthContext);
+  const { currentUser, authenticated } = useContext(AuthContext);
 
   return {
-    session,
-    user: session?.user,
-    authenticated: session?.authenticated,
+    user: currentUser,
+    authenticated,
   };
 };

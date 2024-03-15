@@ -1,9 +1,9 @@
-import { getCurrentUser } from '@/app/lib/actions/userActions';
+import { fetchCurrentUser } from '@/app/lib/data/user';
 import SettingForm from '@/app/ui/components/form/SettingForm';
 import LogoutButton from '../../ui/components/profile/buttons/LogoutButton';
 
 export default async function Page() {
-  const { user } = await getCurrentUser();
+  const { user } = await fetchCurrentUser();
 
   return (
     <div className="settings-page">

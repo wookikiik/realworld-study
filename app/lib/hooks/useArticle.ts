@@ -7,7 +7,6 @@ const articlesFetcher: Fetcher<ArticlesResponse, string> = (url) =>
 
 /**
  * 게시물 목록 조회 hook
- * - query parameter를 읽어 Route API 호출
  */
 interface Params {
   tab?: string;
@@ -35,7 +34,7 @@ export const useArticles = ({
     queryParams.set('author', author);
   }
   if (tab) {
-    queryParams.set(tab === 'my' ? 'author' : 'favorited', author);
+    queryParams.set(tab === 'favorited' ? 'favorited' : 'author', author);
   }
 
   const offset = (page - 1) * limit;

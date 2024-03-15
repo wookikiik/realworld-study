@@ -20,8 +20,8 @@ export const MainFeed = async ({
   tag,
   page = '1',
 }: MainFeedProps) => {
-  const { session } = await getAuth();
-  const FEED_TABS = session?.authenticated
+  const { user, authenticated } = await getAuth();
+  const FEED_TABS = authenticated
     ? MAIN_FEED_TABS
     : MAIN_FEED_TABS_FOR_ANONYMOUS;
 
@@ -36,7 +36,7 @@ export const MainFeed = async ({
             <Articles
               query={tag ? { tag } : { feed }}
               page={page}
-              author={session?.user.username}
+              author={user?.username}
             />
           </Suspense>
         </div>

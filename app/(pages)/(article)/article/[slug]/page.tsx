@@ -1,4 +1,4 @@
-import { getAtricle } from '@/app/lib/actions/articleActions';
+import { fetchArticle } from '@/app/lib/data/article';
 import { Article } from '@/app/ui/components/article/Article';
 import FavoriteProvider from '@/app/ui/providers/FavoriteProvider';
 import FollowProvider from '@/app/ui/providers/FollowProvider';
@@ -11,7 +11,7 @@ export default async function Page({
 }: {
   params: { slug: string };
 }) {
-  const { article } = await getAtricle(slug);
+  const { article } = await fetchArticle(slug);
 
   return (
     <FollowProvider follow={article.author.following}>

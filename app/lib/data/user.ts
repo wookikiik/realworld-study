@@ -14,7 +14,6 @@ import { DELETE, GET, POST, PUT } from '../utils/fetch';
 
 export const fetchCurrentUser = async (): Promise<ResponseWithUser> => {
   noStore();
-  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   const { user } = await GET({
     url: '/user',

@@ -8,7 +8,7 @@ import { authentication } from './app/lib/data/authentication';
 declare module 'next-auth' {
   interface User {
     username: string;
-    token: string;
+    token?: string;
     bio?: string;
   }
   interface Session {

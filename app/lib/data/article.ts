@@ -82,11 +82,11 @@ export const fetchArticles = async (
   query: string
 ): Promise<ArticlesResponse> => {
   noStore();
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const { articles, articlesCount } = await GET({
     url: `/articles?${query}`,
   });
-  console.log(`/articles?${query}`);
 
   return { articles, articlesCount };
 };
@@ -99,11 +99,11 @@ export const fetchFeedArticles = async (
   query: string
 ): Promise<ArticlesResponse> => {
   noStore();
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const { articles, articlesCount } = await GET({
     url: `/articles/feed?${query}`,
   });
-  console.log(`/articles/feed?${query}`);
 
   return { articles, articlesCount };
 };
@@ -165,7 +165,6 @@ export const favoriteArticle = async (
     url: `/articles/${slug}/favorite`,
   });
 
-  console.log(article);
   return { article };
 };
 

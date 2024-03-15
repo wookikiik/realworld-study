@@ -1,22 +1,32 @@
 'use client';
 
-import { Session } from 'next-auth';
+import { User } from 'next-auth';
 import { createContext } from 'react';
 
-export const AuthContext = createContext<Session | null>(null);
+export const AuthContext = createContext<{
+  currentUser?: User;
+  authenticated?: boolean;
+}>({
+  currentUser: undefined,
+  authenticated: false,
+});
 
 /**
  * SessionContext를 제공하는 Provider
  */
 const AuthProvider = ({
-  session,
+  currentUser,
+  authenticated = false,
   children,
 }: {
-  session: Session | null;
+  currentUser?: User;
+  authenticated?: boolean;
   children: React.ReactNode;
 }) => {
   return (
-    <AuthContext.Provider value={session}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ currentUser, authenticated }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

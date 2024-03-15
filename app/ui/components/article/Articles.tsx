@@ -4,9 +4,10 @@ import { Article } from '@/app/lib/definitions';
 import { useArticles } from '@/app/lib/hooks/useArticle';
 import Image from 'next/image';
 import Link from 'next/link';
+import FavoriteProvider from '../../providers/FavoriteProvider';
 import { ArticlesSkeleton } from '../../skeletons/article/Articles';
 import Pagination from '../common/Pagination';
-import { ArticleFavoriteButtonWithoutContext } from './buttons/ArticleFavoriteButton';
+import { ArticleFavoriteButton } from './buttons/ArticleFavoriteButton';
 
 /**
  * 게시물 목록 컴포넌트
@@ -70,13 +71,16 @@ export const ArticleItem = ({ article }: AcrticleItemProps) => {
           </Link>
           <span className="date">{article.createdAt}</span>
         </div>
-        <ArticleFavoriteButtonWithoutContext
-          slug={article.slug}
+        <FavoriteProvider
           favorited={article.favorited}
           favoritesCount={article.favoritesCount}
-          isSimple={true}
-          className="pull-xs-right"
-        />
+        >
+          <ArticleFavoriteButton
+            slug={article.slug}
+            isSimple={true}
+            className="pull-xs-right"
+          />
+        </FavoriteProvider>
       </div>
       <Link href={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>
