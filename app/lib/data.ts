@@ -247,6 +247,20 @@ export async function updateProfile(
   return unWarpperResponseData<UserResponse>(response);
 }
 
+export async function followUser(
+  username: string,
+): Promise<ProfileResponse | ErrorResponse> {
+  const response = await POST(`/profiles/${username}/follow`);
+  return unWarpperResponseData(response);
+}
+
+export async function unfollowUser(
+  username: string,
+): Promise<ProfileResponse | ErrorResponse> {
+  const response = await DELETE(`/profiles/${username}/follow`);
+  return unWarpperResponseData(response);
+}
+
 async function POST(url: string, data?: Record<string, any>) {
   return callAPI(url, "POST", data);
 }
@@ -260,9 +274,13 @@ async function PUT(url: string, data?: Record<string, any>) {
   return callAPI(url, "PUT", data);
 }
 
+async function DELETE(url: string) {
+  return callAPI(url, "DELETE");
+}
+
 async function callAPI(
   url: string,
-  method: "GET" | "POST" | "PUT",
+  method: "GET" | "POST" | "PUT" | "DELETE",
   data?: Record<string, any>,
 ) {
   const headers: Record<string, any> = {
