@@ -26,7 +26,7 @@ export async function login(
 type articlesParam = {
     tag?: string, author?: string, favorited?: string, offset?: number}
 
-export async function getArticles(articlesParam: articlesParam): Promise<any> {        
+export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> {        
     const res = await fetch(URL + 'articles', {
         method: 'GET',
         headers: {
@@ -40,7 +40,7 @@ export async function getArticles(articlesParam: articlesParam): Promise<any> {
     return data.articles;
 }
 
-export async function getFeed(): Promise<any> {  
+export async function getYourFeed(): Promise<any> {  
     const session = await auth();  
     const res = await fetch(URL + 'articles/feed', {
         method: 'GET',
@@ -55,3 +55,14 @@ export async function getFeed(): Promise<any> {
     console.log('getFeed', data);
     return data?.articles;
 }
+
+export async function getFeed(query: string): Promise<any> {    
+  let feed;
+  if(!query)  {
+     feed = await getGlobalFeed({});
+  } else {
+    feed = await getYourFeed();
+  }
+  return feed;
+}  
+

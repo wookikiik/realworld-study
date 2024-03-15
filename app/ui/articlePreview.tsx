@@ -1,10 +1,12 @@
 'use server';
 import Image from "next/image";
+import { getFeed } from "../login/data";
 
-export default async function ArticlePreview({articles}: any) {
-    
+export default async function ArticlePreview({ query }: {query: string}) {
+    const articles = await getFeed(query);    
+  
     return (
-        articles && articles.map((article: any, index: any) => {
+        articles.map((article: any, index: any) => {
             return (
                 <div className="article-preview" key={index}>
                     <div className="article-meta">
