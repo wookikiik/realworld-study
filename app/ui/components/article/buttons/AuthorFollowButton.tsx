@@ -30,9 +30,9 @@ export const AuthorFollowButton = ({
         return;
       }
 
-      const data = await fetch(
-        `/api/user/follow?username=${author.username}&follow=${follow ? 'unfollow' : 'follow'}`
-      ).then((res) => res.json());
+      const data = await fetch(`/api/user/${author.username}/follow`, {
+        method: follow ? 'DELETE' : 'POST',
+      }).then((res) => res.json());
 
       setFollow((data.profile as Author).following);
     } catch (error) {

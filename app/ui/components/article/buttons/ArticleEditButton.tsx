@@ -21,7 +21,7 @@ export const ArticleEditButton = ({
   }
 
   const handleClick = () => {
-    router.push(`/article/${slug}`);
+    router.push(`/editor/${slug}`);
   };
 
   return (

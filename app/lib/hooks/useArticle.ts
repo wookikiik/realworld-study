@@ -41,8 +41,9 @@ export const useArticles = ({
   queryParams.set('offset', offset.toString());
   queryParams.set('limit', limit.toString());
 
+  const url = type === 'feed' ? '/api/articles/feed' : '/api/articles';
   const { data, isLoading, error } = useSWR(
-    `/api/articles/${type}?${queryParams.toString()}`,
+    `${url}?${queryParams.toString()}`,
     articlesFetcher
   );
 

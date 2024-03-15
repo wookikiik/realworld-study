@@ -35,9 +35,9 @@ export const ArticleFavoriteButton = ({
         return;
       }
 
-      const data = await fetch(
-        `/api/article/favorite?slug=${slug}&favorite=${favorited ? 'unfavorite' : 'favorite'}`
-      ).then((res) => res.json());
+      const data = await fetch(`/api/article/${slug}/favorite`, {
+        method: favorited ? 'DELETE' : 'POST',
+      }).then((res) => res.json());
 
       setFavorited((data.article as Article).favorited);
       setFavoritesCount((data.article as Article).favoritesCount);

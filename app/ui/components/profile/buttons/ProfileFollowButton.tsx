@@ -30,9 +30,9 @@ export const ProfileFollowButton = ({
         return;
       }
 
-      const data = await fetch(
-        `/api/user/follow?username=${profile.username}&follow=${follow ? 'unfollow' : 'follow'}`
-      ).then((res) => res.json());
+      const data = await fetch(`/api/user/${profile.username}/follow`, {
+        method: follow ? 'DELETE' : 'POST',
+      }).then((res) => res.json());
 
       setFollow((data.profile as Profile).following);
     } catch (error) {
