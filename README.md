@@ -44,7 +44,7 @@ JWT 토큰 생성/갱신 (jwt 콜백 호출): 인증이 성공한 후, NextAuth.
 
 ## mock 데이터로 리턴하던 login 값을 api 연결로 변경[0]
 
-## 본인이 작성한 글 tab 보이기 [x]
+## 본인이 작성한 글 tab 보이기 [0]
 
 page 컴포넌트에서 auth를 받아서 home에 전달할 경우
 - home 컴포넌트는 클라이언트 컴포넌트가 되어서 ToggleTab을 받을 수 있음
@@ -58,10 +58,15 @@ home 컴포넌트에서 auth를 받을 경우
 
 url 변경하여 변경된 query에 따라 fetch 하는 방법
 - url이 변경되어도 화면을 제랜더링 하지 않음
+-> page 레벨에서만 searchParam을 받을 수 있다!
+
+## tab 페이지 처리 []
 
 ## 회원 정보 변경 페이지 만들기 []
 
 ## register api 연결[]
 
-## api 에러처리
+## api 에러처리 []
+
+## article preview Image 에러 []
 

@@ -3,14 +3,17 @@ import Home from "./ui/home";
 import { Suspense } from "react";
 // import { auth } from "@/auth";
 
-export default async function Page() {
-  // const session = await auth()
-  // const isLoggedIn = session?.user ? true : false;
+export default async function Page({
+  searchParams
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;    
+  },  
+}) {  
   return (
     <main>
-      <Suspense fallback={<div>Loading..</div>}>
-        <Home />
-      </Suspense>
+        <Home searchParams={searchParams}/>
     </main>
   );
 }

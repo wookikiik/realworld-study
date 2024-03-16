@@ -2,45 +2,22 @@ import { titilliumWeb } from "./fonts";
 import ArticlePreview from "./articlePreview";
 import Pagination from "./pagination";
 import ToggleTab from "./toggleTab";
-import { getGlobalFeed, getYourFeed } from "../login/data";
+import { getFeed } from "../login/data";
 import { auth } from "@/auth";
-import { Suspense } from "react";
-
 
 export default async function Home({
   searchParams
 }: {
   searchParams?: {
     query?: string;
-    page?: string;    
-  },  
+    page?: string;
+  },
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const session = await auth()
   const isLoggedIn = session?.user ? true : false;
-  let articles;
-
-  console.log("searchParams", searchParams)
-  console.log("searchParams?.query", searchParams?.query)
-  console.log("query", query);
-
-  // if(!query)  {
-  //   articles = await getGlobalFeed({});
-  // } else {
-  //   articles = await getYourFeed();
-  // }
-  
-  
-  // async function onToggle(feed: string) {
-  //   if(feed === 'global') {
-  //     articles = await getArticles({});
-  //   }
-  //   if(feed === 'feed') {
-  //     articles = await getFeed();
-  //   }
-  //   console.log('onToggle');
-  // }
+  const articles = await getFeed(query, currentPage.toString());
 
   return (
     <div className="home-page">
@@ -54,11 +31,9 @@ export default async function Home({
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <ToggleTab isLoggedIn={isLoggedIn}/>
-            <Suspense fallback={<div>Loading..</div>}>
-              <ArticlePreview query={query}/>
-            </Suspense>
-            <Pagination />
+            <ToggleTab isLoggedIn={isLoggedIn} />
+            <ArticlePreview articles={articles?.articles} />
+            <Pagination totalArticles={articles?.articlesCount}/>
           </div>
 
           <div className="col-md-3">

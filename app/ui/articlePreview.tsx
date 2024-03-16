@@ -2,8 +2,7 @@
 import Image from "next/image";
 import { getFeed } from "../login/data";
 
-export default async function ArticlePreview({ query }: {query: string}) {
-    const articles = await getFeed(query);    
+export default async function ArticlePreview({articles}: any) {    
   
     return (
         articles.map((article: any, index: any) => {

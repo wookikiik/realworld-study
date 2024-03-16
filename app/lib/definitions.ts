@@ -7,6 +7,8 @@ export interface UserAuthInfo {
     token: string,
 }
 
+export const ARTICLES_PER_PAGE = 10;
+
 // export interface SessionUser {
 //     email: string;
 //     name: string;
