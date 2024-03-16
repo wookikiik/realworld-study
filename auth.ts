@@ -17,15 +17,13 @@ declare module "next-auth" {
     interface User {
         token: string
     }
-  }
-
-  
+  }  
 
 async function getUser(email: string, password: string): Promise<UserAuthInfo | undefined> {
     try {
         const user = await login(email, password);
-        console.log('getUser---');
-        console.log({user, name: user.username});
+        // console.log('getUser---');
+        // console.log({user, name: user.username});
         const editUser = {...user, name: user.username}
         return editUser;
     } catch (error) {        
@@ -59,21 +57,21 @@ export const { auth, signIn, signOut } = NextAuth({
             return NextResponse.next();
         },
         session: async ({ session, token }) => {     
-            console.log('session token', token)               
+            // console.log('session token', token)               
             session.user.email = token.email as string
             session.user.name = token.name as string
             session.user.token = token.token as string
                         
-            console.log("session", session);
+            // console.log("session", session);
             return session;
         },
         jwt: async ({ token, user }) => {    
-            console.log("jwt", user)            
+            // console.log("jwt", user)            
             if (user) {
                 token.email = user.email
                 token.name = user.name     
                 token.token = user.token
-                console.log("token", token);
+                // console.log("token", token);
             }            
             return token;
         },
@@ -81,10 +79,10 @@ export const { auth, signIn, signOut } = NextAuth({
     providers: [
         Credentials({
             async authorize(credentials) {        
-                console.log('credentials',credentials);  
+                // console.log('credentials',credentials);  
                 const user = await getUser(credentials.email as string, credentials.password as string);                
                 if (!user) return null;
-                console.log("authorize", user);
+                // console.log("authorize", user);
                 return user;
             },
         }),

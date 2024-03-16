@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import Image from "next/image";
 
 export default async function Header() {
-  const session = await auth()  
+  const session = await auth();  
   const isLoggedIn = session?.user;
   console.log('header', session);
 

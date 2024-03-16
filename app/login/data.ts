@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { ARTICLES_PER_PAGE } from '../lib/definitions';
 const URL = 'https://api.realworld.io/api/'
 
+
 export async function login(
   email: string,
   password: string,
@@ -47,13 +48,13 @@ export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> 
 }
 
 export async function getYourFeed(articlesParam: articlesParam): Promise<any> {
-  const session = await auth();
+  const userSession = await getSessionToken();
   const res = await fetch(URL + 'articles/feed?' +
     convertParamsToQueryString(articlesParam), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${session?.user?.token}`,
+      'Authorization': `Token ${userSession}`,
     },
   })
 
@@ -79,6 +80,22 @@ export async function getFeed(query: string, page: string): Promise<any> {
   return feed;
 }
 
+export async function getCurrentUser(): Promise<any> {
+  console.log("getCurrentUser1");
+  // const userSession = await getSessionToken();
+  const res = await fetch(URL + 'user', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
+    },
+  })
+
+  const data = await res.json()  
+  console.log("getCurrentUser", data);
+  return data?.user;
+}
+
 function calculateOffset(currentPage: string) {
   return (Number(currentPage) - 1) * ARTICLES_PER_PAGE;
 }
@@ -89,4 +106,10 @@ function convertParamsToQueryString(params: articlesParam): string {
       encodeURIComponent(params[key]))
     .join('&');
 
+}
+
+async function getSessionToken(): Promise<any> {
+  const session = await auth();
+  console.log("session", session);
+  return session?.user?.token
 }

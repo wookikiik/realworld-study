@@ -31,7 +31,7 @@ export default function Page() {
                       <li key={key}>{error.message}</li>
                   ))}
                 </ul>
-                <InputName name="name" register={register}/>
+                <InputName name={"username"} register={register}/>
                 <InputEmail name={"email"} register={register} />
                 <InputPassword name={"password"} register={register}/>
                 <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>

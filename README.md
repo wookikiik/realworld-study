@@ -63,6 +63,17 @@ url 변경하여 변경된 query에 따라 fetch 하는 방법
 ## tab 페이지 처리 [0]
 
 ## 회원 정보 변경 페이지 만들기 []
+### 회원 정보 전시 []
+- settings 페이지를 use client로 만들었을 때, header에서 에러 발생
+Uncaught (in promise) Error: Invariant: headers() expects to have requestAsyncStorage, none available. 
+- user의 token을 가져오는 api를 보낼 때 에러가 남. 
+- mock 데이터로 임시 처리 
+-> 이유 및 해결 필요 []
+    
+
+### 에러 메시지 전시 []
+### api 연결 []
+### 로그아웃 기능 []
 
 ## register api 연결[]
 

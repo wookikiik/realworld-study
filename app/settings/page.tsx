@@ -1,6 +1,31 @@
-import { auth } from "@/auth";
-export default async function Page() {
-    const session = await auth()
+'use client'
+import { getCurrentUser } from "../login/data";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+export default function Page() {
+
+    const { register, handleSubmit, setValue } = useForm();
+
+    useEffect(() => {
+        async function fetchData() {
+            console.log('fetchData');
+            const response = await getCurrentUser();
+            console.log('response', response);
+            // const data = await response.json();
+
+            // setValue('email', data?.email);
+            // setValue('username', data?.username);
+            // setValue('bio', data?.bio);
+            // setValue('image', data.image);
+        };
+
+        fetchData();
+    }, [setValue]); // setValue를 의존성 배열에 추가
+
+    // 폼 제출 핸들러
+    const onSubmit = (data: any) => console.log(data);
+
+
     return (
         <div className="settings-page">
             <div className="container page">
