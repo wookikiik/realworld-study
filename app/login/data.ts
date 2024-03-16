@@ -28,16 +28,12 @@ type articlesParam = Record<string, any>;
 
 export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> {
 
-  const queryString = Object.keys(articlesParam)
-    .map(key => encodeURIComponent(key) + '=' +
-      encodeURIComponent(articlesParam[key]))
-    .join('&');
+  // console.log("articlesParam", articlesParam);
+  // console.log('queryString', queryString);
+  // console.log("URL + 'articles' + queryString,", URL + 'articles' + queryString)
 
-    // console.log("articlesParam", articlesParam);
-    // console.log('queryString', queryString);
-    // console.log("URL + 'articles' + queryString,", URL + 'articles' + queryString)
-
-  const res = await fetch(URL + 'articles?' + queryString, {
+  const res = await fetch(URL + 'articles?' +
+    convertParamsToQueryString(articlesParam), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -50,9 +46,10 @@ export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> 
   return data;
 }
 
-export async function getYourFeed(): Promise<any> {
+export async function getYourFeed(articlesParam: articlesParam): Promise<any> {
   const session = await auth();
-  const res = await fetch(URL + 'articles/feed', {
+  const res = await fetch(URL + 'articles/feed?' +
+    convertParamsToQueryString(articlesParam), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -73,7 +70,9 @@ export async function getFeed(query: string, page: string): Promise<any> {
       offset: calculateOffset(page)
     });
   } else {
-    feed = await getYourFeed();
+    feed = await getYourFeed({
+      offset: calculateOffset(page)
+    });
   }
 
   // console.log(feed);
@@ -82,4 +81,12 @@ export async function getFeed(query: string, page: string): Promise<any> {
 
 function calculateOffset(currentPage: string) {
   return (Number(currentPage) - 1) * ARTICLES_PER_PAGE;
+}
+
+function convertParamsToQueryString(params: articlesParam): string {
+  return Object.keys(params)
+    .map(key => encodeURIComponent(key) + '=' +
+      encodeURIComponent(params[key]))
+    .join('&');
+
 }
