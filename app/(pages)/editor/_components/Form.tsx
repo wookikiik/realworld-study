@@ -12,7 +12,7 @@ export function Form({ article, onAction }: FormProps) {
     register,
     control,
     setError: setFormError,
-    formState: { errors: formErrors },
+    formState: { defaultValues, errors: formErrors },
     handleSubmit,
   } = useForm<ArticleForm>({
     defaultValues: article,
@@ -35,7 +35,6 @@ export function Form({ article, onAction }: FormProps) {
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
             <ErrorMessages messages={errors} />
-
             <form onSubmit={action}>
               <fieldset>
                 <fieldset className="form-group">
@@ -43,6 +42,7 @@ export function Form({ article, onAction }: FormProps) {
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Article Title"
+                    defaultValue={article?.title}
                     {...register("title", { required: true })}
                   />
                 </fieldset>
@@ -51,6 +51,7 @@ export function Form({ article, onAction }: FormProps) {
                     type="text"
                     className="form-control"
                     placeholder="What's this article about?"
+                    defaultValue={article?.description}
                     {...register("description", { required: true })}
                   />
                 </fieldset>
@@ -59,6 +60,7 @@ export function Form({ article, onAction }: FormProps) {
                     className="form-control"
                     rows={8}
                     placeholder="Write your article (in markdown)"
+                    defaultValue={article?.body}
                     {...register("body", { required: true })}
                   ></textarea>
                 </fieldset>
