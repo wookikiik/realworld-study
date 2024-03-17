@@ -1,6 +1,6 @@
 'use server';
 import Image from "next/image";
-import { getFeed } from "../login/data";
+import { getFeed } from "../data";
 
 export default async function ArticlePreview({articles}: any) {    
   

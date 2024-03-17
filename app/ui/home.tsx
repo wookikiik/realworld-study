@@ -2,7 +2,7 @@ import { titilliumWeb } from "./fonts";
 import ArticlePreview from "./articlePreview";
 import Pagination from "./pagination";
 import ToggleTab from "./toggleTab";
-import { getFeed } from "../login/data";
+import { getFeed } from "../data";
 import { auth } from "@/auth";
 
 export default async function Home({

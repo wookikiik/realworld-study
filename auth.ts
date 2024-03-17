@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import type {  UserAuthInfo } from './app/lib/definitions';
-import { login } from './app/login/data';
+import { login } from './app/data';
 import { NextResponse } from "next/server";
 
 // -> provider password 체크 예제

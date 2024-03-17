@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import { auth } from '@/auth';
-import { ARTICLES_PER_PAGE } from '../lib/definitions';
+import { ARTICLES_PER_PAGE, UserAuthInfo } from './lib/definitions';
 const URL = 'https://api.realworld.io/api/'
 
 
@@ -89,6 +89,23 @@ export async function getCurrentUser(): Promise<any> {
       'Content-Type': 'application/json',
       'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
     },
+  })
+
+  const data = await res.json()  
+  console.log("getCurrentUser", data);
+  return data?.user;
+}
+
+export async function updateUser(userParam: UserAuthInfo): Promise<any> {
+  console.log("updateUser");
+  // const userSession = await getSessionToken();
+  const res = await fetch(URL + 'user', { 
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
+    },
+    body: JSON.stringify({ user: userParam }),
   })
 
   const data = await res.json()  

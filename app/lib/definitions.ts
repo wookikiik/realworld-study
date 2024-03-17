@@ -1,10 +1,11 @@
 // Defined types and interfaces
 export interface UserAuthInfo {
-    username: string,
-    email: string,
-    password: string,
-    image: string,
-    token: string,
+    username?: string,
+    email?: string,
+    password?: string,
+    image?: string,
+    token?: string,
+    bio?: string,
 }
 
 export const ARTICLES_PER_PAGE = 10;
