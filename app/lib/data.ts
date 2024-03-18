@@ -250,15 +250,31 @@ export async function updateProfile(
 export async function followUser(
   username: string,
 ): Promise<ProfileResponse | ErrorResponse> {
-  const response = await POST(`/profiles/${username}/follow`);
-  return unWarpperResponseData(response);
+  // const response = await POST(`/profiles/${username}/follow`);
+  // return unWarpperResponseData(response);
+  return {
+    profile: {
+      username: "jake",
+      bio: "I work at statefarm",
+      image: "https://i.stack.imgur.com/xHWG8.jpg",
+      following: true,
+    },
+  };
 }
 
 export async function unfollowUser(
   username: string,
 ): Promise<ProfileResponse | ErrorResponse> {
-  const response = await DELETE(`/profiles/${username}/follow`);
-  return unWarpperResponseData(response);
+  // const response = await DELETE(`/profiles/${username}/follow`);
+  // return unWarpperResponseData(response);
+  return {
+    profile: {
+      username: "jake",
+      bio: "I work at statefarm",
+      image: "https://i.stack.imgur.com/xHWG8.jpg",
+      following: false,
+    },
+  };
 }
 
 async function POST(url: string, data?: Record<string, any>) {

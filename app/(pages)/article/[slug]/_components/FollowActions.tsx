@@ -3,6 +3,10 @@
 import { Article } from "@/app/lib/definitions";
 import { useAuth } from "@/app/lib/providers/AuthProvider";
 import { useRouter } from "next/navigation";
+import {
+  useAuthorFollowAction,
+  useAuthorFollowState,
+} from "../_providers/AuthorFollowProvider";
 
 export default function Actions({ article }: ActionsProps) {
   const author = article.author;
@@ -59,25 +63,20 @@ function ArticleFollowActions({
   authorName: string;
   favoritesCount: number;
 }) {
-  const { isLogined } = useAuth();
-  function handleToggleFollow(e: React.MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation();
-    if (!isLogined) {
-      //
-    }
-  }
-
+  const { follow } = useAuthorFollowState();
+  const { onFollow, onUnfollow } = useAuthorFollowAction();
   return (
     <>
       <button
         className="btn btn-sm btn-outline-secondary"
-        onClick={handleToggleFollow}
+        onClick={() => (follow ? onUnfollow(authorName) : onFollow(authorName))}
       >
-        <i className="ion-plus-round"></i>Follow {authorName}
+        <i className="ion-plus-round"></i>&nbsp;
+        {follow ? "Unfollow" : "Follow"} {authorName}
       </button>
       &nbsp;&nbsp;
       <button className="btn btn-sm btn-outline-primary">
-        <i className="ion-heart"></i>Favorite Post&nbsp;
+        <i className="ion-heart"></i>&nbsp;Favorite Post&nbsp;
         <span className="counter">({favoritesCount})</span>
       </button>
     </>
