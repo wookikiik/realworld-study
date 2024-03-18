@@ -6,7 +6,7 @@ import { CommonError } from '@/app/lib/errors';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormErrorMessages } from '../common/FormErrorMessages';
+import { FormErrorMessages } from './FormErrorMessages';
 
 interface SignFormProps {
   isRegister?: boolean;

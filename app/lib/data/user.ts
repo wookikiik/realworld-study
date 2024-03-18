@@ -5,7 +5,7 @@ import {
   UpdateUserResponse,
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
-import { DELETE, GET, POST, PUT } from '../utils/fetch';
+import { DELETE, GET, POST, PUT } from '../utils/fetcher';
 
 /**
  * 로그인 유저 정보 조회

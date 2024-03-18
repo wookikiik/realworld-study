@@ -6,7 +6,7 @@ import { settingSchema } from '@/app/lib/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormErrorMessages } from '../common/FormErrorMessages';
+import { FormErrorMessages } from './FormErrorMessages';
 
 const Form = ({ user }: { user: User }) => {
   const {

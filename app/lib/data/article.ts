@@ -5,7 +5,7 @@ import {
   Comment,
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
-import { DELETE, GET, POST } from '../utils/fetch';
+import { DELETE, GET, POST } from '../utils/fetcher';
 
 /**
  * 게시물 등록

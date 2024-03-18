@@ -1,6 +1,6 @@
 // Define an asynchronous function to fetch data
 
-import { GET } from '../utils/fetch';
+import { GET } from '../utils/fetcher';
 
 /**
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#get-tags

@@ -3,7 +3,7 @@ import {
   SignParams,
   SignUpResponse,
 } from '@/app/lib/definitions';
-import { POST } from '../utils/fetch';
+import { POST } from '../utils/fetcher';
 
 /**
  * 회원가입
