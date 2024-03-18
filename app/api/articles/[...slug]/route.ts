@@ -23,27 +23,16 @@ export async function GET(
     data = await fetchArticleList({
       author: searchValue,
     });
+  }
+  if (type === "feed") {
+    switch (searchValue) {
+      case "global":
+        data = await fetchArticleList({});
+        break;
+    }
   } else {
     data = await mockupFetchArticleList({});
   }
-  // if (type === "feed") {
-  //   switch (searchValue) {
-  //     case "feed":
-  //       data = await fetchArticleListFeed();
-  //       break;
-  //     case "global":
-  //       data = await fetchArticleList({});
-  //       break;
-  //   }
-  // } else if (type === "author") {
-  //   data = await fetchArticleList({
-  //     author: searchValue,
-  //   });
-  // } else if (type === "tag") {
-  //   // console.log("search by tag", searchValue);
-  // } else {
-  //   console.log("Unknown feed type", type);
-  // }
 
   return Response.json(data);
 }

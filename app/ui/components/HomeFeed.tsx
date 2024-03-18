@@ -21,6 +21,7 @@ export default function HomeFeed({ feed, tag, page = 1 }: Props) {
   );
 
   const articleData = data || { articles: [], articlesCount: 0 };
+  // console.log("articleData", articleData);
 
   const tabs = [];
   if (isLogined) {

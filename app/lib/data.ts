@@ -56,7 +56,7 @@ export async function register(
 
 export async function getCurrentUser(): Promise<UserResponse> {
   noStore();
-  const response = await GET("/user");
+  const response = await callWithAuth("/user", "GET");
   return unWarpperResponseData(response);
 
   // return {
@@ -66,6 +66,13 @@ export async function getCurrentUser(): Promise<UserResponse> {
   //   image: "https://i.stack.imgur.com/xHWG8.jpg",
   //   token: "jwt.token.here",
   // };
+}
+
+export async function fetchArticleListGlobalFeed(): Promise<
+  ArticlesResponse | ErrorResponse
+> {
+  const data = await GET("/articles/feed");
+  return unWarpperResponseData(data);
 }
 
 export async function fetchArticleListFeed(): Promise<
@@ -294,27 +301,48 @@ async function DELETE(url: string) {
   return callAPI(url, "DELETE");
 }
 
+async function callWithAuth(
+  url: string,
+  method: "GET" | "POST" | "PUT" | "DELETE",
+  data?: Record<string, any>,
+) {
+  let requestUrl = url;
+  let requestData = data;
+  if (method === "GET" && data) {
+    const urlParams = new URLSearchParams(data).toString();
+    requestUrl = `${url}?${urlParams}`;
+    requestData = undefined;
+  }
+
+  return callAPI(requestUrl, method, requestData, async (init: RequestInit) => {
+    const headers = init.headers as Record<string, any>;
+    //  Add Authorization
+    const session = await auth();
+    if (session?.user.token) {
+      headers["Authorization"] = `Token ${session.user.token}`;
+    }
+    init.headers = headers;
+  });
+}
 async function callAPI(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
   data?: Record<string, any>,
+  addInit?: (init: RequestInit) => Promise<void>,
 ) {
   const headers: Record<string, any> = {
     "Content-Type": "application/json",
   };
 
-  //  Add Authorization
-  const session = await auth();
-  if (session?.user.token) {
-    headers["Authorization"] = `Token ${session.user.token}`;
-  }
-
-  // console.log("callAPI", url, method, data, headers);
-  return fetch(`${API_BASE_URL}${url}`, {
+  const init: RequestInit = {
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
-  });
+  };
+
+  addInit && (await addInit(init));
+
+  return fetch(`${API_BASE_URL}${url}`, init);
 }
 
 async function unWarpperResponseData<T>(response: Response): Promise<T> {
@@ -322,7 +350,6 @@ async function unWarpperResponseData<T>(response: Response): Promise<T> {
     return response.json();
   }
 
-  // console.log(response.status, response.statusText);
   switch (response?.status) {
     // Unauthorized requests
     case 401:
