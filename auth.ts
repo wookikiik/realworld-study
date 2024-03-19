@@ -34,7 +34,8 @@ async function getUser(email: string, password: string): Promise<UserAuthInfo | 
 
 export const { auth, signIn, signOut } = NextAuth({
     pages: {
-        signIn: '/login',        
+        signIn: '/login',      
+        signOut: "/logout",  
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {            

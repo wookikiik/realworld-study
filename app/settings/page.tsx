@@ -1,7 +1,8 @@
-import { signOut } from "@/auth"
+'use server';
 import Form from "./components/form"
 import { getCurrentUser } from "../data";
 import { UserAuthInfo } from "../lib/definitions";
+import LogoutButton from "./components/logoutButton";
 
 export default async function Page() {
     
@@ -16,10 +17,7 @@ export default async function Page() {
                         </h1>
                         <hr />
                         <Form info={userInfo}/>
-                        {/* <button className="btn btn-outline-danger"
-                            onClick={() => signOut()}>
-                            Or click here to logout.
-                        </button> */}
+                        <LogoutButton />
                     </div>
                 </div>
             </div>
