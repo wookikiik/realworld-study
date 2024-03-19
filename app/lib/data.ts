@@ -175,7 +175,7 @@ export async function fetchArticleList(
 export async function fetchArticle(
   slug: string,
 ): Promise<ArticleResponse | ErrorResponse> {
-  const response = await GET(`/articles/${slug}`);
+  const response = await callWithAuth(`/articles/${slug}`, "GET");
   return unWarpperResponseData(response);
   return {
     article: {
@@ -257,16 +257,16 @@ export async function updateProfile(
 export async function followUser(
   username: string,
 ): Promise<ProfileResponse | ErrorResponse> {
-  // const response = await POST(`/profiles/${username}/follow`);
-  // return unWarpperResponseData(response);
-  return {
-    profile: {
-      username: "jake",
-      bio: "I work at statefarm",
-      image: "https://i.stack.imgur.com/xHWG8.jpg",
-      following: true,
-    },
-  };
+  const response = await callWithAuth(`/profiles/${username}/follow`, "POST");
+  return unWarpperResponseData(response);
+  // return {
+  //   profile: {
+  //     username: "jake",
+  //     bio: "I work at statefarm",
+  //     image: "https://i.stack.imgur.com/xHWG8.jpg",
+  //     following: true,
+  //   },
+  // };
 }
 
 export async function unfollowUser(

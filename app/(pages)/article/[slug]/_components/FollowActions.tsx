@@ -1,12 +1,9 @@
 "use client";
 
-import { Article } from "@/app/lib/definitions";
-import { useAuth } from "@/app/lib/providers/AuthProvider";
 import { useRouter } from "next/navigation";
-import {
-  useAuthorFollowAction,
-  useAuthorFollowState,
-} from "../_providers/AuthorFollowProvider";
+import { Article, Profile } from "@/app/lib/definitions";
+import { useAuth } from "@/app/lib/providers/AuthProvider";
+import useArticleStore from "@/app/lib/store/article";
 
 export default function Actions({ article }: ActionsProps) {
   const author = article.author;
@@ -63,13 +60,26 @@ function ArticleFollowActions({
   authorName: string;
   favoritesCount: number;
 }) {
-  const { follow } = useAuthorFollowState();
-  const { onFollow, onUnfollow } = useAuthorFollowAction();
+  const author = useArticleStore.use.article()?.author;
+  const follow = author?.following ?? false;
+  const followAction = useArticleStore.use.follow();
+  const unfollowAction = useArticleStore.use.unfollow();
+
+  async function handleFollow(e: React.MouseEvent<HTMLButtonElement>) {
+    // TODO: handle undefined author
+    await fetch(`/api/follow/${author?.username || ""}`, { method: "POST" });
+    followAction();
+  }
+
+  function handleUnFollow(e: React.MouseEvent<HTMLButtonElement>) {
+    //
+  }
+
   return (
     <>
       <button
         className="btn btn-sm btn-outline-secondary"
-        onClick={() => (follow ? onUnfollow(authorName) : onFollow(authorName))}
+        onClick={handleFollow}
       >
         <i className="ion-plus-round"></i>&nbsp;
         {follow ? "Unfollow" : "Follow"} {authorName}
