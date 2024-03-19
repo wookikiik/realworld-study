@@ -77,8 +77,12 @@ Uncaught (in promise) Error: Invariant: headers() expects to have requestAsyncSt
     -> 이유 및 해결 필요 []
 
 ### 에러 메시지 전시 []
+- react hook form 
 
 ### 로그아웃 기능 []
+- headers() expects to have requestAsyncStorage, none available.
+
+## profile 페이지 전시       
 
 ## register api 연결[]
 

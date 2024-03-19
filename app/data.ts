@@ -25,6 +25,10 @@ export async function login(
   return data.user;
 }
 
+export async function logout() {
+
+}
+
 type articlesParam = Record<string, any>;
 
 export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> {
@@ -91,26 +95,31 @@ export async function getCurrentUser(): Promise<any> {
     },
   })
 
-  const data = await res.json()  
+  const data = await res.json()
   console.log("getCurrentUser", data);
-  return data?.user;
+  return data;
 }
 
 export async function updateUser(userParam: UserAuthInfo): Promise<any> {
   console.log("updateUser");
   // const userSession = await getSessionToken();
-  const res = await fetch(URL + 'user', { 
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
-    },
-    body: JSON.stringify({ user: userParam }),
-  })
-
-  const data = await res.json()  
-  console.log("getCurrentUser", data);
-  return data?.user;
+  try {
+    const res = await fetch(URL + 'user', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
+      },
+      body: JSON.stringify({ user: userParam }),
+    })
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json()
+    return data;
+  } catch (error) {
+    console.error('There was a problem with your fetch operation:', error);
+  }
 }
 
 function calculateOffset(currentPage: string) {

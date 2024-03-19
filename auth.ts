@@ -34,7 +34,7 @@ async function getUser(email: string, password: string): Promise<UserAuthInfo | 
 
 export const { auth, signIn, signOut } = NextAuth({
     pages: {
-        signIn: '/login',
+        signIn: '/login',        
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {            
@@ -83,7 +83,7 @@ export const { auth, signIn, signOut } = NextAuth({
                 const user = await getUser(credentials.email as string, credentials.password as string);                
                 if (!user) return null;
                 // console.log("authorize", user);
-                return user;
+                return user as any;
             },
         }),
     ],

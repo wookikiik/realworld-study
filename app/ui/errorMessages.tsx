@@ -1,7 +1,8 @@
 import {FieldErrors} from "react-hook-form";
 import type { UserAuthInfo } from "../lib/definitions";
 
-export default function ErrorMessages(errors: {errors: FieldErrors<UserAuthInfo>}) {
+export default function ErrorMessages(errors: {errors: FieldErrors<UserAuthInfo> 
+    | {server: string}}) {
     return (
         <ul className="error-messages">
             {errors && Object.entries(errors.errors).map(([key, error]) => (
