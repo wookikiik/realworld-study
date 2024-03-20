@@ -4,14 +4,7 @@ import { ArticleContent, Comment } from "./_components";
 
 export default async function Page({ params: { slug } }: PageProps) {
   const [article, comments] = await Promise.all([
-    fetchArticle(slug)
-      .then((data) => {
-        if ("errors" in data) {
-          throw new Error(data.errors.body.join(", "));
-        }
-        return data;
-      })
-      .then((data) => data.article),
+    fetchArticle(slug).then((data) => data.article),
     fetchComments(slug).then((data) => data.comments),
   ]);
 

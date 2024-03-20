@@ -6,8 +6,7 @@ import createSelectors from "./selectors";
 type Store = {
   comments: Comment[];
   init: (comments: Comment[]) => void;
-  add: (comment: Comment) => void;
-  remove: (id: number) => void;
+  load: (slug: string) => Promise<void>;
 };
 
 // define the initial state
@@ -17,9 +16,12 @@ export const useCommentsStoreBase = create<Store>()(
   immer((set) => ({
     comments: initialState,
     init: (comments: Comment[]) => set({ comments }),
-    add: (comment: Comment) => set(({ comments }) => comments.push(comment)),
-    remove: (id) =>
-      set(({ comments }) => comments.filter((comment) => comment.id !== id)),
+    load: async (slug: string) => {
+      const response = await fetch(`/api/articles/${slug}/comments`);
+      const comments = await response.json();
+      console.log(comments);
+      set({ comments });
+    },
   })),
 );
 

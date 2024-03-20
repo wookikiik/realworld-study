@@ -6,6 +6,7 @@ import {
   ArticlesResponse,
   TagsResponse,
   ArticleResponse,
+  CommentResponse,
   CommentsResponse,
   ProfileResponse,
   UserResponse,
@@ -172,9 +173,7 @@ export async function fetchArticleList(
   return unWarpperResponseData(response);
 }
 
-export async function fetchArticle(
-  slug: string,
-): Promise<ArticleResponse | ErrorResponse> {
+export async function fetchArticle(slug: string): Promise<ArticleResponse> {
   const response = await callWithAuth(`/articles/${slug}`, "GET");
   return unWarpperResponseData(response);
   return {
@@ -212,22 +211,8 @@ export async function fetchAllTag(): Promise<TagsResponse> {
 }
 
 export async function fetchComments(slug: string): Promise<CommentsResponse> {
-  return {
-    comments: [
-      {
-        id: 1,
-        createdAt: "2016-02-18T03:22:56.637Z",
-        updatedAt: "2016-02-18T03:22:56.637Z",
-        body: "It takes a Jacobian",
-        author: {
-          username: "jake",
-          bio: "I work at statefarm",
-          image: "https://i.stack.imgur.com/xHWG8.jpg",
-          following: false,
-        },
-      },
-    ],
-  };
+  const response = await callWithAuth(`/articles/${slug}/comments`, "GET");
+  return unWarpperResponseData(response);
 }
 
 export async function fetchProfile(username: string): Promise<ProfileResponse> {
@@ -349,7 +334,7 @@ export async function unfavoriteArticle(
 export async function createComment(
   slug: string,
   comment: string,
-): Promise<CommentsResponse | ErrorResponse> {
+): Promise<CommentResponse> {
   const encodedSlug = encodeURIComponent(slug);
   const response = await callWithAuth(
     `/articles/${encodedSlug}/comments`,
@@ -362,6 +347,11 @@ export async function createComment(
   );
 
   return unWarpperResponseData(response);
+}
+
+export async function deleteComment(slug: string, id: string) {
+  const encodedSlug = encodeURIComponent(slug);
+  await callWithAuth(`/articles/${encodedSlug}/comments/${id}`, "DELETE");
 }
 
 async function POST(url: string, data?: Record<string, any>) {

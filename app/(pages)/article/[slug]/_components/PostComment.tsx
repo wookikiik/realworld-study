@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { Comment } from "@/app/lib/definitions";
 
-export default function PostComment({ slug, user, onAdd }: PostCommentProps) {
+export default function PostComment({
+  slug,
+  user,
+  onReload,
+}: PostCommentProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -17,20 +21,19 @@ export default function PostComment({ slug, user, onAdd }: PostCommentProps) {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
-        // onAdd(data.comment);
+        onReload();
         form.reset();
       });
   }
 
   return (
-    <form className="card comment-form">
+    <form className="card comment-form" onSubmit={handleSubmit}>
       <div className="card-block">
         <input type="hidden" name="slug" value={slug} />
         <textarea
           className="form-control"
           placeholder="Write a comment..."
-          name="test"
+          name="comment"
           rows={3}
         ></textarea>
       </div>
@@ -54,5 +57,5 @@ interface PostCommentProps {
     username: string;
     image: string;
   };
-  onAdd: (comment: Comment) => void;
+  onReload: () => void;
 }

@@ -97,7 +97,7 @@ function ArticleFollowActions({
   }
 
   async function handleFavorite(e: React.MouseEvent<HTMLButtonElement>) {
-    await fetch(`/api/favorite/${article.slug ?? ""}`, {
+    await fetch(`/api/articles/${article.slug ?? ""}/favorite`, {
       method: "POST",
       cache: "no-store",
     });
@@ -105,7 +105,7 @@ function ArticleFollowActions({
   }
 
   async function handleUnfavorite(e: React.MouseEvent<HTMLButtonElement>) {
-    await fetch(`/api/favorite/${article.slug ?? ""}`, {
+    await fetch(`/api/articles/${article.slug ?? ""}/favorite`, {
       method: "DELETE",
       cache: "no-store",
     });

@@ -42,6 +42,10 @@ export interface CommentsResponse {
   comments: Comment[];
 }
 
+export interface CommentResponse {
+  comment: Comment;
+}
+
 export interface ProfileResponse {
   profile: Profile;
 }

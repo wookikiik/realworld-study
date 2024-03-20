@@ -12,33 +12,29 @@ export default function Comment({
   article,
   comments: initComments,
 }: CommentProps) {
-  //
-
-  // console.log("load component");
-
   const comments = useCommentsStore.use.comments();
+  const onFetchComments = useCommentsStore.use.load();
 
   useEffect(() => {
     useCommentsStore.getState().init(initComments);
   }, [initComments]);
 
-  // const [commentIds, setCommentIds] = useState<string[]>([]);
   const isArticleAuthor = user.username === article.author.username;
-
-  function handleAddComment(comment: Comment) {
-    // setCommentIds([...commentIds, commentId]);
-  }
-
-  // function handleDeleteComment(commentId: string) {
-  //   setCommentIds(commentIds.filter((id) => id !== commentId));
-  // }
 
   return (
     <>
       {!isArticleAuthor && (
-        <PostComment slug={article.slug} user={user} onAdd={handleAddComment} />
+        <PostComment
+          slug={article.slug}
+          user={user}
+          onReload={() => onFetchComments(article.slug)}
+        />
       )}
-      <Comments comments={comments} />
+      <Comments
+        article={article}
+        comments={comments}
+        onReload={() => onFetchComments(article.slug)}
+      />
     </>
   );
 }
