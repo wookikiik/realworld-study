@@ -12,7 +12,6 @@ import FavoriteToggle from "./FavoriteToggle";
 import Tabs from "./Tabs";
 import FeedTabSkeleton from "./FeedTabSkeleton";
 import FeedTabs from "./FeedTabs";
-import ArticlesWithPagination from "./ArticlesWithPagination";
 import HomeFeed from "./HomeFeed";
 
 export {
@@ -30,6 +29,5 @@ export {
   Tabs,
   FeedTabs,
   FeedTabSkeleton,
-  ArticlesWithPagination,
   HomeFeed,
 };

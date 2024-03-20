@@ -1,6 +1,5 @@
-import { Author, Comment, User, Article } from "@/app/lib/definitions";
+import { Comment, User, Article } from "@/app/lib/definitions";
 import { useAuth } from "@/app/lib/providers/AuthProvider";
-import Articles from "@/app/ui/components/Articles";
 import Image from "next/image";
 
 export default function Comments({
