@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore } from 'next/cache';
-import { auth } from '@/auth';
+import { getYourFeed } from './lib/actions';
 import { ARTICLES_PER_PAGE, UserAuthInfo } from './lib/definitions';
 const URL = 'https://api.realworld.io/api/'
 
@@ -25,10 +25,6 @@ export async function login(
   return data.user;
 }
 
-export async function logout() {
-
-}
-
 type articlesParam = Record<string, any>;
 
 export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> {
@@ -51,22 +47,6 @@ export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> 
   return data;
 }
 
-export async function getYourFeed(articlesParam: articlesParam): Promise<any> {
-  const userSession = await getSessionToken();
-  const res = await fetch(URL + 'articles/feed?' +
-    convertParamsToQueryString(articlesParam), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${userSession}`,
-    },
-  })
-
-  const data = await res.json()
-  // console.log('Authorization', `Token ${session?.user?.token}`)
-  // console.log('getFeed', data);
-  return data;
-}
 
 export async function getFeed(query: string, page: string): Promise<any> {
   let feed;
@@ -84,49 +64,15 @@ export async function getFeed(query: string, page: string): Promise<any> {
   return feed;
 }
 
-export async function getCurrentUser(): Promise<any> {
-  console.log("getCurrentUser1");
-  // const userSession = await getSessionToken();
-  const res = await fetch(URL + 'user', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
-    },
-  })
 
-  const data = await res.json()
-  console.log("getCurrentUser", data);
-  return data;
-}
 
-export async function updateUser(userParam: UserAuthInfo): Promise<any> {
-  console.log("updateUser");
-  // const userSession = await getSessionToken();
-  try {
-    const res = await fetch(URL + 'user', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNTMxNH0sImlhdCI6MTcxMDYwMzQzMCwiZXhwIjoxNzE1Nzg3NDMwfQ.vm1IVfj399-XS4dWe_hr3DCkQHT7zL8_x0w9h1CJiao`,
-      },
-      body: JSON.stringify({ user: userParam }),
-    })
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    const data = await res.json()
-    return data;
-  } catch (error) {
-    console.error('There was a problem with your fetch operation:', error);
-  }
-}
+
 
 function calculateOffset(currentPage: string) {
   return (Number(currentPage) - 1) * ARTICLES_PER_PAGE;
 }
 
-function convertParamsToQueryString(params: articlesParam): string {
+export function convertParamsToQueryString(params: articlesParam): string {
   return Object.keys(params)
     .map(key => encodeURIComponent(key) + '=' +
       encodeURIComponent(params[key]))
@@ -134,8 +80,15 @@ function convertParamsToQueryString(params: articlesParam): string {
 
 }
 
-async function getSessionToken(): Promise<any> {
-  const session = await auth();
-  console.log("session", session);
-  return session?.user?.token
+
+export async function getProfiles(name: string): Promise<any> {
+  const res = await fetch(URL + 'profiles/' + name, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  const data = await res.json()
+  console.log("getProfile", data);
+  return data;
 }

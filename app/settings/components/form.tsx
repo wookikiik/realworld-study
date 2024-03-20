@@ -1,11 +1,11 @@
 'use client';
-import { getCurrentUser, updateUser } from "@/app/data";
+import { updateUser } from "@/app/lib/actions";
 import { UserAuthInfo } from "@/app/lib/definitions";
 import ErrorMessages from "@/app/ui/errorMessages";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-export default function Form({info}: UserAuthInfo | any) {
+export default function Form({ info }: UserAuthInfo | any) {
     const {
         register,
         handleSubmit,
@@ -13,10 +13,10 @@ export default function Form({info}: UserAuthInfo | any) {
         formState: { errors }
     } = useForm();
 
-    const [serverErrors, setServerErrors] = useState({ server: '' });    
+    const [serverErrors, setServerErrors] = useState({ server: '' });
 
     useEffect(() => {
-        function fetchData() {            
+        function fetchData() {
             setValue('email', info.email);
             setValue('username', info.username);
             setValue('bio', info.bio);
@@ -80,7 +80,8 @@ export default function Form({info}: UserAuthInfo | any) {
                     />
                 </fieldset>
                 <button className="btn btn-lg btn-primary pull-xs-right">
-                    Update Settings</button>
+                    Update Settings
+                </button>
             </fieldset>
         </form>
     </>

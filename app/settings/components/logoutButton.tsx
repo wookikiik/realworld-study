@@ -1,7 +1,7 @@
 import { signOut } from "@/auth"
 export default function LogoutButton() {
     return (
-        <form  action={async () => {
+        <form action={async () => {
             "use server";
             await signOut({
               redirect: true,

@@ -1,13 +1,13 @@
-'use server';
 import Form from "./components/form"
-import { getCurrentUser } from "../data";
+import { getCurrentUser } from "../lib/actions";
 import { UserAuthInfo } from "../lib/definitions";
 import LogoutButton from "./components/logoutButton";
 
 export default async function Page() {
-    
-    const data = await getCurrentUser();    
+    const data = await getCurrentUser();
+    console.log("setting page", data);
     const userInfo = data.user as UserAuthInfo;
+    
     return (
         <div className="settings-page">
             <div className="container page">
@@ -15,8 +15,8 @@ export default async function Page() {
                     <div className="col-md-6 offset-md-3 col-xs-12">
                         <h1 className="text-xs-center">Your Settings
                         </h1>
+                        <Form info={userInfo} />
                         <hr />
-                        <Form info={userInfo}/>
                         <LogoutButton />
                     </div>
                 </div>

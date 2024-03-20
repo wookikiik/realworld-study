@@ -1,25 +1,38 @@
 import Image from "next/image"
-export default function Page() {
+import {getProfiles} from "@/app/data";
+import MyImage from "@/app/ui/myImage";
+import { auth } from "@/auth";
+import Follow from "./components/follow";
+
+export default async function Page({ params }: { params: { name: string } }) {
+
+    const data = await getProfiles(params.name);
+    const userInfo = data.profile;
+    const session = await auth();
+    const isMyProfile = session?.user?.name === userInfo.username
+
+    console.log(userInfo);
     return (
         <div className="profile-page">
             <div className="user-info">
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-12 col-md-10 offset-md-1">
-                            <Image src="http://i.imgur.com/Qr71crq.jpg" className="user-img" alt="" width={512} height={512}/>
-                            <h4>Eric Simons</h4>
+                            <MyImage src={userInfo?.image} />
+                            <h4>{userInfo.username} </h4>
                             <p>
-                                Cofounder @GoThinkster, lived in Aol&apos;s HQ for a few months, kinda looks like Peeta from
-                                the Hunger Games
+                                {userInfo.bio}
                             </p>
-                            <button className="btn btn-sm btn-outline-secondary action-btn">
+                            {/* <button className="btn btn-sm btn-outline-secondary action-btn">
                                 <i className="ion-plus-round"></i>
-                                &nbsp; Follow Eric Simons
-                            </button>
-                            <button className="btn btn-sm btn-outline-secondary action-btn">
-                                <i className="ion-gear-a"></i>
-                                &nbsp; Edit Profile Settings
-                            </button>
+                                &nbsp; Follow {userInfo.username}
+                            </button> */}
+                            <Follow name={userInfo.username} />
+                            {isMyProfile ?
+                                <button className="btn btn-sm btn-outline-secondary action-btn">
+                                    <i className="ion-gear-a"></i>
+                                    &nbsp; Edit Profile Settings
+                                </button> : ''}
                         </div>
                     </div>
                 </div>
@@ -41,29 +54,8 @@ export default function Page() {
 
                         <div className="article-preview">
                             <div className="article-meta">
-                                <a href="/profile/eric-simons"><Image src="http://i.imgur.com/Qr71crq.jpg" alt="" width={512} height={512}/></a>
-                                <div className="info">
-                                    <a href="/profile/eric-simons" className="author">Eric Simons</a>
-                                    <span className="date">January 20th</span>
-                                </div>
-                                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                    <i className="ion-heart"></i> 29
-                                </button>
-                            </div>
-                            <a href="/article/how-to-buil-webapps-that-scale" className="preview-link">
-                                <h1>How to build webapps that scale</h1>
-                                <p>This is the description for the post.</p>
-                                <span>Read more...</span>
-                                <ul className="tag-list">
-                                    <li className="tag-default tag-pill tag-outline">realworld</li>
-                                    <li className="tag-default tag-pill tag-outline">implementations</li>
-                                </ul>
-                            </a>
-                        </div>
-
-                        <div className="article-preview">
-                            <div className="article-meta">
-                                <a href="/profile/albert-pai"><Image src="http://i.imgur.com/N4VcUeJ.jpg" alt="" width={512} height={512}/></a>
+                                <a href="/profile/albert-pai">
+                                    <Image src="http://i.imgur.com/N4VcUeJ.jpg" alt="" width={512} height={512} /></a>
                                 <div className="info">
                                     <a href="/profile/albert-pai" className="author">Albert Pai</a>
                                     <span className="date">January 20th</span>

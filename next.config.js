@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const nextConfig = {
+const nextConfig = {    
     images: {        
         remotePatterns: [
             {
@@ -15,9 +15,9 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: "api.realworld.io",
+                hostname: "api.realworld.io",                
                 pathname: "/*",
-            },
+            },            
         ],
     },
 };
