@@ -32,24 +32,16 @@ export const useArticleStoreBase = create<Store>()(
         }
       }),
     favorite: () =>
-      set((state) => {
-        if (state.article.favoritesCount) {
-          state.article.favoritesCount += 1;
-        }
-
-        if (state.article.favorited) {
-          state.article.favorited = false;
-        }
+      set(({ article }) => {
+        const { favoritesCount = 0 } = article;
+        article.favoritesCount = (favoritesCount || 0) + 1;
+        article.favorited = true;
       }),
     unfavorite: () =>
-      set((state) => {
-        if (state.article.favoritesCount) {
-          state.article.favoritesCount -= 1;
-        }
-
-        if (state.article.favorited) {
-          state.article.favorited = false;
-        }
+      set(({ article }) => {
+        const { favoritesCount = 1 } = article;
+        article.favoritesCount = (favoritesCount || 0) - 1;
+        article.favorited = false;
       }),
   })),
 );

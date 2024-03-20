@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import { FollowActions } from ".";
 import { Article } from "@/app/lib/definitions";
@@ -11,7 +11,7 @@ export default function ArticleContent({
   article: initialArticle,
   children,
 }: ArticleContentProps) {
-  const author = initialArticle.author;
+  const author = useMemo(() => initialArticle.author, [initialArticle.author]);
   const article = useArticleStore((state) => state.article);
   const onFollowAction = useArticleStore.use.follow();
   const onUnfollowAction = useArticleStore.use.unfollow();

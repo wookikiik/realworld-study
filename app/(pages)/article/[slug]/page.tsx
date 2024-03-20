@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { fetchArticle, fetchComments } from "@/app/lib/data";
-import { ArticleContent, Comments, PostComment } from "./_components";
+import { ArticleContent, Comment } from "./_components";
 
 export default async function Page({ params: { slug } }: PageProps) {
   const [article, comments] = await Promise.all([
@@ -25,8 +25,14 @@ export default async function Page({ params: { slug } }: PageProps) {
       <ArticleContent article={article}>
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
-            {!!user && !isArticleAuthor && <PostComment />}
-            <Comments comments={comments} />
+            <Comment
+              user={{
+                username: user?.name || "",
+                image: user?.image || "",
+              }}
+              article={article}
+              comments={comments}
+            />
           </div>
         </div>
       </ArticleContent>

@@ -14,7 +14,9 @@ import {
   register, //
   updateProfile as callUpdateProfile,
   createArticle as callCreateArticle,
+  createComment as callCreateComment,
 } from "./data";
+import z from "zod";
 
 export async function signIn(
   formData: SigninForm,
@@ -79,6 +81,18 @@ export async function updateArticle(
   redirect(`/article/${data.article.slug}`);
 }
 
+export async function createComment(
+  formData: FormData,
+): Promise<string[] | undefined> {
+  const { slug, comment } = commentSchema.parse(
+    Object.fromEntries(formData.entries()),
+  );
+  const data = await callCreateComment(slug, comment);
+  if ("errors" in data) {
+    return flatErrors(data);
+  }
+}
+
 function flatErrors(response: ErrorResponse) {
   const errors: string[] = [];
   Object.entries(response.errors).map(([field, fieldErrors]) => {
@@ -87,3 +101,10 @@ function flatErrors(response: ErrorResponse) {
 
   return errors;
 }
+
+const commentSchema = z
+  .object({
+    slug: z.string().min(1),
+    comment: z.string().min(1),
+  })
+  .required();

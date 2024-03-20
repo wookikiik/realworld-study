@@ -259,21 +259,21 @@ export async function followUser(
 ): Promise<ProfileResponse | ErrorResponse> {
   const response = await callWithAuth(`/profiles/${username}/follow`, "POST");
   return unWarpperResponseData(response);
-  // return {
-  //   profile: {
-  //     username: "jake",
-  //     bio: "I work at statefarm",
-  //     image: "https://i.stack.imgur.com/xHWG8.jpg",
-  //     following: true,
-  //   },
-  // };
+  return {
+    profile: {
+      username: "jake",
+      bio: "I work at statefarm",
+      image: "https://i.stack.imgur.com/xHWG8.jpg",
+      following: true,
+    },
+  };
 }
 
 export async function unfollowUser(
   username: string,
 ): Promise<ProfileResponse | ErrorResponse> {
-  // const response = await DELETE(`/profiles/${username}/follow`);
-  // return unWarpperResponseData(response);
+  const response = await callWithAuth(`/profiles/${username}/follow`, "DELETE");
+  return unWarpperResponseData(response);
   return {
     profile: {
       username: "jake",
@@ -282,6 +282,86 @@ export async function unfollowUser(
       following: false,
     },
   };
+}
+
+export async function favoriteArticle(
+  slug: string,
+): Promise<ArticleResponse | ErrorResponse> {
+  noStore();
+  const encodedSlug = encodeURIComponent(slug);
+  const response = await callWithAuth(
+    `/articles/${encodedSlug}/favorite`,
+    "POST",
+  );
+  return unWarpperResponseData(response);
+  return {
+    article: {
+      slug: "how-to-train-your-dragon",
+      title: "How to train your dragon",
+      description: "Ever wonder how?",
+      body: "It takes a Jacobian",
+      tagList: ["dragons", "training"],
+      createdAt: "2016-02-18T03:22:56.637Z",
+      updatedAt: "2016-02-18T03:48:35.824Z",
+      favorited: true,
+      favoritesCount: 1,
+      author: {
+        username: "jake",
+        bio: "I work at statefarm",
+        image: "https://i.stack.imgur.com/xHWG8.jpg",
+        following: false,
+      },
+    },
+  };
+}
+
+export async function unfavoriteArticle(
+  slug: string,
+): Promise<ArticleResponse | ErrorResponse> {
+  noStore();
+  const encodedSlug = encodeURIComponent(slug);
+  const response = await callWithAuth(
+    `/articles/${encodedSlug}/favorite`,
+    "DELETE",
+  );
+  return unWarpperResponseData(response);
+  return {
+    article: {
+      slug: "how-to-train-your-dragon",
+      title: "How to train your dragon",
+      description: "Ever wonder how?",
+      body: "It takes a Jacobian",
+      tagList: ["dragons", "training"],
+      createdAt: "2016-02-18T03:22:56.637Z",
+      updatedAt: "2016-02-18T03:48:35.824Z",
+      favorited: false,
+      favoritesCount: 0,
+      author: {
+        username: "jake",
+        bio: "I work at statefarm",
+        image: "https://i.stack.imgur.com/xHWG8.jpg",
+        following: false,
+      },
+    },
+  };
+}
+
+export async function createComment(
+  slug: string,
+  comment: string,
+): Promise<CommentsResponse | ErrorResponse> {
+  const encodedSlug = encodeURIComponent(slug);
+  const response = await callWithAuth(
+    `/articles/${encodedSlug}/comments`,
+    "POST",
+    {
+      comment: {
+        body: comment,
+      },
+    },
+  );
+
+  return unWarpperResponseData(response);
 }
 
 async function POST(url: string, data?: Record<string, any>) {
@@ -341,7 +421,7 @@ async function callAPI(
   };
 
   addInit && (await addInit(init));
-
+  // console.log("callAPI", url);
   return fetch(`${API_BASE_URL}${url}`, init);
 }
 
@@ -362,7 +442,10 @@ async function unWarpperResponseData<T>(response: Response): Promise<T> {
     // Not found requests
     case 404:
       notFound();
+
+    // All other errors
     default:
+      console.error("Unknown error", response);
       throw new Error("Unknown error");
   }
 }

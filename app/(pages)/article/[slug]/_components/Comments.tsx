@@ -1,4 +1,5 @@
 import { Comment } from "@/app/lib/definitions";
+import Image from "next/image";
 
 export default function Comments({ comments }: CommentsProps) {
   return (
@@ -18,8 +19,11 @@ function Comment({ comment }: { comment: Comment }) {
       </div>
       <div className="card-footer">
         <a href="/profile/author" className="comment-author">
-          <img
+          <Image
             src="http://i.imgur.com/Qr71crq.jpg"
+            alt=""
+            width={20}
+            height={20}
             className="comment-author-img"
           />
         </a>

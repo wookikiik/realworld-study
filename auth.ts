@@ -19,7 +19,7 @@ export const { auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     authorized: async ({ auth, request: { nextUrl } }) => {
-      console.log("authorized???");
+      // console.log("authorized???");
       const isLoggedIn = !!auth?.user;
       if (isLoggedIn) {
         if (nextUrl.pathname === "/login" || nextUrl.pathname === "/register") {

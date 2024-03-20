@@ -1,7 +1,7 @@
 import {
   //
-  followUser,
-  unfollowUser,
+  favoriteArticle,
+  unfavoriteArticle,
 } from "@/app/lib/data";
 
 /**
@@ -11,9 +11,9 @@ import {
  */
 export async function POST(
   request: Request,
-  { params: { username } }: FollowParams,
+  { params: { slug } }: FollowParams,
 ) {
-  const data = await followUser(username);
+  const data = await favoriteArticle(slug);
   return Response.json(data);
 }
 
@@ -25,14 +25,14 @@ export async function POST(
 
 export async function DELETE(
   request: Request,
-  { params: { username } }: FollowParams,
+  { params: { slug } }: FollowParams,
 ) {
-  const data = await unfollowUser(username);
+  const data = await unfavoriteArticle(slug);
   return Response.json(data);
 }
 
 interface FollowParams {
   params: {
-    username: string;
+    slug: string;
   };
 }

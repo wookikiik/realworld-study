@@ -77,23 +77,38 @@ function ArticleFollowActions({
 }: ArticleFollowActionsProps) {
   const follow = article.author?.following ?? false;
   const favorites = article.favoritesCount || 0;
-  const favorited = article.favorited;
+  const favorited = article.favorited || false;
 
   async function handleFollow(e: React.MouseEvent<HTMLButtonElement>) {
     // TODO: handle undefined author
-    await fetch(`/api/follow/${author?.username ?? ""}`, { method: "POST" });
+    await fetch(`/api/follow/${author?.username ?? ""}`, {
+      method: "POST",
+      cache: "no-store",
+    });
     onFollowAction();
   }
 
   async function handleUnfollow(e: React.MouseEvent<HTMLButtonElement>) {
+    await fetch(`/api/follow/${author?.username ?? ""}`, {
+      method: "DELETE",
+      cache: "no-store",
+    });
     onUnfollowAction();
   }
 
   async function handleFavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    await fetch(`/api/favorite/${article.slug ?? ""}`, {
+      method: "POST",
+      cache: "no-store",
+    });
     onFavorite();
   }
 
   async function handleUnfavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    await fetch(`/api/favorite/${article.slug ?? ""}`, {
+      method: "DELETE",
+      cache: "no-store",
+    });
     onUnfavorite();
   }
 
@@ -104,14 +119,15 @@ function ArticleFollowActions({
         onClick={follow ? handleUnfollow : handleFollow}
       >
         <i className="ion-plus-round"></i>&nbsp;
-        {follow ? "Unfollow" : "Follow"} {author?.username}
+        {follow ? "Unfollow" : "Follow"}&nbsp;{author?.username}
       </button>
       &nbsp;&nbsp;
       <button
         className="btn btn-sm btn-outline-primary"
         onClick={favorited ? handleUnfavorite : handleFavorite}
       >
-        <i className="ion-heart"></i>&nbsp;Favorite Post&nbsp;
+        <i className="ion-heart"></i>&nbsp;
+        {favorited ? "Unfavorite" : "Favorite"}&nbsp;Post&nbsp;
         <span className="counter">({favorites})</span>
       </button>
     </>

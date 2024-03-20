@@ -12,7 +12,7 @@ async function UserProvider({ children }: ProvidersProps) {
   let currentUser: User | undefined = undefined;
   const session = await auth();
   if (!!session?.user) {
-    console.log("session", session?.user);
+    // console.log("session", session?.user);
     currentUser = await getCurrentUser().then((data) => data.user);
     delete currentUser?.token;
   }
