@@ -13,6 +13,7 @@ declare module "next-auth" {
 }
 
 export const { auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   pages: {
     signIn: "/login",
     signOut: "/logout",

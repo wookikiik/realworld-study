@@ -8,15 +8,12 @@ import {
 } from "react-hook-form";
 import type { Control, UseFormSetError } from "react-hook-form";
 
-export default function TagController({
-  control,
-  onError,
-}: TagControllerProps) {
+export default function TagController({ onError }: TagControllerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { control: sample } = useFormContext();
+  const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    control: sample,
+    control,
     name: "tagList",
   });
 
@@ -81,5 +78,4 @@ export default function TagController({
 
 interface TagControllerProps {
   onError: UseFormSetError<ArticleForm>;
-  control: Control<ArticleForm>;
 }

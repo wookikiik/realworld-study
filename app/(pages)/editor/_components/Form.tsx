@@ -65,7 +65,7 @@ export function Form({ article, onAction }: FormProps) {
                   ></textarea>
                 </fieldset>
                 <fieldset className="form-group">
-                  <TagController onError={setFormError} control={control} />
+                  <TagController onError={setFormError} />
                 </fieldset>
                 <button
                   className="btn btn-lg pull-xs-right btn-primary"
