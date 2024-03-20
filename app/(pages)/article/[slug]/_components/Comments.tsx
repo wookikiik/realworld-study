@@ -39,7 +39,7 @@ function Comment({
   const isArticleAuthor = user?.username === commentAuthor.username;
 
   async function handleDeleteComment() {
-    fetch(`/api/articles/${article.slug}/comments`, {
+    await fetch(`/api/articles/${article.slug}/comments`, {
       method: "DELETE",
       body: JSON.stringify({ id: comment.id }),
       headers: {
