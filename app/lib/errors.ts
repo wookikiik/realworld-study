@@ -11,6 +11,23 @@ export class CommonError extends Error {
   };
 }
 
+export class FormValidateError extends Error {
+  messages: string[] = [];
+  errors: any;
+  constructor({ messages = [], errors }: { messages?: string[]; errors: any }) {
+    super();
+    this.messages = messages;
+    this.errors = errors;
+
+    if (!!this.errors) {
+      Object.entries(errors).map(([_, m]) => {
+        const msg = m as string[];
+        this.messages.push(...msg);
+      });
+    }
+  }
+}
+
 export class SystemError extends Error {
   constructor() {
     super();

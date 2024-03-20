@@ -2,7 +2,7 @@
 
 import { updateUser } from '@/app/lib/actions/userActions';
 import { UpdateUserForm, User } from '@/app/lib/definitions';
-import { settingSchema } from '@/app/lib/schema';
+import { SettingSchema } from '@/app/lib/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ const Form = ({ user }: { user: User }) => {
   } = useForm<UpdateUserForm>({
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
-    resolver: zodResolver(settingSchema),
+    resolver: zodResolver(SettingSchema),
     defaultValues: {
       image: user?.image || '',
       username: user.username,

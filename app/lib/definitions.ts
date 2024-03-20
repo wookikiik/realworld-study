@@ -55,6 +55,12 @@ export interface UpdateUserForm {
   email: string;
   password: string;
 }
+export interface ArticleForm {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
 
 // Params
 export interface SignParams extends SignForm {}

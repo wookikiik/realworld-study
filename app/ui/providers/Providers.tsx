@@ -13,8 +13,12 @@ const Providers = async ({ children }: { children: React.ReactNode }) => {
   let currentUser: User | undefined = session?.user;
 
   if (!!currentUser) {
-    currentUser = await fetchCurrentUser().then((data) => data.user);
-    delete currentUser?.token;
+    try {
+      currentUser = await fetchCurrentUser().then((data) => data.user);
+      delete currentUser?.token;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

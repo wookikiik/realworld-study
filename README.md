@@ -1,15 +1,37 @@
-## Todo - sprint 5
+# Real World
 
-1. Data fetching and Rendring static/dynamic, streaming
+## Todo - sprint 6
 
-client-component
+### Main Page
 
-- useEffect : PopularTags
-- api router / useSWR : main, profile
-  server-component
-- server action, data.js
+- Streaming : Suspense with skeleton
+- Data fetching : useSWR with api route
 
-2. Streaming
+### Login/Register Page
 
-- 페이지 : loading.tsx
-- 컴포넌트 : Suspense
+- Form Validate : React-hook-form
+  - error messege handling with useEffect
+- Actions
+  - login : call auth.js signIn (in server action)
+  - register : call server action
+
+### Setting Page
+
+- Streaming : loading.tsx
+- Data fetching : call data layer
+- Form Validate : React-hook-form, zod schema
+  - error messege handling with useEffect
+  - logout : call auth.js signOut (in server action)
+- Actions
+  - save : call server action
+
+### Profile Page
+
+- Streaming : Suspense with skeleton
+- Data fetching : call data layer, useSWR with api route
+- Actions
+  - follow/favorite : call api route
+
+### Article Detail Page
+
+### Create/Edit Article Page
