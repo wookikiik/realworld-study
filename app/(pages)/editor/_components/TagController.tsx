@@ -1,6 +1,11 @@
 import { ArticleForm } from "@/app/lib/definitions";
 import { useRef } from "react";
-import { useFieldArray, useWatch, Controller } from "react-hook-form";
+import {
+  useFieldArray,
+  useWatch,
+  Controller,
+  useFormContext,
+} from "react-hook-form";
 import type { Control, UseFormSetError } from "react-hook-form";
 
 export default function TagController({
@@ -8,8 +13,10 @@ export default function TagController({
   onError,
 }: TagControllerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { control: sample } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    control,
+    control: sample,
     name: "tagList",
   });
 

@@ -81,18 +81,6 @@ export async function updateArticle(
   redirect(`/article/${data.article.slug}`);
 }
 
-export async function createComment(
-  formData: FormData,
-): Promise<string[] | undefined> {
-  const { slug, comment } = commentSchema.parse(
-    Object.fromEntries(formData.entries()),
-  );
-  const data = await callCreateComment(slug, comment);
-  if ("errors" in data) {
-    return flatErrors(data);
-  }
-}
-
 function flatErrors(response: ErrorResponse) {
   const errors: string[] = [];
   Object.entries(response.errors).map(([field, fieldErrors]) => {
