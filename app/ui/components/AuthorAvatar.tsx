@@ -6,6 +6,10 @@ export default function AuthorAvatar({
   children = null,
   sx = { width: 32, height: 32 },
 }: AuthorAvatarProps) {
+  if (!author) {
+    return null;
+  }
+
   return (
     <>
       {children ? (
@@ -15,7 +19,7 @@ export default function AuthorAvatar({
       )}
       <div className="info">
         <a href="/profile/eric-simons" className="author">
-          {author.username}
+          {author?.username}
         </a>
         <span className="date">January 20th</span>
       </div>

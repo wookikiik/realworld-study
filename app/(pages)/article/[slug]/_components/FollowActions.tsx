@@ -1,24 +1,33 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Article, Profile } from "@/app/lib/definitions";
+import { Article, Author } from "@/app/lib/definitions";
 import { useAuth } from "@/app/lib/providers/AuthProvider";
-import useArticleStore from "@/app/lib/store/article";
 
-export default function Actions({ article }: ActionsProps) {
-  const author = article.author;
+export default function FollowActions({
+  article,
+  author,
+  onFollowAction,
+  onUnfollowAction,
+  onFavorite,
+  onUnfavorite,
+}: ActionsProps) {
   const { user } = useAuth();
 
-  const isArticleAuthor = user?.username === article.author.username;
+  const isArticleAuthor = user?.username === author?.username;
 
   return (
     <>
       {isArticleAuthor ? (
-        <ArticleEditActions slug={article.slug} />
+        article?.slug && <ArticleEditActions slug={article?.slug} />
       ) : (
         <ArticleFollowActions
-          authorName={author.username}
-          favoritesCount={article.favoritesCount}
+          article={article}
+          author={author}
+          onFollowAction={onFollowAction}
+          onUnfollowAction={onUnfollowAction}
+          onFavorite={onFavorite}
+          onUnfavorite={onUnfavorite}
         />
       )}
     </>
@@ -26,7 +35,12 @@ export default function Actions({ article }: ActionsProps) {
 }
 
 type ActionsProps = {
-  article: Article;
+  article: Partial<Article>;
+  author: Author;
+  onFollowAction: () => void;
+  onUnfollowAction: () => void;
+  onFavorite: () => void;
+  onUnfavorite: () => void;
 };
 
 function ArticleEditActions({ slug }: { slug: string }) {
@@ -54,41 +68,61 @@ function ArticleEditActions({ slug }: { slug: string }) {
 }
 
 function ArticleFollowActions({
-  authorName,
-  favoritesCount,
-}: {
-  authorName: string;
-  favoritesCount: number;
-}) {
-  const author = useArticleStore.use.article()?.author;
-  const follow = author?.following ?? false;
-  const followAction = useArticleStore.use.follow();
-  const unfollowAction = useArticleStore.use.unfollow();
+  article,
+  author,
+  onFollowAction,
+  onUnfollowAction,
+  onFavorite,
+  onUnfavorite,
+}: ArticleFollowActionsProps) {
+  const follow = article.author?.following ?? false;
+  const favorites = article.favoritesCount || 0;
+  const favorited = article.favorited;
 
   async function handleFollow(e: React.MouseEvent<HTMLButtonElement>) {
     // TODO: handle undefined author
-    await fetch(`/api/follow/${author?.username || ""}`, { method: "POST" });
-    followAction();
+    await fetch(`/api/follow/${author?.username ?? ""}`, { method: "POST" });
+    onFollowAction();
   }
 
-  function handleUnFollow(e: React.MouseEvent<HTMLButtonElement>) {
-    //
+  async function handleUnfollow(e: React.MouseEvent<HTMLButtonElement>) {
+    onUnfollowAction();
+  }
+
+  async function handleFavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    onFavorite();
+  }
+
+  async function handleUnfavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    onUnfavorite();
   }
 
   return (
     <>
       <button
         className="btn btn-sm btn-outline-secondary"
-        onClick={handleFollow}
+        onClick={follow ? handleUnfollow : handleFollow}
       >
         <i className="ion-plus-round"></i>&nbsp;
-        {follow ? "Unfollow" : "Follow"} {authorName}
+        {follow ? "Unfollow" : "Follow"} {author?.username}
       </button>
       &nbsp;&nbsp;
-      <button className="btn btn-sm btn-outline-primary">
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={favorited ? handleUnfavorite : handleFavorite}
+      >
         <i className="ion-heart"></i>&nbsp;Favorite Post&nbsp;
-        <span className="counter">({favoritesCount})</span>
+        <span className="counter">({favorites})</span>
       </button>
     </>
   );
+}
+
+interface ArticleFollowActionsProps {
+  article: Partial<Article>;
+  author: Author;
+  onFollowAction: () => void;
+  onUnfollowAction: () => void;
+  onFavorite: () => void;
+  onUnfavorite: () => void;
 }

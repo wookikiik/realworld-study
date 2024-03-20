@@ -10,8 +10,6 @@ type Store = {
   unfollow: () => void;
   favorite: () => void;
   unfavorite: () => void;
-  // getAuthor: () => Profile | undefined;
-  // getFollowStatus: () => boolean;
 };
 
 // define the initial state
@@ -21,50 +19,39 @@ export const useArticleStoreBase = create<Store>()(
   immer((set) => ({
     article: initialState,
     init: (article: Article) => set({ article }),
-    follow: () => {
+    follow: () =>
       set((state) => {
         if (state.article.author) {
           state.article.author.following = true;
         }
-      });
-    },
-    unfollow: () => {
+      }),
+    unfollow: () =>
       set((state) => {
         if (state.article.author) {
           state.article.author.following = false;
         }
-      });
-    },
-    favorite: () => {
+      }),
+    favorite: () =>
       set((state) => {
         if (state.article.favoritesCount) {
           state.article.favoritesCount += 1;
         }
-      });
-    },
-    unfavorite: () => {
+
+        if (state.article.favorited) {
+          state.article.favorited = false;
+        }
+      }),
+    unfavorite: () =>
       set((state) => {
         if (state.article.favoritesCount) {
           state.article.favoritesCount -= 1;
         }
-      });
-    },
+
+        if (state.article.favorited) {
+          state.article.favorited = false;
+        }
+      }),
   })),
 );
 
 export default createSelectors(useArticleStoreBase);
-
-// selectors
-// getAuthor: () => get().article?.author,
-// getFollowStatus: () => {
-//   const author = get().getAuthor();
-//   return author?.following ?? false;
-// },
-
-// export const initArticle = useArticleStore.use.init();
-// export const author = useArticleStore.use.article()?.author;
-// export const followStatus = author?.following ?? false;
-// export const follow = useArticleStore.use.follow();
-// export const unfollow = useArticleStore.use.unfollow();
-// export const favoritesCount =
-//   useArticleStore.use.article()?.favoritesCount || 0;

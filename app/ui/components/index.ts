@@ -1,11 +1,11 @@
 import Avatar from "./Avatar";
+import AuthorAvatar from "./AuthorAvatar";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import PopularTags from "./PopularTags";
 import ErrorMessages from "./ErrorMessages";
 import TagList from "./TagList";
 import IconButton from "./IconButton";
-
 import Pagination from "./Pagination";
 import ArticlePreviews from "./ArticlePreviews";
 import FavoriteToggle from "./FavoriteToggle";
@@ -17,6 +17,7 @@ import HomeFeed from "./HomeFeed";
 
 export {
   Avatar,
+  AuthorAvatar,
   Navigation,
   Footer,
   PopularTags,
