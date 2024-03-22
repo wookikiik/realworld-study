@@ -2,10 +2,11 @@ import Form from "./components/form"
 import { getCurrentUser } from "../lib/actions";
 import { UserAuthInfo } from "../lib/definitions";
 import LogoutButton from "./components/logoutButton";
+import { auth } from "@/auth";
+import { getUserData } from "../data";
 
-export default async function Page() {
-    const data = await getCurrentUser();    
-    const userInfo = data?.user as UserAuthInfo;
+export default async function Page() {    
+    const userInfo = await getUserData();        
     
     return (
         <div className="settings-page">

@@ -1,94 +1,56 @@
-import { unstable_noStore as noStore } from 'next/cache';
-import { getYourFeed } from './lib/actions';
-import { ARTICLES_PER_PAGE, UserAuthInfo } from './lib/definitions';
-const URL = 'https://api.realworld.io/api/'
+
+import { UserAuthInfo } from './lib/definitions';
+import {
+  fetchData,
+  fetchWithAuth,
+  calculateOffset,
+  convertParamsToQueryString
+} from './lib/utils';
 
 
-export async function login(
-  email: string,
-  password: string,
-): Promise<any> {
-  noStore();
-
-  const res = await fetch(URL + 'users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ user: { email, password } }),
-  })
-
-  const data = await res.json()
-  // console.log("login---")
-  // console.log(data.user);
-
-  return data.user;
+export async function getUserData() {
+  const data = await fetchWithAuth<{ user: UserAuthInfo }>('user', 'GET');
+  return data?.user;
 }
 
-type articlesParam = Record<string, any>;
-
-export async function getGlobalFeed(articlesParam: articlesParam): Promise<any> {
-
-  // console.log("articlesParam", articlesParam);
-  // console.log('queryString', queryString);
-  // console.log("URL + 'articles' + queryString,", URL + 'articles' + queryString)
-
-  const res = await fetch(URL + 'articles?' +
-    convertParamsToQueryString(articlesParam), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-
-  const data = await res.json()
-  // console.log('getArticles');
-  // console.log(data)
-  return data;
-}
-
-
-export async function getFeed(query: string, page: string): Promise<any> {
+export async function getFeed(query: string, page: string, tag?: string): Promise<any> {
   let feed;
+  const articlesParam = {
+    offset: calculateOffset(page),
+    tag: tag,
+  }
   if (!query) {
-    feed = await getGlobalFeed({
-      offset: calculateOffset(page)
-    });
+    feed = await getGlobalFeed(articlesParam);
   } else {
-    feed = await getYourFeed({
-      offset: calculateOffset(page)
-    });
+    feed = await getYourFeed(articlesParam);
   }
 
-  // console.log(feed);
   return feed;
 }
 
+export async function getGlobalFeed(articlesParam: Record<string, any>): Promise<any> {
+  const urlWithParam = `articles?${convertParamsToQueryString(articlesParam)}`
+  const data = await fetchData<Record<string, any>>(urlWithParam, 'GET');
 
-
-
-
-function calculateOffset(currentPage: string) {
-  return (Number(currentPage) - 1) * ARTICLES_PER_PAGE;
-}
-
-export function convertParamsToQueryString(params: articlesParam): string {
-  return Object.keys(params)
-    .map(key => encodeURIComponent(key) + '=' +
-      encodeURIComponent(params[key]))
-    .join('&');
-
-}
-
-
-export async function getProfiles(name: string): Promise<any> {
-  const res = await fetch(URL + 'profiles/' + name, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-  const data = await res.json()
-  console.log("getProfile", data);
   return data;
 }
+
+export async function getYourFeed(articlesParam: Record<string, any>): Promise<any> {
+  const urlWithParam = `articles/feed?${convertParamsToQueryString(articlesParam)}`
+  const data = await fetchWithAuth<Record<string, any>>(urlWithParam, 'GET');
+
+  return data;
+}
+
+export async function getProfiles(name: string): Promise<any> {
+  const data = await fetchData<Record<string, any>>(`profiles/${name}`, 'GET');
+
+  return data;
+}
+
+export async function getTags(): Promise<any> {
+  const data = await fetchData<{ tags: [string] }>(`tags`, 'GET');
+
+  return data;
+}
+

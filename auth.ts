@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import type {  UserAuthInfo } from './app/lib/definitions';
-import { login } from './app/data';
 import { NextResponse } from "next/server";
+import { userLogin } from './app/lib/actions';
 
 // -> provider password 체크 예제
 // 암호화 비번 체크 시 사용 node api 
@@ -21,7 +21,7 @@ declare module "next-auth" {
 
 async function getUser(email: string, password: string): Promise<UserAuthInfo | undefined> {
     try {
-        const user = await login(email, password);
+        const user = await userLogin(email, password);
         // console.log('getUser---');
         // console.log({user, name: user.username});
         const editUser = {...user, name: user.username}

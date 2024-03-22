@@ -1,5 +1,5 @@
 'use client';
-import { updateUser } from "@/app/lib/actions";
+import { updateUserAction } from "@/app/lib/actions";
 import { UserAuthInfo } from "@/app/lib/definitions";
 import ErrorMessages from "@/app/ui/errorMessages";
 import { useEffect, useState } from "react";
@@ -25,14 +25,12 @@ export default function Form({ info }: UserAuthInfo | any) {
 
         fetchData();
     }, [info, setValue]); // setValue를 의존성 배열에 추가
-
-
-    // setValue를 의존성 배열에 추가
+    
 
     // 폼 제출 핸들러
     const onSubmit: SubmitHandler<UserAuthInfo> = async (data) => {
         console.log("onsubemt", data);
-        const res = await updateUser(data)
+        const res = await updateUserAction(data)
         if (res === undefined) {
             setServerErrors({ server: 'There was a problem' });
         } else {

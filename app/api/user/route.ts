@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     const userSession = await getSessionToken(request);
     // const userSession = TOKEN;
     if (userSession) {
-        // 인증된 요청에 대한 처리       
+        // 인증된 요청에 대한 처리         
         const res = await fetch('https://api.realworld.io/api/user', {
             method: 'GET',
             headers: {
