@@ -27,22 +27,6 @@ export async function getCurrentUser(): Promise<any> {
 
 
 
-export async function follow(username: string): Promise<any> {
-  const userSession = await getSessionToken();
-  const url = URL + 'profiles/' + username + '/follow'
-  console.log(url);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${userSession}`,
-    },
-  })
-
-  const data = await res.json()
-  return data.user;
-}
-
 async function getSessionToken(): Promise<any> {
   const session = await auth();
   console.log("session", session);
@@ -64,7 +48,7 @@ export async function signIn(formData: UserAuthInfo) {
   await login("credentials", formData);
 }
 
-export async function userLogin(
+export async function userLoginAction(
   email: string,
   password: string,
 ): Promise<any> {
@@ -74,10 +58,17 @@ export async function userLogin(
     'users/login',
     'POST',
     { user: { email, password } }
-  )
-
-  console.log('userLogin data', data);
-
+  )  
   return data?.user;
+}
+
+
+
+export async function followAction(username: string): Promise<any> {
+  const followUser = await fetchWithAuth<UserAuthInfo>(
+    'profiles/' + username + '/follow',
+    'POST',    
+  );
+  return followUser;
 }
 

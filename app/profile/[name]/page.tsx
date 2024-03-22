@@ -1,8 +1,9 @@
 import Image from "next/image"
-import {getProfiles} from "@/app/data";
+import { getProfiles } from "@/app/data";
 import MyImage from "@/app/ui/myImage";
 import { auth } from "@/auth";
 import Follow from "./components/follow";
+import EditProfile from "./components/editProfile";
 
 export default async function Page({ params }: { params: { name: string } }) {
 
@@ -23,16 +24,12 @@ export default async function Page({ params }: { params: { name: string } }) {
                             <p>
                                 {userInfo.bio}
                             </p>
-                            {/* <button className="btn btn-sm btn-outline-secondary action-btn">
-                                <i className="ion-plus-round"></i>
-                                &nbsp; Follow {userInfo.username}
-                            </button> */}
-                            <Follow name={userInfo.username} />
-                            {isMyProfile ?
-                                <button className="btn btn-sm btn-outline-secondary action-btn">
-                                    <i className="ion-gear-a"></i>
-                                    &nbsp; Edit Profile Settings
-                                </button> : ''}
+                            {
+                                isMyProfile ?
+                                    <EditProfile />
+                                    :
+                                    <Follow name={userInfo.username} />
+                            }
                         </div>
                     </div>
                 </div>

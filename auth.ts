@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import type {  UserAuthInfo } from './app/lib/definitions';
 import { NextResponse } from "next/server";
-import { userLogin } from './app/lib/actions';
+import { userLoginAction } from './app/lib/actions';
 
 // -> provider password 체크 예제
 // 암호화 비번 체크 시 사용 node api 
