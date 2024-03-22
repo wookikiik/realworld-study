@@ -32,6 +32,7 @@ async function getSessionToken(request: Request): Promise<string | null> {
     const session = await auth()    
     const token = session?.user?.token
 
+    console.log("getSession", session);
     console.log("getSessionToken", token);
     if (!token) {
         return null;

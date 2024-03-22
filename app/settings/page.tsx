@@ -4,9 +4,8 @@ import { UserAuthInfo } from "../lib/definitions";
 import LogoutButton from "./components/logoutButton";
 
 export default async function Page() {
-    const data = await getCurrentUser();
-    console.log("setting page", data);
-    const userInfo = data.user as UserAuthInfo;
+    const data = await getCurrentUser();    
+    const userInfo = data?.user as UserAuthInfo;
     
     return (
         <div className="settings-page">
