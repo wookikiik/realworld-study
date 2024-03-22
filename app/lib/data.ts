@@ -79,7 +79,7 @@ export async function fetchArticleListGlobalFeed(): Promise<
 export async function fetchArticleListFeed(): Promise<
   ArticlesResponse | ErrorResponse
 > {
-  const data = await GET("/articles/feed");
+  const data = await callWithAuth("/articles/feed", "GET");
   return unWarpperResponseData(data);
   return {
     articles: [
@@ -200,14 +200,15 @@ export async function fetchArticle(slug: string): Promise<ArticleResponse> {
 export async function createArticle(
   formData: ArticleForm,
 ): Promise<ArticleResponse | ErrorResponse> {
-  const response = await POST("/articles", { article: formData });
+  const response = await callWithAuth("/articles", "POST", {
+    article: formData,
+  });
   return unWarpperResponseData(response);
 }
 
 export async function fetchAllTag(): Promise<TagsResponse> {
-  return {
-    tags: ["reactjs", "angularjs"],
-  };
+  const response = await GET("/tags");
+  return unWarpperResponseData(response);
 }
 
 export async function fetchComments(slug: string): Promise<CommentsResponse> {
@@ -411,7 +412,6 @@ async function callAPI(
   };
 
   addInit && (await addInit(init));
-  // console.log("callAPI", url);
   return fetch(`${API_BASE_URL}${url}`, init);
 }
 

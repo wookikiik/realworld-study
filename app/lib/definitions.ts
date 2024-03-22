@@ -7,6 +7,7 @@ export interface ArticleListSearchParams {
   author?: string;
   slug?: string;
   favorited?: string;
+  tag?: string;
 }
 
 export interface PaginationParams {
@@ -138,3 +139,5 @@ export type FeedTab = {
   name: string;
   onChangeTab: (tab: FeedTab) => void;
 };
+
+export type ApiParams = RequestInit & { data?: Record<string, any> };
