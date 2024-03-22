@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { name: string } }) {
                                 isMyProfile ?
                                     <EditProfile />
                                     :
-                                    <Follow name={userInfo.username} />
+                                    <Follow name={userInfo.username} isfollowing={userInfo.following}/>
                             }
                         </div>
                     </div>

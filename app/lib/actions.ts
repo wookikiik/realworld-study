@@ -63,7 +63,6 @@ export async function userLoginAction(
 }
 
 
-
 export async function followAction(username: string): Promise<any> {
   const followUser = await fetchWithAuth<UserAuthInfo>(
     'profiles/' + username + '/follow',
@@ -71,4 +70,13 @@ export async function followAction(username: string): Promise<any> {
   );
   return followUser;
 }
+
+export async function unfollowAction(username: string): Promise<any> {
+  const followUser = await fetchWithAuth<UserAuthInfo>(
+    'profiles/' + username + '/follow',
+    'DELETE',    
+  );
+  return followUser;
+}
+
 
