@@ -30,7 +30,7 @@ export async function fetchWithAuth<T>(
 
     if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
-    }
+    }    
 
     return await response.json();
 }

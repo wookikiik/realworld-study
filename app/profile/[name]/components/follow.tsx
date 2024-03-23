@@ -11,7 +11,7 @@ export default function Follow({ name, isfollowing }:
 
     const handleClick = async () => {
         const res = await 
-        (followState ? followAction(name) : unfollowAction(name));
+        (followState ? unfollowAction(name) : followAction(name));
         setFollowState(res?.profile?.following)
     }
 
@@ -19,7 +19,7 @@ export default function Follow({ name, isfollowing }:
         <button onClick={handleClick}
             className="btn btn-sm btn-outline-secondary action-btn">
             <i className="ion-plus-round"></i>
-            &nbsp; {followState ? 'Follow' : 'UnFollow'} {name}
+            &nbsp; {followState ? 'UnFollow' : 'Follow'} {name}
         </button>
     )
 }

@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import type {  UserAuthInfo } from './app/lib/definitions';
+
 import { NextResponse } from "next/server";
 import { userLoginAction } from './app/lib/actions';
 
@@ -21,7 +22,7 @@ declare module "next-auth" {
 
 async function getUser(email: string, password: string): Promise<UserAuthInfo | undefined> {
     try {
-        const user = await userLogin(email, password);
+        const user = await userLoginAction(email, password);
         // console.log('getUser---');
         // console.log({user, name: user.username});
         const editUser = {...user, name: user.username}
