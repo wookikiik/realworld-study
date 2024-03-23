@@ -10,6 +10,12 @@ export interface UserAuthInfo {
 
 export const ARTICLES_PER_PAGE = 10;
 
+export type tabType = {
+    tabName: string;
+    isActive: boolean;
+    query?: string;
+}
+
 // export interface SessionUser {
 //     email: string;
 //     name: string;

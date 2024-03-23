@@ -4,6 +4,8 @@ import MyImage from "@/app/ui/myImage";
 import { auth } from "@/auth";
 import Follow from "./components/follow";
 import EditProfile from "./components/editProfile";
+import ToggleTab from "@/app/ui/toggleTab";
+import ArticlePreview from "@/app/ui/articlePreview";
 
 export default async function Page({ params }: { params: { name: string } }) {
 
@@ -11,8 +13,17 @@ export default async function Page({ params }: { params: { name: string } }) {
     const userInfo = data.profile;
     const session = await auth();
     const isMyProfile = session?.user?.name === userInfo.username
+    const tabTypeList = [{
+        tabName: 'My Articles',
+        isActive: true,
+    },
+    {
+        tabName: 'Favorited Articles',
+        isActive: false,
+        query: 'fav',
+    }]
+    const articles = await getFeed(query, currentPage.toString(), searchTag);
 
-    console.log(userInfo);
     return (
         <div className="profile-page">
             <div className="user-info">
@@ -28,7 +39,7 @@ export default async function Page({ params }: { params: { name: string } }) {
                                 isMyProfile ?
                                     <EditProfile />
                                     :
-                                    <Follow name={userInfo.username} isfollowing={userInfo.following}/>
+                                    <Follow name={userInfo.username} isfollowing={userInfo.following} />
                             }
                         </div>
                     </div>
@@ -39,17 +50,10 @@ export default async function Page({ params }: { params: { name: string } }) {
                 <div className="row">
                     <div className="col-xs-12 col-md-10 offset-md-1">
                         <div className="articles-toggle">
-                            <ul className="nav nav-pills outline-active">
-                                <li className="nav-item">
-                                    <a className="nav-link active" href="">My Articles</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="">Favorited Articles</a>
-                                </li>
-                            </ul>
+                            <ToggleTab tabTypeList={tabTypeList} />                            
                         </div>
-
-                        <div className="article-preview">
+                        <ArticlePreview articles={articles?.articles} />
+                        {/* <div className="article-preview">
                             <div className="article-meta">
                                 <a href="/profile/albert-pai">
                                     <Image src="http://i.imgur.com/N4VcUeJ.jpg" alt="" width={512} height={512} /></a>
@@ -70,7 +74,7 @@ export default async function Page({ params }: { params: { name: string } }) {
                                     <li className="tag-default tag-pill tag-outline">Song</li>
                                 </ul>
                             </a>
-                        </div>
+                        </div> */}
 
                         <ul className="pagination">
                             <li className="page-item active">
