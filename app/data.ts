@@ -13,10 +13,10 @@ export async function getUserData() {
   return data?.user;
 }
 
-export async function getFeed(query: string, page: string, tag?: string): Promise<any> {
+export async function getFeed(query: string, page: string, articlesPerPage: number, tag?: string, ): Promise<any> {
   let feed;
   const articlesParam = {
-    offset: calculateOffset(page),
+    offset: calculateOffset(page, articlesPerPage),
     tag: tag,
   }
   if (!query) {
@@ -28,10 +28,33 @@ export async function getFeed(query: string, page: string, tag?: string): Promis
   return feed;
 }
 
+export async function getArticles(params:
+  { page: string, user: string, query?: string, articlesPerPage: number })
+  : Promise<any> {
+  let articlesParam: {
+    limit: number,
+    offset: number,
+    favorited?: string,
+    author?: string,
+  } = {    
+    limit: 5,
+    offset: calculateOffset(params.page, params.articlesPerPage),
+  }
+
+  if(params.query) {
+    articlesParam.favorited = params.user
+  } else {
+    articlesParam.author = params.user
+  }
+
+  return await getGlobalFeed(articlesParam);
+}
+
 export async function getGlobalFeed(articlesParam: Record<string, any>): Promise<any> {
   const urlWithParam = `articles?${convertParamsToQueryString(articlesParam)}`
   const data = await fetchData<Record<string, any>>(urlWithParam, 'GET');
 
+  console.log(data);
   return data;
 }
 

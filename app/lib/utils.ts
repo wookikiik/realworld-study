@@ -57,8 +57,8 @@ export async function fetchData<T>(
     return await response.json();
 }
 
-export function calculateOffset(currentPage: string) {
-    return (Number(currentPage) - 1) * ARTICLES_PER_PAGE;
+export function calculateOffset(currentPage: string, articlesPerPage: number) {
+    return (Number(currentPage) - 1) * articlesPerPage;
 }
 
 export function convertParamsToQueryString(params: Record<string, any>): string {
@@ -67,7 +67,7 @@ export function convertParamsToQueryString(params: Record<string, any>): string 
             if (params[key] !== undefined) {
                 console.log('key', key);
                 console.log('encodeURIComponent(params[key]', encodeURIComponent(params[key]));
-                return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+                return encodeURIComponent(key) + '=' + (params[key])
             } 
         })
         .join('&');

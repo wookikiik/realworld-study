@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { ARTICLES_PER_PAGE } from '../lib/definitions';
 import { createPageURL } from '../lib/utils';
 
-export default function Pagination({ totalArticles }: { totalArticles: number }) {
+export default function Pagination({ totalArticles, articlesPerPage }: { totalArticles: number, articlesPerPage: number }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get('page')) || 1;
@@ -14,7 +13,7 @@ export default function Pagination({ totalArticles }: { totalArticles: number })
         return createPageURL(params, pathname, 'page', pageNumber.toString())
     }
 
-    const totalPages = Math.ceil(totalArticles / ARTICLES_PER_PAGE);
+    const totalPages = Math.ceil(totalArticles / articlesPerPage);
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
     return (

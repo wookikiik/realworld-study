@@ -41,7 +41,7 @@ export default async function Home({
   const searchTag = searchParams?.tag
   const session = await auth()
   const isLoggedIn = session?.user ? true : false;
-  const articles = await getFeed(query, currentPage.toString(), searchTag);
+  const articles = await getFeed(query, currentPage.toString(), 10, searchTag);
   const tags = await getTags();
   const tabTypeList = setTab();
 
@@ -60,8 +60,8 @@ export default async function Home({
             <div className="feed-toggle">
               <ToggleTab tabTypeList={tabTypeList}/>
             </div>
-            <ArticlePreview articles={articles?.articles} />
-            <Pagination totalArticles={articles?.articlesCount} />
+            <ArticlePreview articlesParam={articles} />
+            <Pagination totalArticles={articles?.articlesCount} articlesPerPage={10}/>
           </div>
 
           <div className="col-md-3">
