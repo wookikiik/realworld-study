@@ -1,11 +1,11 @@
 'use server';
 import Image from "next/image";
+import HeartButton from "./heartButton";
 
 export default async function ArticlePreview({ articlesParam }: {
     articlesParam:
     { articles: any, articlesCount: number }
 }) {
-    console.log('articlesCount', articlesParam.articlesCount);
     return (
         articlesParam.articlesCount > 0 ?
             articlesParam.articles.map((article: any, index: any) => {
@@ -20,18 +20,24 @@ export default async function ArticlePreview({ articlesParam }: {
                                     className="author">{article.author.username}</a>
                                 <span className="date">January 20th</span>
                             </div>
-                            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                <i className="ion-heart"></i> {article.favoritesCount}
-                            </button>
+                            <HeartButton
+                                slug={article.slug}
+                                favoritesCount={article.favoritesCount}
+                                isLiked={article.favorited}
+                            />
                         </div>
                         <a href="/article/how-to-build-webapps-that-scale" className="preview-link">
                             <h1>{article.title}</h1>
                             <p>{article.description}</p>
                             <span>Read more...</span>
                             <ul className="tag-list">
-                                {article.tagList.map((tag: string, index: number) =>
-                                    <li className="tag-default tag-pill tag-outline" key={index}>{tag}</li>
-                                )}
+                                {
+                                    article.tagList.map((tag: string, index: number) =>
+                                        <li className="tag-default tag-pill tag-outline" key={index}>
+                                            {tag}
+                                        </li>
+                                    )
+                                }
 
                             </ul>
                         </a>

@@ -16,6 +16,26 @@ export type tabType = {
     query?: string;
 }
 
+export type ArticleType = {
+    article: {
+        "slug": string,
+        "title": string,
+        "description": string,
+        "body": string,
+        "tagList": [
+            string
+        ],        
+        "favorited": boolean,
+        "favoritesCount": number,
+        "author": {
+            "username": string,
+            "bio": string,
+            "image": string,
+            "following": boolean
+        }
+    }
+}
+
 // export interface SessionUser {
 //     email: string;
 //     name: string;
@@ -35,5 +55,5 @@ export type tabType = {
 //   name?: string | null
 //   email?: string | null
 //   image?: string | null
-//   token: string, 
+//   token: string,
 // }

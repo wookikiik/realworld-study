@@ -1,7 +1,7 @@
 'use server';
 import { signIn as login } from "@/auth"
 import { unstable_noStore as noStore } from 'next/cache';
-import type { UserAuthInfo } from "./definitions";
+import type { ArticleType, UserAuthInfo } from "./definitions";
 import { auth } from '@/auth';
 import { fetchData, fetchWithAuth } from "./utils";
 
@@ -77,6 +77,22 @@ export async function unfollowAction(username: string): Promise<any> {
     'DELETE',    
   );  
   return unfollowUser;
+}
+
+export async function favoriteAction(slug: string): Promise<any> {
+  const favoriteArticle = await fetchWithAuth<ArticleType>(
+    'articles/' + slug + '/favorite',
+    'POST',    
+  );  
+  return favoriteArticle;
+}
+
+export async function unFavoriteAction(slug: string): Promise<any> {
+  const unFavoriteArticle = await fetchWithAuth<ArticleType>(
+    'articles/' + slug + '/favorite',
+    'DELETE',    
+  );  
+  return unFavoriteArticle;
 }
 
 
