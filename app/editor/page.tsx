@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { ArticleType } from "../lib/definitions"
 import { useState } from "react";
 import { postArticle } from "../lib/actions";
+import { useRouter } from 'next/navigation';
+
 
 export default function Page() {
     const [tag, setTag] = useState('');
@@ -13,19 +15,19 @@ export default function Page() {
         handleSubmit,
         formState: { errors },
     } = useForm<ArticleType>()
+    const { replace } = useRouter();
 
     const onSubmit: SubmitHandler<ArticleType> = async (data) => {
         const articleParam = {...data, tagList};
         const res = await postArticle(articleParam);
-        console.log("res", res);
+        replace('article/'+ res.article.slug);
     }
 
     const handleWordChange = (event: any) => {
         setTag(event.target.value);
     };
 
-    const handleWordSubmit = (event: any) => {
-        console.log("handleWordSubmit")
+    const handleWordSubmit = (event: any) => {        
         if (event.key === 'Enter' && tag.trim()) {
             setTagList([...tagList, tag.trim()]);
             setTag('');
