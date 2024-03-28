@@ -1,7 +1,7 @@
 'use server';
 import { signIn as login } from "@/auth"
 import { unstable_noStore as noStore } from 'next/cache';
-import type { ArticleType, CommentsType, UserAuthInfo } from "./definitions";
+import type { ArticleType, CommentsType, UserAuthInfo, articlePostType } from "./definitions";
 import { auth } from '@/auth';
 import { fetchData, fetchWithAuth } from "./utils";
 
@@ -54,11 +54,11 @@ export async function userLoginAction(
 ): Promise<any> {
   noStore();
 
-  const data = await fetchData<{user: UserAuthInfo}>(
+  const data = await fetchData<{ user: UserAuthInfo }>(
     'users/login',
     'POST',
     { user: { email, password } }
-  )  
+  )
   return data?.user;
 }
 
@@ -66,39 +66,51 @@ export async function userLoginAction(
 export async function followAction(username: string): Promise<any> {
   const followUser = await fetchWithAuth<UserAuthInfo>(
     'profiles/' + username + '/follow',
-    'POST',    
-  );  
+    'POST',
+  );
   return followUser;
 }
 
 export async function unfollowAction(username: string): Promise<any> {
   const unfollowUser = await fetchWithAuth<UserAuthInfo>(
     'profiles/' + username + '/follow',
-    'DELETE',    
-  );  
+    'DELETE',
+  );
   return unfollowUser;
 }
 
 export async function favoriteAction(slug: string): Promise<any> {
   const favoriteArticle = await fetchWithAuth<ArticleType>(
     'articles/' + slug + '/favorite',
-    'POST',    
-  );  
+    'POST',
+  );
   return favoriteArticle;
 }
 
 export async function unFavoriteAction(slug: string): Promise<any> {
   const unFavoriteArticle = await fetchWithAuth<ArticleType>(
     'articles/' + slug + '/favorite',
-    'DELETE',    
-  );  
+    'DELETE',
+  );
   return unFavoriteArticle;
 }
 
 export async function postCommentAction(slug: string): Promise<any> {
   const postComment = await fetchWithAuth<CommentsType>(
     'articles/' + slug + '/comments',
-    'POST',    
+    'POST',
+  )
+
+  return postComment;
+}
+
+export async function postArticle(articleParam: articlePostType): Promise<any> {
+  const postComment = await fetchWithAuth<CommentsType>(
+    'articles',
+    'POST',
+    {
+      article: articleParam,
+    }
   )
 
   return postComment;

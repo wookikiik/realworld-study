@@ -11,22 +11,20 @@ export async function fetchWithAuth<T>(
         'Content-Type': 'application/json',
     };
     const session = await auth();
-    const token = session?.user?.token;
-    console.log("fetchWithAuth sessiont", session);
+    const token = session?.user?.token;    
 
     if (token) {
         headers['Authorization'] = `Token ${token}`;
     }
     const fullUrl = `${serverUrl}/${url}`
-
-    console.log("fetchWithAuth url", url);
+    
     console.log("fetchWithAuth fullUrl", fullUrl);
 
     const response = await fetch(fullUrl, {
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined,
-    });
+    });    
 
     if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);

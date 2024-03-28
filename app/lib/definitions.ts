@@ -30,8 +30,7 @@ export type tabType = {
     query?: string;
 }
 
-export type ArticleType = {
-    article: {
+export type ArticleType = {    
         "slug": string,
         "title": string,
         "description": string,
@@ -49,7 +48,13 @@ export type ArticleType = {
             "image": string,
             "following": boolean
         }
-    }
+}
+
+export type articlePostType = {
+    "title": string,
+    "description": string,
+    "body": string,
+    "tagList": string[]
 }
 
 export type CommentsType = {

@@ -1,7 +1,8 @@
 'use server';
-import Image from "next/image";
 import HeartButton from "./heartButton";
 import Link from "next/link";
+import MyImage from "./myImage";
+import { MONTHS } from "../lib/definitions";
 
 export default async function ArticlePreview({ articlesParam }: {
     articlesParam:
@@ -13,13 +14,13 @@ export default async function ArticlePreview({ articlesParam }: {
                 return (
                     <div className="article-preview" key={index}>
                         <div className="article-meta">
-                            {/* <a href={`/profile/${article.author.username}`}>
-                            <Image src={article.author.image} alt="" width={512} height={512} />
-                        </a> */}
+                            <Link href={`/profile/${article.author.username}`}>
+                            <MyImage src={article.author.image} />
+                        </Link> 
                             <div className="info">
                                 <a href={`/profile/${article.author.username}`}
                                     className="author">{article.author.username}</a>
-                                <span className="date">January 20th</span>
+                                <span className="date">{MONTHS[new Date(article.createdAt).getMonth()]} {new Date(article.createdAt).getDate()}, {new Date(article.createdAt).getFullYear()}</span>
                             </div>
                             <HeartButton
                                 slug={article.slug}

@@ -1,5 +1,6 @@
 
-import { ArticleType, CommentType, CommentsType, UserAuthInfo } from './lib/definitions';
+import { ArticleType, CommentsType, UserAuthInfo } from './lib/definitions';
+import { unstable_noStore as noStore } from 'next/cache';
 import {
   fetchData,
   fetchWithAuth,
@@ -14,6 +15,7 @@ export async function getUserData() {
 }
 
 export async function getFeed(query: string, page: string, articlesPerPage: number, tag?: string, ): Promise<any> {
+  noStore();
   let feed;
   const articlesParam = {
     offset: calculateOffset(page, articlesPerPage),
@@ -40,7 +42,7 @@ export async function getArticles(params:
     limit: 5,
     offset: calculateOffset(params.page, params.articlesPerPage),
   }
-
+  noStore();
   if(params.query) {
     articlesParam.favorited = params.user
   } else {
@@ -66,6 +68,7 @@ export async function getYourFeed(articlesParam: Record<string, any>): Promise<a
 }
 
 export async function getProfiles(name: string): Promise<any> {
+  noStore();
   const data = await fetchData<Record<string, any>>(`profiles/${name}`, 'GET');
 
   return data;
@@ -78,12 +81,14 @@ export async function getTags(): Promise<any> {
 }
 
 export async function getArticle(slug: string): Promise<any> {
+  noStore();
   const data = await fetchData<ArticleType>(`articles/${slug}`, 'GET');
 
   return data;
 }
 
 export async function getComments(slug: string): Promise<any> {
+  noStore();
   const data = await fetchData<CommentsType>(`articles/${slug}/comments`, 'GET');
 
   return data;
