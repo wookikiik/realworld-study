@@ -7,8 +7,8 @@ export const convertArticleData = (formData: FormData): ArticleForm => {
     title: formData.get('title'),
     description: formData.get('description'),
     body: formData.get('body'),
-    tagList: formData.get('tagList') || [],
-  }); // omit | pick
+    tagList: (formData.get('tagList') as string).split(',') || [],
+  });
 
   if (result.success) {
     return result.data as ArticleForm;

@@ -1,10 +1,10 @@
+import dayjs from 'dayjs';
 import NextAuth, { AuthError, User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import 'next-auth/jwt';
 import credentials from 'next-auth/providers/credentials';
 import { NextResponse } from 'next/server';
 import { authentication } from './app/lib/data/authentication';
-
 declare module 'next-auth' {
   interface User {
     username: string;
@@ -53,7 +53,8 @@ export const { auth, signIn, signOut } = NextAuth({
       return Response.redirect(new URL('/', nextUrl));
     },
     session: async ({ session, token }) => {
-      session.authenticated = session && !!token?.user;
+      session.authenticated =
+        session && dayjs(session.expires).isAfter(dayjs()) && !!token?.user;
       session.user = token.user as AdapterUser & User;
 
       return session;

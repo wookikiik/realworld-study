@@ -2,7 +2,8 @@ import {
   ArticleForm,
   ArticleResponse,
   ArticlesResponse,
-  Comment,
+  CommentResponse,
+  CommentsResponse,
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 import { DELETE, GET, POST, PUT } from '../utils/fetcher';
@@ -11,7 +12,6 @@ import { DELETE, GET, POST, PUT } from '../utils/fetcher';
  * 게시물 등록
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#create-article
  */
-
 export const createArticle = async (
   articleData: ArticleForm
 ): Promise<ArticleResponse> => {
@@ -44,11 +44,11 @@ export const deleteArticle = async (slug: string) => {
     url: `/articles/${slug}`,
   });
 };
+
 /**
  * 게시물 수정
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#update-article
  */
-
 export const updateArticle = async (
   slug: string,
   articleData: ArticleForm
@@ -58,31 +58,13 @@ export const updateArticle = async (
     payload: { article: articleData },
   });
 
-  return {
-    article: {
-      slug: 'how-to-train-your-dragon',
-      title: 'How to train your dragon',
-      description: 'Ever wonder how?',
-      body: 'It takes a Jacobian',
-      tagList: ['dragons', 'training'],
-      createdAt: '2016-02-18T03:22:56.637Z',
-      updatedAt: '2016-02-18T03:48:35.824Z',
-      favorited: false,
-      favoritesCount: 0,
-      author: {
-        username: 'jake',
-        bio: 'I work at statefarm',
-        image: 'https://i.stack.imgur.com/xHWG8.jpg',
-        following: false,
-      },
-    },
-  };
+  return { article };
 };
+
 /**
  * 게시물 목록 조회
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#list-articles
  */
-
 export const fetchArticles = async (
   query: string
 ): Promise<ArticlesResponse> => {
@@ -95,11 +77,11 @@ export const fetchArticles = async (
 
   return { articles, articlesCount };
 };
+
 /**
  * 피드 목록 조회
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#feed-articles
  */
-
 export const fetchFeedArticles = async (
   query: string
 ): Promise<ArticlesResponse> => {
@@ -112,52 +94,49 @@ export const fetchFeedArticles = async (
 
   return { articles, articlesCount };
 };
+
 /**
  * 댓글 추가
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#add-comments-to-an-article
  */
-
-export const addComment = async (): Promise<Comment> => {
-  return {
-    id: 1,
-    createdAt: '2016-02-18T03:22:56.637Z',
-    updatedAt: '2016-02-18T03:22:56.637Z',
-    body: 'It takes a Jacobian',
-    author: {
-      username: 'jake',
-      bio: 'I work at statefarm',
-      image: 'https://i.stack.imgur.com/xHWG8.jpg',
-      following: false,
+export const addComment = async (
+  slug: string,
+  body: string
+): Promise<CommentResponse> => {
+  const { comment } = await POST({
+    url: `/articles/${slug}/comments`,
+    payload: {
+      comment: {
+        body,
+      },
     },
-  };
+  });
+
+  return { comment };
 };
+
 /**
  * 댓글 삭제
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#delete-comment
  */
+export const deleteComment = async (slug: string, commentId: string) => {
+  await DELETE({
+    url: `/articles/${slug}/comments/${commentId}`,
+  });
+};
 
-export const deleteComment = async () => {};
 /**
  * 댓글 조회
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#get-comments-from-an-article
  */
+export const fetchComments = async (
+  slug: string
+): Promise<CommentsResponse> => {
+  const { comments } = await GET({
+    url: `/articles/${slug}/comments`,
+  });
 
-export const getComments = async (): Promise<Comment[]> => {
-  return [
-    {
-      id: 1,
-      createdAt: '2016-02-18T03:22:56.637Z',
-      updatedAt: '2016-02-18T03:22:56.637Z',
-      body: 'It takes a Jacobian',
-      author: {
-        username: 'jake',
-        bio: 'I work at statefarm',
-        image: 'https://i.stack.imgur.com/xHWG8.jpg',
-        following: false,
-      },
-    },
-  ];
-  // return data.comments
+  return { comments };
 };
 
 /**

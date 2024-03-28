@@ -12,7 +12,7 @@ const Providers = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
   let currentUser: User | undefined = session?.user;
 
-  if (!!currentUser) {
+  if (!!session?.authenticated) {
     try {
       currentUser = await fetchCurrentUser().then((data) => data.user);
       delete currentUser?.token;

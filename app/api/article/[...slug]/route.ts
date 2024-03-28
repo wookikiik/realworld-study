@@ -1,4 +1,5 @@
 import {
+  deleteArticle,
   favoriteArticle,
   fetchArticle,
   unfavoriteArticle,
@@ -67,6 +68,6 @@ export const DELETE = async (
   }
 
   // 게시물 삭제
-  // const { article } = await deleteArticle(id);
-  return NextResponse.json({ type: 'DELETE', _slug });
+  await deleteArticle(_slug);
+  return NextResponse.json({});
 };

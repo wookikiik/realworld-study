@@ -8,11 +8,15 @@ import { fetchCurrentUser } from '../data/user';
  */
 export const getAuth = async () => {
   const session = await auth();
-
   let currentUser: User | undefined = session?.user;
-  if (!!currentUser) {
-    currentUser = await fetchCurrentUser().then((data) => data.user);
-    delete currentUser?.token;
+
+  if (!!session?.authenticated) {
+    try {
+      currentUser = await fetchCurrentUser().then((data) => data.user);
+      delete currentUser?.token;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return {

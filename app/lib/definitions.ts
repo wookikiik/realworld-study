@@ -56,10 +56,11 @@ export interface UpdateUserForm {
   password: string;
 }
 export interface ArticleForm {
+  slug?: string;
   title: string;
   description: string;
   body: string;
-  tagList: string[];
+  tagList?: string[];
 }
 
 // Params
@@ -67,22 +68,22 @@ export interface SignParams extends SignForm {}
 export interface UpdateUserParams extends UpdateUserForm {}
 
 // API Response
-export interface ResponseWithUser {
+export interface UserResponse {
   user: User;
 }
 
-export interface SignUpResponse extends ResponseWithUser {
+export interface SignUpResponse extends UserResponse {
   errors: {
     email: string[];
     username: string[];
   };
 }
-export interface SignInResponse extends ResponseWithUser {
+export interface SignInResponse extends UserResponse {
   message: string;
 }
-export interface UpdateUserResponse extends ResponseWithUser {}
+export interface UpdateUserResponse extends UserResponse {}
 
-export interface ResponseWithProfile {
+export interface ProfileResponse {
   profile: Profile;
 }
 
@@ -93,4 +94,12 @@ export interface ArticleResponse {
 export interface ArticlesResponse {
   articles: Article[];
   articlesCount: number;
+}
+
+export interface CommentResponse {
+  comment: Comment;
+}
+
+export interface CommentsResponse {
+  comments: Comment[];
 }

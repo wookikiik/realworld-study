@@ -1,25 +1,10 @@
-import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
+import { CommentForm } from '../form/CommentForm';
 
-export const CommentEditor = () => {
-  return (
-    <form className="card comment-form">
-      <div className="card-block">
-        <textarea
-          className="form-control"
-          placeholder="Write a comment..."
-          rows={3}
-        ></textarea>
-      </div>
-      <div className="card-footer">
-        <Image
-          src="http://i.imgur.com/Qr71crq.jpg"
-          alt=""
-          className="comment-author-img"
-          width={512}
-          height={512}
-        />
-        <button className="btn btn-sm btn-primary">Post Comment</button>
-      </div>
-    </form>
-  );
+interface CommentEditorProps {
+  slug: string;
+  setShouldFetch: Dispatch<SetStateAction<boolean>>;
+}
+export const CommentEditor = ({ slug, setShouldFetch }: CommentEditorProps) => {
+  return <CommentForm slug={slug} setShouldFetch={setShouldFetch} />;
 };

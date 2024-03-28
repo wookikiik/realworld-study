@@ -1,8 +1,8 @@
 import {
-  ResponseWithProfile,
-  ResponseWithUser,
+  ProfileResponse,
   UpdateUserForm,
   UpdateUserResponse,
+  UserResponse,
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 import { DELETE, GET, POST, PUT } from '../utils/fetcher';
@@ -12,7 +12,7 @@ import { DELETE, GET, POST, PUT } from '../utils/fetcher';
  * @see https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints#get-current-user
  */
 
-export const fetchCurrentUser = async (): Promise<ResponseWithUser> => {
+export const fetchCurrentUser = async (): Promise<UserResponse> => {
   noStore();
 
   const { user } = await GET({
@@ -43,7 +43,7 @@ export const updateUser = async (
 
 export const fetchProfile = async (
   username: string
-): Promise<ResponseWithProfile> => {
+): Promise<ProfileResponse> => {
   const { profile } = await GET({
     url: `/profiles/${username}`,
   });
@@ -56,7 +56,7 @@ export const fetchProfile = async (
  */
 export const followUser = async (
   username: string
-): Promise<ResponseWithProfile> => {
+): Promise<ProfileResponse> => {
   const { profile } = await POST({
     url: `/profiles/${username}/follow`,
   });
@@ -69,7 +69,7 @@ export const followUser = async (
  */
 export const unfollowUser = async (
   username: string
-): Promise<ResponseWithProfile> => {
+): Promise<ProfileResponse> => {
   const { profile } = await DELETE({
     url: `/profiles/${username}/follow`,
   });

@@ -3,23 +3,24 @@
 import { publishArticle } from '@/app/lib/actions/articleActions';
 import { Article } from '@/app/lib/definitions';
 import { KeyboardEvent, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 import { FormErrorMessages } from './FormErrorMessages';
+import { SubmitButton } from './SubmitButton';
 
 interface ArticleFormProps {
-  isEdit?: boolean;
   article?: Article;
 }
-export const ArticleForm = ({ isEdit = false, article }: ArticleFormProps) => {
-  // const publishArticleWithSlug = publishArticle.bind(null, article?.slug);
+export const ArticleForm = ({ article }: ArticleFormProps) => {
   const [tagList, setTagList] = useState<string[]>(article?.tagList || []);
-  const [state, formAction] = useFormState(publishArticle, {
+  const [publishState, doPublish] = useFormState(publishArticle, {
     messages: '',
   });
 
   const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       setTagList([...tagList, e.currentTarget.value]);
+      e.currentTarget.value = '';
     }
   };
   const handleDeleteTag = (tag: string) => {
@@ -28,8 +29,10 @@ export const ArticleForm = ({ isEdit = false, article }: ArticleFormProps) => {
 
   return (
     <>
-      <FormErrorMessages errors={state?.messages || []} />
-      <form action={formAction}>
+      <FormErrorMessages errors={publishState?.messages || []} />
+      <form action={doPublish}>
+        <input type="hidden" name="slug" value={article?.slug} />
+        <input type="hidden" name="tagList" value={tagList} />
         <fieldset>
           <fieldset className="form-group">
             <input
@@ -65,39 +68,25 @@ export const ArticleForm = ({ isEdit = false, article }: ArticleFormProps) => {
               placeholder="Enter tags"
               onKeyDown={handleAddTag}
             />
-            {isEdit && (
-              <div className="tag-list">
-                {tagList.map((tag) => {
-                  return (
-                    <span key={tag} className="tag-default tag-pill">
-                      <i
-                        className="ion-close-round"
-                        onClick={() => handleDeleteTag(tag)}
-                      ></i>{' '}
-                      {tag}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
+            <div className="tag-list">
+              {tagList.map((tag) => {
+                return (
+                  <span key={tag} className="tag-default tag-pill">
+                    <i
+                      className="ion-close-round"
+                      onClick={() => handleDeleteTag(tag)}
+                    ></i>{' '}
+                    {tag}
+                  </span>
+                );
+              })}
+            </div>
           </fieldset>
-          <PublishButton />
+          <SubmitButton className="btn btn-lg pull-xs-right btn-primary">
+            Publish Article
+          </SubmitButton>
         </fieldset>
       </form>
     </>
-  );
-};
-
-const PublishButton = () => {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="btn btn-lg pull-xs-right btn-primary"
-    >
-      Publish Article
-    </button>
   );
 };
