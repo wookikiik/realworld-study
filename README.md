@@ -76,17 +76,19 @@ Uncaught (in promise) Error: Invariant: headers() expects to have requestAsyncSt
     - mock 데이터로 임시 처리 
     -> 이유 및 해결 필요 []
 
-### 에러 메시지 전시 [+]
+### 에러 메시지 전시 [0]
 - react hook form 
 
-### 로그아웃 기능 []
+### 로그아웃 기능 [0]
 - headers() expects to have requestAsyncStorage, none available.
 
-## profile 페이지 전시       
+## profile 페이지 전시 [0]      
 
+## article 페이지 follow, favorit, edit, delete 기능 []
 ## register api 연결[]
-
-## api 에러처리 []
-
 ## article preview Image 에러 []
+## 로그인 안 한 상태로 follow, favorite 클릭 시 로그인 페이지로 이동 기능[]
 
+## comment 등록 안됨 []
+## my article 출력 안됨 []
+## follow 후 response에 follow false []

@@ -8,7 +8,7 @@ import { auth } from "@/auth";
 import FollowButton from "@/app/ui/followButton";
 import EditProfileButton from "@/app/ui/editProfileButton";
 import FavoriteButton from "@/app/ui/favoriteButton";
-import DeleteButton from "@/app/ui/deletebutton";
+import DeleteButton from "@/app/ui/deleteButton";
 import CommentForm from "@/app/ui/commentForm";
 
 export default async function Page({ params, searchParams }: {
