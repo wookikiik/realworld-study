@@ -1,5 +1,5 @@
 
-import { UserAuthInfo } from './lib/definitions';
+import { ArticleType, CommentType, CommentsType, UserAuthInfo } from './lib/definitions';
 import {
   fetchData,
   fetchWithAuth,
@@ -73,6 +73,18 @@ export async function getProfiles(name: string): Promise<any> {
 
 export async function getTags(): Promise<any> {
   const data = await fetchData<{ tags: [string] }>(`tags`, 'GET');
+
+  return data;
+}
+
+export async function getArticle(slug: string): Promise<any> {
+  const data = await fetchData<ArticleType>(`articles/${slug}`, 'GET');
+
+  return data;
+}
+
+export async function getComments(slug: string): Promise<any> {
+  const data = await fetchData<CommentsType>(`articles/${slug}/comments`, 'GET');
 
   return data;
 }

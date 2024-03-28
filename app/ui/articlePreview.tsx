@@ -1,6 +1,7 @@
 'use server';
 import Image from "next/image";
 import HeartButton from "./heartButton";
+import Link from "next/link";
 
 export default async function ArticlePreview({ articlesParam }: {
     articlesParam:
@@ -26,7 +27,7 @@ export default async function ArticlePreview({ articlesParam }: {
                                 isLiked={article.favorited}
                             />
                         </div>
-                        <a href="/article/how-to-build-webapps-that-scale" className="preview-link">
+                        <Link href={`/article/${article.slug}`} className="preview-link">
                             <h1>{article.title}</h1>
                             <p>{article.description}</p>
                             <span>Read more...</span>
@@ -40,7 +41,7 @@ export default async function ArticlePreview({ articlesParam }: {
                                 }
 
                             </ul>
-                        </a>
+                        </Link>
                     </div>
                 )
 

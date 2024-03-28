@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-export default function EditProfile() {
+export default function EditProfileButton() {
     const router = useRouter();
 
     function handleClick() {

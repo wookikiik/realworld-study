@@ -1,7 +1,7 @@
 'use client'
 import { followAction, unfollowAction } from "@/app/lib/actions";
 import { useEffect, useState } from "react";
-export default function Follow({ name, isfollowing }:
+export default function FollowButton({ name, isfollowing }:
     { name: string, isfollowing: boolean }) {
     const [followState, setFollowState] = useState(false)
 

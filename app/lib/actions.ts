@@ -1,7 +1,7 @@
 'use server';
 import { signIn as login } from "@/auth"
 import { unstable_noStore as noStore } from 'next/cache';
-import type { ArticleType, UserAuthInfo } from "./definitions";
+import type { ArticleType, CommentsType, UserAuthInfo } from "./definitions";
 import { auth } from '@/auth';
 import { fetchData, fetchWithAuth } from "./utils";
 
@@ -93,6 +93,15 @@ export async function unFavoriteAction(slug: string): Promise<any> {
     'DELETE',    
   );  
   return unFavoriteArticle;
+}
+
+export async function postCommentAction(slug: string): Promise<any> {
+  const postComment = await fetchWithAuth<CommentsType>(
+    'articles/' + slug + '/comments',
+    'POST',    
+  )
+
+  return postComment;
 }
 
 

@@ -9,6 +9,20 @@ export interface UserAuthInfo {
 }
 
 export const ARTICLES_PER_PAGE = 10;
+export const MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 
 export type tabType = {
     tabName: string;
@@ -24,15 +38,34 @@ export type ArticleType = {
         "body": string,
         "tagList": [
             string
-        ],        
+        ],
         "favorited": boolean,
         "favoritesCount": number,
+        "createdAt": Date,
+        "updatedAt": Date,
         "author": {
             "username": string,
             "bio": string,
             "image": string,
             "following": boolean
         }
+    }
+}
+
+export type CommentsType = {
+    "comments": CommentType[]
+}
+
+export type CommentType = {
+    "id": number,
+    "createdAt": string,
+    "updatedAt": string,
+    "body": string,
+    "author": {
+        "username": string,
+        "bio": string,
+        "image": string,
+        "following": boolean
     }
 }
 

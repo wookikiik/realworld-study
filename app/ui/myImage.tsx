@@ -1,7 +1,13 @@
 'use client';
 import Image from "next/image"
-export default function MyImage({ src }: { src: string }) {
+export default function MyImage({ src, className }: { src: string, className?: string }) {
     return (
-        <Image loader={() => src} src={src} className="user-img" alt="" width={512} height={512} />
+        <Image
+            loader={() => src}
+            src={src}
+            className={className ?? 'user-img'}
+            alt=""
+            width={512}
+            height={512} />
     )
 }

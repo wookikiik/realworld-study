@@ -2,8 +2,8 @@ import Image from "next/image"
 import { getArticles, getProfiles } from "@/app/data";
 import MyImage from "@/app/ui/myImage";
 import { auth } from "@/auth";
-import Follow from "./components/follow";
-import EditProfile from "./components/editProfile";
+import Follow from "../../ui/followButton";
+import EditProfile from "../../ui/editProfileButton";
 import ToggleTab from "@/app/ui/toggleTab";
 import ArticlePreview from "@/app/ui/articlePreview";
 import Pagination from "@/app/ui/pagination";
